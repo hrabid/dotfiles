@@ -1,0 +1,28 @@
+# Installing zsh
+nala install zsh -y
+
+# Installing oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# Oh-My-Zsh Plugins
+cd ~/.oh-my-zsh/custom/plugins
+
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-completions.git
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git
+git clone https://github.com/agkozak/zsh-z.git
+
+# change directory to home 
+cd 
+
+# congiguring zshrc file
+cp -r /sdcard/dotfiles /data/data/com.termux/files/home
+mv dotfiles/.zshrc ~/.zshrc
+
+source ~/.zshrc 
+
+
+
+
+

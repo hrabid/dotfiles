@@ -1,0 +1,41 @@
+nala update && nala upgrade -y
+
+# System fetching tool
+nala install fastfetch -y
+
+# web script tools
+nala install wget curl -y
+
+# cli-tools for docs 
+nala install man tealdeer -y
+
+# Text Editors
+nala install neovim vim -y
+
+# File Nevigation tools
+nala install bat lsd fzf grep ripgrep tmux -y 
+
+# Git
+nala install git onefetch -y
+
+# C/C++ Packages
+nala install clang llvm gdb build-essential -y
+
+# Python Packages
+nala install python3 ruff uv python-cryptography python-pynvim -y
+
+# Rust Packages 
+nala install rust rust-analyzer rust-docs -y
+
+# Golang Packages 
+nala install golang golang-doc -y
+
+# Javascript Packages 
+nala install nodejs -y
+
+# markdown tools
+nala install glow -y 
+
+
+
+
