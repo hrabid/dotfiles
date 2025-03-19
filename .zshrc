@@ -134,5 +134,9 @@ eval "$(starship init zsh)"
 
 export PATH=$PATH:/data/data/com.termux/files/home/scripts
 
-figlet ★TERMUX★
+figlet ★!TERMUX!★
 
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+export PATH=$PATH:$HOME/go/bin
