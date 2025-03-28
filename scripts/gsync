@@ -1,0 +1,20 @@
+#!/data/data/com.termux/files/usr/bin/bash
+# Termux automatic sync & backup script using rclone
+# Adjust these variables as needed:
+
+LOCAL_DIR="/sdcard/Obsidian/" # local folder to sync from (update as needed)
+REMOTE_SYNC="ddrive:Sync"     # primary cloud folder on Google Drive
+
+# Optional: Log files in your home directory
+SYNC_LOG="$HOME/rclone_sync.log"
+
+while true; do
+  echo "Termux sync cycle started at $(date)"
+
+  # Sync local folder to the remote sync folder.
+  rclone bisync "$LOCAL_DIR" "$REMOTE_SYNC" --log-file="$SYNC_LOG" --log-level INFO \
+    --transfers=16 --checkers=32 --drive-chunk-size=128M --fast-list --progress \
+    --exclude-from exclude.txt
+  # Wait 60 seconds before running the next sync cycle.
+  sleep 30
+done

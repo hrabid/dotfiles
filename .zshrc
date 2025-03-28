@@ -116,6 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # Usful Aliases
 alias v=nvim
 alias sd='cd /sdcard'
+alias cdp='cd ..'
 alias ls=lsd
 alias n=nala
 alias ni='nala install'
@@ -134,7 +135,7 @@ eval "$(starship init zsh)"
 
 export PATH=$PATH:/data/data/com.termux/files/home/scripts
 
-figlet ★!TERMUX!★
+# figlet ★!TERMUX!★
 
 
 # Generated for envman. Do not edit.
