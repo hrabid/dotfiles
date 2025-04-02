@@ -141,3 +141,5 @@ export PATH=$PATH:/data/data/com.termux/files/home/scripts
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 export PATH=$PATH:$HOME/go/bin
+alias sdo='cd /sdcard/Obsidian'
+export PATH=$PATH:$HOME/.local/opt/go/bin
