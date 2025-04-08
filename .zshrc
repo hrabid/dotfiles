@@ -116,6 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # Usful Aliases
 alias v=nvim
 alias sd='cd /sdcard'
+alias sdol='cd /sdcard/Obsidian/Linux'
 alias cdp='cd ..'
 alias ls=lsd
 alias n=nala
@@ -143,3 +144,4 @@ export PATH=$PATH:/data/data/com.termux/files/home/scripts
 export PATH=$PATH:$HOME/go/bin
 alias sdo='cd /sdcard/Obsidian'
 export PATH=$PATH:$HOME/.local/opt/go/bin
+alias sdoj='cd /sdcard/Obsidian/Journals'
