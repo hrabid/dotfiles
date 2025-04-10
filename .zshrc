@@ -144,4 +144,8 @@ export PATH=$PATH:/data/data/com.termux/files/home/scripts
 export PATH=$PATH:$HOME/go/bin
 alias sdo='cd /sdcard/Obsidian'
 export PATH=$PATH:$HOME/.local/opt/go/bin
-alias sdoj='cd /sdcard/Obsidian/Journals'
+
+# Aliases
+alias sdoj='cd /sdcard/Obsidian/Journals' 
+
+source <(fzf --zsh)

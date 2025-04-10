@@ -1,0 +1,21 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+LOCAL_PATH="/data/data/com.termux/files/home/sync-folder"
+REMOTE_PATH="remote:path/to/cloud"
+LOG_FILE="$HOME/rclone_sync.log"
+
+echo "$(date): Starting rclone bisync..." | tee -a "$LOG_FILE"
+
+if ! rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --log-file="$LOG_FILE" --log-level INFO; then
+  echo "$(date): Bisync failed. Attempting --resync..." | tee -a "$LOG_FILE"
+
+  rclone bisync "$LOCAL_PATH" "$REMOTE_PATH" --resync --log-file="$LOG_FILE" --log-level INFO
+
+  if [ $? -eq 0 ]; then
+    echo "$(date): Resync successful." | tee -a "$LOG_FILE"
+  else
+    echo "$(date): Resync failed. Check log for details." | tee -a "$LOG_FILE"
+  fi
+else
+  echo "$(date): Bisync completed successfully." | tee -a "$LOG_FILE"
+fi
