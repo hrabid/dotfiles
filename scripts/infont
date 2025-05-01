@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Define the directory to search for compressed files; default to current directory
+SEARCH_DIR="${1:-.}"
+
+# Define the user's font directory
+FONT_DIR="/usr/share/fonts/custom/"
+
+# Create the font directory if it doesn't exist
+mkdir -p "$FONT_DIR"
+
+# Function to extract compressed files
+extract_file() {
+  local file="$1"
+  local temp_dir
+  temp_dir=$(mktemp -d)
+
+  case "$file" in
+  *.zip)
+    unzip -q "$file" -d "$temp_dir"
+    ;;
+  *.tar.gz | *.tgz)
+    tar -xzf "$file" -C "$temp_dir"
+    ;;
+  *.tar.bz2 | *.tbz2)
+    tar -xjf "$file" -C "$temp_dir"
+    ;;
+  *.tar.xz | *.txz)
+    tar -xJf "$file" -C "$temp_dir"
+    ;;
+  *.7z)
+    7z x "$file" -o"$temp_dir"
+    ;;
+  *)
+    echo "Unsupported file format: $file"
+    rm -rf "$temp_dir"
+    return
+    ;;
+  esac
+
+  # Find and copy .ttf files to the font directory
+  find "$temp_dir" -type f -iname "*.ttf" -exec cp -n {} "$FONT_DIR/" \;
+
+  # Clean up
+  rm -rf "$temp_dir"
+}
+
+export -f extract_file
+export FONT_DIR
+
+# Find and process compressed files
+find "$SEARCH_DIR" -type f
+-iname "*.zip" -o -iname "*.tar.gz" -o -iname "*.tgz" -o -iname "*.tar.bz2" -o -iname "*.tbz2" -o -iname "*.tar.xz" -o -iname "*.txz" -o -iname "*.7z"
+-exec bash -c 'extract_file "$0"' {} \;
+
+# Update the font cache
+fc-cache -fv "$FONT_DIR"
