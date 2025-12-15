@@ -145,5 +145,5 @@ case "$DISTRO" in
         ;;
 esac
 
-# Fetching system info 
-#command -v fastfetch >/dev/null 2>&1 && fastfetch
+# Fetching system info
+command -v fastfetch >/dev/null 2>&1 && fastfetch
