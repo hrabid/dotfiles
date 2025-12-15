@@ -45,4 +45,9 @@ alias t=touch
 alias pyserver="python -m http.server"
 alias m=tldr
 
-alias cmi=chezmoi 
+alias cz=chezmoi
+alias cza='chezmoi apply'
+alias czu='chezmoi update'
+alias czd='chezmoi diff'
+alias czs='chezmoi status'
+alias cze='chezmoi edit'
