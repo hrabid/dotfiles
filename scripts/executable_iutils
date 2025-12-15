@@ -1,0 +1,29 @@
+set -e
+
+if command -v nala &>/dev/null; then
+  pm=nala
+elif command -v apt &>/dev/null; then
+  pm=apt
+elif command -v dnf &>/dev/null; then
+  pm=dnf
+elif command -v zypper &>/dev/null; then
+  pm=zypper
+else
+  echo "No Supported Package Manger Found in this system"
+  exit 1
+fi
+
+echo "*** Installing System Information Fetching Tools..............."
+sudo $pm install fastfetch onefetch cpufetch -y
+
+echo "*** Installing Command line docs Tools........................."
+sudo $pm install mandoc tealdeer -y
+
+echo "*** Installing File System Navigation Tools...................."
+sudo $pm install bat lsd yazi -y
+
+echo "*** Installing Command Line Searching Tools....................."
+sudo $pm install fzf grep -y
+
+echo "*** Installing System Monitoring Tools..........................."
+sudo $pm install htop btop

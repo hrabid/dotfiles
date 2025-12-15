@@ -1,0 +1,48 @@
+# System Navigation Aliases
+## Aliases Related to listing Directories
+
+# unalias ls 2>/dev/null
+alias ls=lsd
+alias lt='lsd --tree'
+alias lsa='lsd -a'
+alias llt='lsd -l --tree'
+alias lta='lsd -a --tree'
+alias lse='find . -type f ! -name "*.*"'
+
+## Inspecting file content
+alias catn="cat -n"
+alias catb='cat -b'
+
+## Copying
+alias cp="cp -vi"
+alias mv='mv -vi'
+
+## Making Directories
+alias mkdir="mkdir -pv"
+
+## Aliases Related to Changing Directories
+alias cdp='cd ..'
+alias cddot="cd $GHDOT"
+alias cdhr="cd $GHHR"
+alias cdhra="cd $GHHRA"
+alias cdgh="cd $GHREPO"
+alias cdgho="cd $GHO"
+
+## Aliases Related to fzf
+
+## Terminal
+alias c=clear
+alias e=exit
+
+## Editor Aliases
+alias v=nvim
+alias b=bat
+alias fzb="fzf --preview 'bat --style=numbers --color=always {}'"
+
+
+alias t=touch
+
+alias pyserver="python -m http.server"
+alias m=tldr
+
+alias cmi=chezmoi 

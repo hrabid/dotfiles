@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# note dir declaration
+if [ "$(uname -o)" = "Android" ]; then
+  NOTES_DIR="/sdcard/Obsidian/Notes Lab/+"
+else
+  NOTES_DIR="$HOME/Obsidian/Notes Lab/+"
+fi
+AUTHOR="Habibur Rahman Abid"
+
+read -p "Note: " NOTE_TITLE
+
+# avoiding not supported filenames
+SAFE_TITLE=$(echo "$NOTE_TITLE" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-')
+
+NOTE_FILE="$NOTES_DIR/${SAFE_TITLE}.md"
+
+#  creating metadatq
+if [ ! -f "$NOTE_FILE" ]; then
+  {
+    echo "---"
+    echo "title: \"$NOTE_TITLE\""
+    echo "author: \"$AUTHOR\""
+    echo "date: \"$(date '+%Y-%m-%d %H:%M:%S')\""
+    echo "filename: \"${SAFE_TITLE}.md\""
+    echo "tags: "
+    echo "---"
+    echo ""
+    echo "# $NOTE_TITLE"
+    echo ""
+  } >"$NOTE_FILE"
+  echo "Created new note: $NOTE_FILE"
+else
+  echo "Opening existing note: $NOTE_FILE"
+fi
+
+nvim "$NOTE_FILE"

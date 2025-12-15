@@ -1,0 +1,9 @@
+#!/bin/bash
+
+shopt -s globstar # Enable recursive globbing
+
+for file in **/*.pdf; do
+  [[ -f "$file" ]] || continue     # Skip if not a file
+  newname="${file%-en-US.pdf}.pdf" # Remove "-old" only if it appears before ".pdf"
+  [[ "$file" != "$newname" ]] && mv "$file" "$newname"
+done

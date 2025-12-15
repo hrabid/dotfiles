@@ -1,0 +1,7 @@
+#!/bin/bash
+
+shopt -s globstar
+for file in **/Red_Hat_Enterprise_Linux-9-*.pdf; do
+  [ -f "$file" ] || continue # Skip if not a file
+  mv "$file" "${file%/*}/${file##*/Red_Hat_Enterprise_Linux-9-}"
+done

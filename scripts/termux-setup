@@ -1,0 +1,6 @@
+# Installing termux api 
+nala install termux-api
+
+# termux services 
+nala install termux-services
+

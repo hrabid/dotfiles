@@ -1,0 +1,5 @@
+#!/bin/bash
+# Simple YouTube Playlist Downloader (Linux/macOS)
+echo "Enter Playlist URL:" read URL
+yt-dlp -o "%(playlist_index)s - %(title)s.%(ext)s" "$URL"
+

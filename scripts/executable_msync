@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+# Linux automatic sync & backup script using rclone
+# Adjust these variables as needed:
+
+LOCAL_DIR="~/Obsidian/" # local folder to sync from (update as needed)
+REMOTE_COPY="mdrive:Copy"
+REMOTE_SYNC="mdrive:Sync" # primary cloud folder on Mega Drive
+REMOTE_BISYNC="mdrive:Bisync"
+
+# Optional: Log files in your home directory
+COPY_LOG="$HOME/logs/rclone_copy.log"
+SYNC_LOG="$HOME/logs/rclone_sync.log"
+BISYNC_LOG="$HOME/logs/rclone_bisync.log"
+
+# infinit loop
+while true; do
+  echo "rclone copy cycle started at $(date)"
+
+  # copy local folder to the remote copy folder.
+  rclone copy "$LOCAL_DIR" "$REMOTE_COPY" --log-file="$COPY_LOG" --log-level INFO \
+    --transfers=16 --checkers=32 --drive-chunk-size=128M --fast-list --progress \
+    --exclude-from ~/dotfiles/scripts/exclude.txt \
+    --create-empty-src-dirs
+
+  # sync local folder to the remote sync
+  echo "rclone Sync cycle started at $(date)"
+
+  rclone sync "$LOCAL_DIR" "$REMOTE_SYNC" --log-file="$SYNC_LOG" --log-level INFO \
+    --transfers=16 --checkers=32 --drive-chunk-size=128M --fast-list --progress \
+    --exclude-from ~/dotfiles/scripts/exclude.txt \
+    --create-empty-src-dirs
+
+  # Bi-directional sync the local directory
+  echo "rclone bisync cycle started at $(date)"
+
+  rclone bisync "$LOCAL_DIR" "$REMOTE_BISYNC" --log-file="$BISYNC_LOG" --log-level INFO \
+    --transfers=16 --checkers=32 --drive-chunk-size=128M --fast-list --progress \
+    --exclude-from ~/dotfiles/scripts/exclude.txt \
+    --create-empty-src-dirs \
+    --resync
+  # Wait 60 seconds before running the next sync cycle.
+  sleep 30
+done

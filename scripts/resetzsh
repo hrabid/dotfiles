@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Deleting Zsh configuration files and Oh My Zsh..."
+
+# Files
+rm -f ~/.zshrc ~/.zprofile ~/.zlogin ~/.zlogout ~/.zshenv ~/.zsh_history
+
+# Oh My Zsh directory
+rm -rf ~/.oh-my-zsh
+
+# Optional: reset default shell to bash
+# chsh -s /bin/bash
+
+echo "Zsh reset complete."

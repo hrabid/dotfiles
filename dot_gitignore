@@ -1,0 +1,51 @@
+# Atuin sensitive data
+.config/atuin/server.toml
+.local/share/atuin/key
+.local/share/atuin/history.db
+.local/share/atuin/session
+
+# Ignore all backup files
+*~
+*.swp
+*.swo
+*.bak
+
+# Ignore personal shell history
+.zsh_history
+.bash_history
+.fish_history
+
+# Ignore secrets
+*.env
+.env.*
+secrets.*
+config.local.*
+private.*
+token
+*.key
+*.pem
+
+# Ignore personal or machine-specific configs
+# init.sh
+# scripts/*
+# termux/*
+# opt/*
+nvim/**/secrets.*
+**/config.local.*
+**/credentials.*
+**/auth.json
+**/.netrc
+
+# Ignore logs
+*.log
+
+# VS Code settings or other editors
+.vscode/
+.idea/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Stow-related overrides if personal
+.stow-local-ignore

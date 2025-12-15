@@ -1,0 +1,27 @@
+# Exit the Script if any Error Occured
+set -e
+
+if command -v nala &>/dev/null; then
+  echo "Using nala (a dpkg frontend) package manager..................."
+  sudo nala update && sudo nala upgrade -y
+elif command -v apt &>/dev/null; then
+  echo "Using apt Package Manager......................"
+  sudo apt update && sudo apt upgrade -y
+elif command -v dnf &>/dev/null; then
+  echo "Using dnf Package Manger......................."
+  sudo dnf update -y && sudo dnf upgrade
+elif command -v pacman &>/dev/null; then
+  echo "Using pacman package manager...................."
+  sudo pacman -Syu
+elif command -v zypper &>/dev/null; then
+  echo "Using zypper Package Manager"
+  sudo zypper refresh && sudo zypper update -y
+elif command -v apk &>/dev/null; then
+  echo "Using apk Package Manager...................................."
+  sudo apk update && sudo apk upgrade -y
+else
+  echo "No Supported Package Manger Found in this system"
+  exit 1
+fi
+
+echo "Update Completed"

@@ -1,0 +1,29 @@
+#!/bin/bash
+# Linux automatic sync & backup script using rclone
+# Adjust these variables as needed:
+
+LOCAL_DIR="/home/habid/Obsidian" # local folder to sync from
+REMOTE_SYNC="ddrive:Sync"        # primary cloud folder (sync target)
+# REMOTE_BACKUP="ddrive:Backup"    # secondary cloud folder (backup copy)
+
+# Optional: Set your logging file paths
+SYNC_LOG="/var/log/rclone_sync.log"
+BACKUP_LOG="/var/log/rclone_backup.log"
+
+while true; do
+  echo "Starting sync cycle at $(date)"
+
+  # Step 1: Sync local files to the primary remote folder.
+  rclone bisync "$LOCAL_DIR" "$REMOTE_SYNC" --log-file="$SYNC_LOG" --log-level INFO --transfers=16 --checkers=32 --drive-chunk-size=128M --fast-list --progress
+
+  # Step 2: Copy (or backup) files from the primary remote to a backup folder.
+  # This example uses --backup-dir to move any existing remote files (that will be replaced)
+  # into an archive folder named with the current timestamp.
+  #TIMESTAMP=$(date +%Y%m%d%H%M%S)
+  #rclone copy "$REMOTE_SYNC" "$REMOTE_BACKUP" \
+  #  --backup-dir="$REMOTE_BACKUP/archive/$TIMESTAMP" \
+  #  --log-file="$BACKUP_LOG" --log-level INFO
+
+  # Sleep for 60 seconds before the next cycle.
+  sleep 60
+done

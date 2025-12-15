@@ -1,0 +1,17 @@
+[general]
+import = [
+    "~/.config/alacritty/themes/themes/base16_default_dark.toml"
+]
+
+[window]
+option_as_alt = "OnlyRight"
+opacity = 0.9
+blur = true
+startup_mode = "Maximized"
+
+[font]
+normal = { family = "0xProtoNerdFontMono", style = "Italic"}
+bold = { family = "0xProtoNerdFont", style = "Italic"}
+italic = { family = "0xProtoNerdFont", style = "Italic"}
+bold_italic = { family = "0xProtoNerdFont", style = "Bold Italic"}
+size = 10.5
