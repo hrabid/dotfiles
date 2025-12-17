@@ -4,3 +4,4 @@ source ~/.functions
 source <(fzf --bash)
 eval "$(starship init bash)"
 source <(hugo completion bash)
+source ~/.shell_prompt
