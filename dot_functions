@@ -2,12 +2,13 @@
 [[ $- != *i* ]] && return
 
 # Enable Bash bash_completion 
-if [[ $(basename $SHELL) == bash ]]; then
+if [[ $(basename "$SHELL") == bash ]]; then
   if [[ -f /usr/share/bash-completion/bash_completion ]]; then
     source /usr/share/bash-completion/bash_completion
   elif [[ -f /etc/bash_completion ]]; then
     source /etc/bash_completion
   fi
+shopt -s autocd
 else
   :
 fi
@@ -102,7 +103,7 @@ rpath() {
 
 # Human readable path breakdown 
 lspath() {
-    echo $PATH | tr ':' '\n'
+    echo "$PATH" | tr ':' '\n'
 }
 
 # Detect Linux distribution
