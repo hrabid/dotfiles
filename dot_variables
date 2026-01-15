@@ -5,3 +5,4 @@ GHDOT=$HOME/dotfiles/
 export PATH="$HOME/.bin:$PATH"
 alias sdo='cd /sdcard/Obsidian/'
 export PATH="$HOME/.local/bin/:$PATH"
+export PATH="$HOME/.cargo/bin/:$PATH"
