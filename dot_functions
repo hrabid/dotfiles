@@ -1,22 +1,6 @@
 # check if the shell is interactive 
 [[ $- != *i* ]] && return
 
-# Enable Bash bash_completion 
-if [[ $(basename "$SHELL") == bash ]]; then
-  shopt -s autocd
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
-    source /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
-    source /etc/bash_completion
-  fi
-else
-  :
-fi
-
-bind "set completion-ignore-case on" 2>/dev/null
-bind "set show-all-if-ambiguous on" 2>/dev/null
-
-
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -27,17 +11,8 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-# Enhanced cd with auto-ls
-cd() {
-    if [[ $# -eq 0 ]]; then
-        builtin cd ~ && ls -a
-    else
-        builtin cd "$@" && ls -a
-    fi
-}
-
 # Get internal and external IP
-myip() {
+mip() {
     echo "Internal IP:"
     ip route get 1.1.1.1 | awk '{print $7}' 2>/dev/null || echo "Not connected"
     echo "External IP:"
@@ -45,15 +20,8 @@ myip() {
 }
 
 # Changing default for man page to nvim
-
 set -o vi
 export MANPAGER='nvim +Man!'
-
-
-nf() {
-    fzf --preview 'bat --style=numbers --color=always {} | head -n 100' \
-        --bind 'enter:execute(nvim {})'
-}
 
 # Extracting archive & compressed file 
 extract() {
@@ -84,6 +52,15 @@ extract() {
 mkcd() {
   mkdir -p "$1" && cd "$1"
 }
+# Enhanced cd with auto-ls
+cd() {
+    if [[ $# -eq 0 ]]; then
+        builtin cd ~ && ls -a
+    else
+        builtin cd "$@" && ls -a
+    fi
+}
+
 
 # Add a directory to PATH
 apath() {
@@ -121,6 +98,13 @@ get_distro() {
     else
         echo "unknown"
     fi
+}
+# Search DuckDuckGo and open in w3m
+search() {
+    local query="$*"
+    # Replace spaces with +
+    query="${query// /+}"
+    w3m "https://duckduckgo.com/html/?q=$query"
 }
 # Fetching system info
 command -v fastfetch >/dev/null 2>&1 && fastfetch

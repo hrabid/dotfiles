@@ -46,3 +46,6 @@ alias czu='chezmoi update'
 alias czd='chezmoi diff'
 alias czs='chezmoi status'
 alias cze='chezmoi edit'
+
+# w3m
+alias '?'=search

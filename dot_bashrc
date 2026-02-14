@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 source ~/.variables
 source ~/.aliases
 source ~/.functions
@@ -5,3 +6,14 @@ source <(fzf --bash)
 eval "$(starship init bash)"
 source <(hugo completion bash)
 source ~/.shell_prompt
+
+# Enable Bash bash_completion
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  source /usr/share/bash-completion/bash_completion
+elif [[ -f /etc/bash_completion ]]; then
+  source /etc/bash_completion
+fi
+bind "set completion-ignore-case on" 2>/dev/null
+bind "set show-all-if-ambiguous on" 2>/dev/null
+
+shopt -s autocd
