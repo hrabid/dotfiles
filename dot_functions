@@ -62,43 +62,11 @@ cd() {
 }
 
 
-# Add a directory to PATH
-apath() {
-    for d in "$@"; do
-        [[ -d "$d" && ! ":$PATH:" =~ (^|:)$d(:|$) ]] && PATH="$PATH:$d"
-    done
-}
-
-# Remove a directory from PATH
-rpath() {
-    for d in "$@"; do
-        if [[ ":$PATH:" == *":$d:"* ]]; then
-            PATH=$(printf "%s" "$PATH" | awk -v RS=: -v ORS=: '$0 != "'"$d"'"' | sed 's/:$//')
-        fi
-    done
-}
-
 # Human readable path breakdown 
 lspath() {
     echo "$PATH" | tr ':' '\n'
 }
 
-# Detect Linux distribution
-get_distro() {
-    if [[ -f /etc/os-release ]]; then
-        source /etc/os-release
-        case "$ID" in
-            fedora|rhel|centos|rocky|almalinux) echo "redhat" ;;
-            ubuntu|debian|mint) echo "debian" ;;
-            arch|manjaro|endeavouros) echo "arch" ;;
-            opensuse*|sles) echo "suse" ;;
-            gentoo) echo "gentoo" ;;
-            *) echo "unknown" ;;
-        esac
-    else
-        echo "unknown"
-    fi
-}
 # Search DuckDuckGo and open in w3m
 search() {
     local query="$*"
