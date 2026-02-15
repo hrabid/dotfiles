@@ -18,13 +18,6 @@ else
     echo -e "${YELLOW}sudo not found - running without elevated privileges${NC}"
 fi
 
-# Check if fzf is installed
-if ! command -v fzf &> /dev/null; then
-    echo -e "${RED}Error: fzf is not installed${NC}"
-    echo "Install it with your package manager first"
-    exit 1
-fi
-
 # Detect package manager
 detect_package_manager() {
     if command -v nala &> /dev/null; then
@@ -154,25 +147,25 @@ install_package() {
     
     case $pm in
         nala)
-            $SUDO nala install -y "$pkg"
+            $SUDO nala install "$pkg"
             ;;
         apt)
-            $SUDO apt update && $SUDO apt install -y "$pkg"
+            $SUDO apt update && $SUDO apt install "$pkg"
             ;;
         pkg)
-            pkg install -y "$pkg"
+            pkg install "$pkg"
             ;;
         dnf)
-            $SUDO dnf install -y "$pkg"
+            $SUDO dnf install "$pkg"
             ;;
         yum)
-            $SUDO yum install -y "$pkg"
+            $SUDO yum install "$pkg"
             ;;
         pacman)
-            $SUDO pacman -S --noconfirm "$pkg"
+            $SUDO pacman -S "$pkg"
             ;;
         zypper)
-            $SUDO zypper install -y "$pkg"
+            $SUDO zypper install "$pkg"
             ;;
         apk)
             $SUDO apk add "$pkg"
@@ -210,18 +203,69 @@ main() {
         echo -e "${BLUE}Installing packages from command line arguments...${NC}"
         echo ""
         
+        # Build list of packages to install (skip already installed)
+        PACKAGES_TO_INSTALL=""
         for pkg in "$@"; do
-            install_package "$PM" "$pkg"
-            if [ $? -eq 0 ]; then
-                echo -e "${GREEN}✓ Successfully processed $pkg${NC}"
+            if check_installed "$PM" "$pkg"; then
+                echo -e "${YELLOW}⊙ $pkg is already installed, skipping...${NC}"
             else
-                echo -e "${RED}✗ Failed to install $pkg${NC}"
+                PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $pkg"
             fi
-            echo ""
         done
+        
+        # Install all packages at once if there are any
+        if [ -n "$PACKAGES_TO_INSTALL" ]; then
+            echo ""
+            echo -e "${BLUE}Installing:$PACKAGES_TO_INSTALL${NC}"
+            
+            case $PM in
+                nala)
+                    $SUDO nala install $PACKAGES_TO_INSTALL
+                    ;;
+                apt)
+                    $SUDO apt update && $SUDO apt install $PACKAGES_TO_INSTALL
+                    ;;
+                pkg)
+                    pkg install $PACKAGES_TO_INSTALL
+                    ;;
+                dnf)
+                    $SUDO dnf install $PACKAGES_TO_INSTALL
+                    ;;
+                yum)
+                    $SUDO yum install $PACKAGES_TO_INSTALL
+                    ;;
+                pacman)
+                    $SUDO pacman -S $PACKAGES_TO_INSTALL
+                    ;;
+                zypper)
+                    $SUDO zypper install $PACKAGES_TO_INSTALL
+                    ;;
+                apk)
+                    $SUDO apk add $PACKAGES_TO_INSTALL
+                    ;;
+                brew)
+                    brew install $PACKAGES_TO_INSTALL
+                    ;;
+            esac
+            
+            if [ $? -eq 0 ]; then
+                echo -e "${GREEN}✓ Successfully installed packages${NC}"
+            else
+                echo -e "${RED}✗ Installation failed${NC}"
+            fi
+        else
+            echo -e "${YELLOW}All specified packages are already installed.${NC}"
+        fi
         
         echo -e "${GREEN}Done!${NC}"
         return 0
+    fi
+    
+    # Check if fzf is installed (only needed for interactive mode)
+    if ! command -v fzf &> /dev/null; then
+        echo -e "${RED}Error: fzf is not installed${NC}"
+        echo "Install it with your package manager first, or use: $0 PACKAGE_NAME"
+        exit 1
     fi
     
     # Interactive mode with fzf
@@ -230,7 +274,6 @@ main() {
     # Export functions and variables for fzf preview
     export -f get_package_info
     export -f check_installed
-    export -f install_package
     export PM
     export SUDO
     export RED GREEN YELLOW BLUE NC
@@ -258,24 +301,61 @@ main() {
     echo "$SELECTED"
     echo ""
     
-    read -p "Install these packages? [Y/n] " -n 1 -r
-    echo
+    # Build list of packages to install (skip already installed)
+    PACKAGES_TO_INSTALL=""
+    while IFS= read -r pkg; do
+        if check_installed "$PM" "$pkg"; then
+            echo -e "${YELLOW}⊙ $pkg is already installed, skipping...${NC}"
+        else
+            PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $pkg"
+        fi
+    done <<< "$SELECTED"
     
-    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
-        while IFS= read -r pkg; do
-            install_package "$PM" "$pkg"
-            if [ $? -eq 0 ]; then
-                echo -e "${GREEN}✓ Successfully processed $pkg${NC}"
-            else
-                echo -e "${RED}✗ Failed to install $pkg${NC}"
-            fi
-            echo ""
-        done <<< "$SELECTED"
+    # Install all packages at once if there are any
+    if [ -n "$PACKAGES_TO_INSTALL" ]; then
+        echo ""
+        echo -e "${BLUE}Installing:$PACKAGES_TO_INSTALL${NC}"
         
-        echo -e "${GREEN}Done!${NC}"
+        case $PM in
+            nala)
+                $SUDO nala install $PACKAGES_TO_INSTALL
+                ;;
+            apt)
+                $SUDO apt update && $SUDO apt install $PACKAGES_TO_INSTALL
+                ;;
+            pkg)
+                pkg install $PACKAGES_TO_INSTALL
+                ;;
+            dnf)
+                $SUDO dnf install $PACKAGES_TO_INSTALL
+                ;;
+            yum)
+                $SUDO yum install $PACKAGES_TO_INSTALL
+                ;;
+            pacman)
+                $SUDO pacman -S $PACKAGES_TO_INSTALL
+                ;;
+            zypper)
+                $SUDO zypper install $PACKAGES_TO_INSTALL
+                ;;
+            apk)
+                $SUDO apk add $PACKAGES_TO_INSTALL
+                ;;
+            brew)
+                brew install $PACKAGES_TO_INSTALL
+                ;;
+        esac
+        
+        if [ $? -eq 0 ]; then
+            echo -e "${GREEN}✓ Successfully installed packages${NC}"
+        else
+            echo -e "${RED}✗ Installation failed${NC}"
+        fi
     else
-        echo -e "${YELLOW}Installation cancelled.${NC}"
+        echo -e "${YELLOW}All selected packages are already installed.${NC}"
     fi
+    
+    echo -e "${GREEN}Done!${NC}"
 }
 
 main "$@"

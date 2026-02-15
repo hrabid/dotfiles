@@ -18,13 +18,6 @@ else
     echo -e "${YELLOW}sudo not found - running without elevated privileges${NC}"
 fi
 
-# Check if fzf is installed
-if ! command -v fzf &> /dev/null; then
-    echo -e "${RED}Error: fzf is not installed${NC}"
-    echo "Install it with your package manager first"
-    exit 1
-fi
-
 # Detect package manager
 detect_package_manager() {
     if command -v nala &> /dev/null; then
@@ -225,20 +218,72 @@ main() {
         echo
         
         if [[ $REPLY =~ ^[Yy]$ ]]; then
+            # Build list of packages to remove (skip not installed)
+            PACKAGES_TO_REMOVE=""
             for pkg in "$@"; do
-                remove_package "$PM" "$pkg"
-                if [ $? -eq 0 ]; then
-                    echo -e "${GREEN}✓ Successfully processed $pkg${NC}"
+                if ! check_installed "$PM" "$pkg"; then
+                    echo -e "${YELLOW}⊙ $pkg is not installed, skipping...${NC}"
                 else
-                    echo -e "${RED}✗ Failed to remove $pkg${NC}"
+                    PACKAGES_TO_REMOVE="$PACKAGES_TO_REMOVE $pkg"
                 fi
-                echo ""
             done
+            
+            # Remove all packages at once if there are any
+            if [ -n "$PACKAGES_TO_REMOVE" ]; then
+                echo ""
+                echo -e "${RED}Removing:$PACKAGES_TO_REMOVE${NC}"
+                
+                case $PM in
+                    nala)
+                        $SUDO nala remove -y $PACKAGES_TO_REMOVE
+                        ;;
+                    apt)
+                        $SUDO apt remove -y $PACKAGES_TO_REMOVE
+                        ;;
+                    pkg)
+                        pkg uninstall -y $PACKAGES_TO_REMOVE
+                        ;;
+                    dnf)
+                        $SUDO dnf remove -y $PACKAGES_TO_REMOVE
+                        ;;
+                    yum)
+                        $SUDO yum remove -y $PACKAGES_TO_REMOVE
+                        ;;
+                    pacman)
+                        $SUDO pacman -R --noconfirm $PACKAGES_TO_REMOVE
+                        ;;
+                    zypper)
+                        $SUDO zypper remove -y $PACKAGES_TO_REMOVE
+                        ;;
+                    apk)
+                        $SUDO apk del $PACKAGES_TO_REMOVE
+                        ;;
+                    brew)
+                        brew uninstall $PACKAGES_TO_REMOVE
+                        ;;
+                esac
+                
+                if [ $? -eq 0 ]; then
+                    echo -e "${GREEN}✓ Successfully removed packages${NC}"
+                else
+                    echo -e "${RED}✗ Removal failed${NC}"
+                fi
+            else
+                echo -e "${YELLOW}None of the specified packages are installed.${NC}"
+            fi
+            
             echo -e "${GREEN}Done!${NC}"
         else
             echo -e "${YELLOW}Removal cancelled.${NC}"
         fi
         return 0
+    fi
+    
+    # Check if fzf is installed (only needed for interactive mode)
+    if ! command -v fzf &> /dev/null; then
+        echo -e "${RED}Error: fzf is not installed${NC}"
+        echo "Install it with your package manager first, or use: $0 PACKAGE_NAME"
+        exit 1
     fi
     
     # Interactive mode with fzf
@@ -247,7 +292,6 @@ main() {
     # Export functions and variables for fzf preview
     export -f get_package_info
     export -f check_installed
-    export -f remove_package
     export PM
     export SUDO
     export RED GREEN YELLOW BLUE NC
@@ -279,15 +323,59 @@ main() {
     echo
     
     if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Build list of packages to remove (skip not installed)
+        PACKAGES_TO_REMOVE=""
         while IFS= read -r pkg; do
-            remove_package "$PM" "$pkg"
-            if [ $? -eq 0 ]; then
-                echo -e "${GREEN}✓ Successfully processed $pkg${NC}"
+            if ! check_installed "$PM" "$pkg"; then
+                echo -e "${YELLOW}⊙ $pkg is not installed, skipping...${NC}"
             else
-                echo -e "${RED}✗ Failed to remove $pkg${NC}"
+                PACKAGES_TO_REMOVE="$PACKAGES_TO_REMOVE $pkg"
             fi
-            echo ""
         done <<< "$SELECTED"
+        
+        # Remove all packages at once if there are any
+        if [ -n "$PACKAGES_TO_REMOVE" ]; then
+            echo ""
+            echo -e "${RED}Removing:$PACKAGES_TO_REMOVE${NC}"
+            
+            case $PM in
+                nala)
+                    $SUDO nala remove -y $PACKAGES_TO_REMOVE
+                    ;;
+                apt)
+                    $SUDO apt remove -y $PACKAGES_TO_REMOVE
+                    ;;
+                pkg)
+                    pkg uninstall -y $PACKAGES_TO_REMOVE
+                    ;;
+                dnf)
+                    $SUDO dnf remove -y $PACKAGES_TO_REMOVE
+                    ;;
+                yum)
+                    $SUDO yum remove -y $PACKAGES_TO_REMOVE
+                    ;;
+                pacman)
+                    $SUDO pacman -R --noconfirm $PACKAGES_TO_REMOVE
+                    ;;
+                zypper)
+                    $SUDO zypper remove -y $PACKAGES_TO_REMOVE
+                    ;;
+                apk)
+                    $SUDO apk del $PACKAGES_TO_REMOVE
+                    ;;
+                brew)
+                    brew uninstall $PACKAGES_TO_REMOVE
+                    ;;
+            esac
+            
+            if [ $? -eq 0 ]; then
+                echo -e "${GREEN}✓ Successfully removed packages${NC}"
+            else
+                echo -e "${RED}✗ Removal failed${NC}"
+            fi
+        else
+            echo -e "${YELLOW}None of the selected packages are installed.${NC}"
+        fi
         
         echo -e "${GREEN}Done!${NC}"
     else
