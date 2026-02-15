@@ -55,7 +55,12 @@ search_packages() {
             pkg search . 2>/dev/null | awk '{print $1}' | sort -u
             ;;
         dnf|yum)
-            $pm list available 2>/dev/null | awk 'NR>1 {print $1}' | sed 's/\..*//' | sort -u
+            # Use repoquery for better performance, fallback to list
+            if command -v dnf &> /dev/null && dnf repoquery --available 2>/dev/null | head -1 &>/dev/null; then
+                dnf repoquery --available --qf '%{name}' 2>/dev/null | sort -u
+            else
+                $pm list available 2>/dev/null | awk 'NR>1 && NF>0 && !/^Last/ && !/^Available/ {print $1}' | sed 's/\.[^.]*$//' | sort -u
+            fi
             ;;
         pacman)
             pacman -Sl | awk '{print $2}' | sort -u
@@ -115,7 +120,8 @@ check_installed() {
             pkg list-installed 2>/dev/null | grep -q "^$pkg/"
             ;;
         dnf|yum)
-            $pm list installed "$pkg" &>/dev/null
+            # Use rpm for faster and more reliable check
+            rpm -q "$pkg" &>/dev/null
             ;;
         pacman)
             pacman -Q "$pkg" &>/dev/null

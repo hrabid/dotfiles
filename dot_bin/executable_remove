@@ -55,7 +55,8 @@ list_installed_packages() {
             pkg list-installed 2>/dev/null | awk -F'/' '{print $1}' | sort -u
             ;;
         dnf|yum)
-            $pm list installed 2>/dev/null | awk 'NR>1 {print $1}' | sed 's/\..*//' | sort -u
+            # Use rpm for faster listing
+            rpm -qa --qf '%{NAME}\n' 2>/dev/null | sort -u
             ;;
         pacman)
             pacman -Q | awk '{print $1}' | sort -u
@@ -88,6 +89,13 @@ get_package_info() {
             pkg show "$pkg" 2>/dev/null
             ;;
         dnf|yum)
+            # Show installed package info first, then general info
+            if rpm -q "$pkg" &>/dev/null; then
+                echo "=== Installed Package ==="
+                rpm -qi "$pkg" 2>/dev/null
+                echo ""
+            fi
+            echo "=== Package Info ==="
             $pm info "$pkg" 2>/dev/null
             ;;
         pacman)
@@ -118,7 +126,8 @@ check_installed() {
             pkg list-installed 2>/dev/null | grep -q "^$pkg/"
             ;;
         dnf|yum)
-            $pm list installed "$pkg" &>/dev/null
+            # Use rpm for faster and more reliable check
+            rpm -q "$pkg" &>/dev/null
             ;;
         pacman)
             pacman -Q "$pkg" &>/dev/null
