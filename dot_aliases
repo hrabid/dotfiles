@@ -49,3 +49,6 @@ alias cze='chezmoi edit'
 
 # w3m
 alias '?'=search
+
+# git 
+alias gcb='git branch | fzf | cut -c 3- | xargs git checkout'
