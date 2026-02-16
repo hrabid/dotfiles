@@ -56,7 +56,7 @@ list_installed_packages() {
             ;;
         dnf|yum)
             # Use rpm for faster listing
-            rpm -qa --qf '%{NAME}\n' 2>/dev/null | sort -u
+            rpm -qa --qf '%{NAME}\n' | sort -u
             ;;
         pacman)
             pacman -Q | awk '{print $1}' | sort -u
@@ -298,18 +298,39 @@ main() {
     # Interactive mode with fzf
     echo -e "${YELLOW}Loading installed packages list...${NC}"
     
-    # Export functions and variables for fzf preview
-    export -f get_package_info
-    export -f check_installed
-    export PM
-    export SUDO
-    export RED GREEN YELLOW BLUE NC
+    # Create preview command based on package manager
+    case $PM in
+        nala|apt)
+            PREVIEW_CMD="dpkg -s {} 2>/dev/null"
+            ;;
+        pkg)
+            PREVIEW_CMD="pkg show {}"
+            ;;
+        dnf)
+            PREVIEW_CMD="rpm -qi {} 2>/dev/null || dnf info {} 2>/dev/null"
+            ;;
+        yum)
+            PREVIEW_CMD="rpm -qi {} 2>/dev/null || yum info {} 2>/dev/null"
+            ;;
+        pacman)
+            PREVIEW_CMD="pacman -Qi {}"
+            ;;
+        zypper)
+            PREVIEW_CMD="zypper info -t package {}"
+            ;;
+        apk)
+            PREVIEW_CMD="apk info {}"
+            ;;
+        brew)
+            PREVIEW_CMD="brew info {}"
+            ;;
+    esac
     
     # Use fzf to select package with preview
     SELECTED=$(list_installed_packages "$PM" | fzf \
         --height=80% \
         --border \
-        --preview="bash -c 'get_package_info \"\$PM\" {}'" \
+        --preview="$PREVIEW_CMD" \
         --preview-window=right:60%:wrap \
         --header="Select packages to REMOVE (Tab for multi-select, Enter to confirm)" \
         --multi \
