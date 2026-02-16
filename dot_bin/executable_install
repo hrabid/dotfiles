@@ -55,12 +55,14 @@ search_packages() {
             pkg search . 2>/dev/null | awk '{print $1}' | sort -u
             ;;
         dnf|yum)
-            # For dnf/yum, use repoquery for clean package names
-            if command -v dnf &> /dev/null; then
-                dnf repoquery --available --qf '%{name}' 2>/dev/null | sort -u
-            else
-                yum list available 2>/dev/null | awk 'NR>1 && NF>0 && !/^Last/ && !/^Available/ && !/^Loaded/ {print $1}' | sed 's/\..*$//' | sort -u
-            fi
+            # Run in completely clean environment to avoid "argument list too long"
+            env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" bash -c '
+                if command -v dnf &> /dev/null; then
+                    dnf repoquery --available --qf "%{name}" 2>/dev/null | sort -u
+                else
+                    yum list available 2>/dev/null | awk "NR>1 && NF>0 && !/^Last/ && !/^Available/ && !/^Loaded/ {print \$1}" | sed "s/\..*$//" | sort -u
+                fi
+            '
             ;;
         pacman)
             pacman -Sl | awk '{print $2}' | sort -u
@@ -310,11 +312,13 @@ main() {
         TEMP_PKG_LIST=$(mktemp)
         TEMP_PREVIEW_SCRIPT=$(mktemp)
         
-        # Create a standalone preview script
+        # Create a standalone preview script that runs in clean environment
         cat > "$TEMP_PREVIEW_SCRIPT" << 'PREVIEW_EOF'
 #!/bin/sh
 PKG="$1"
-dnf info "$PKG" 2>/dev/null || rpm -qi "$PKG" 2>/dev/null || echo "Package: $PKG (not found)"
+env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" sh -c "
+    dnf info \"$PKG\" 2>/dev/null || rpm -qi \"$PKG\" 2>/dev/null || echo \"Package: $PKG (not found)\"
+"
 PREVIEW_EOF
         chmod +x "$TEMP_PREVIEW_SCRIPT"
         
