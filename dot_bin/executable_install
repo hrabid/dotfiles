@@ -55,7 +55,7 @@ search_packages() {
             pkg search . 2>/dev/null | awk '{print $1}' | sort -u
             ;;
         dnf|yum)
-            # Use repoquery for dnf, simpler approach for yum
+            # For dnf/yum, use repoquery for clean package names
             if command -v dnf &> /dev/null; then
                 dnf repoquery --available --qf '%{name}' 2>/dev/null | sort -u
             else
@@ -286,10 +286,10 @@ main() {
             PREVIEW_CMD="pkg show {}"
             ;;
         dnf)
-            PREVIEW_CMD="dnf info {} 2>/dev/null || rpm -qi {} 2>/dev/null"
+            PREVIEW_CMD="sh -c 'dnf info {} 2>/dev/null || rpm -qi {} 2>/dev/null || echo Package not found'"
             ;;
         yum)
-            PREVIEW_CMD="yum info {} 2>/dev/null || rpm -qi {} 2>/dev/null"
+            PREVIEW_CMD="sh -c 'yum info {} 2>/dev/null || rpm -qi {} 2>/dev/null || echo Package not found'"
             ;;
         pacman)
             PREVIEW_CMD="pacman -Si {}"
@@ -305,16 +305,42 @@ main() {
             ;;
     esac
     
-    # Use fzf to select package with preview
-    SELECTED=$(search_packages "$PM" | fzf \
-        --height=80% \
-        --border \
-        --preview="$PREVIEW_CMD" \
-        --preview-window=right:60%:wrap \
-        --header="Select package to install (Tab for multi-select, Enter to confirm)" \
-        --multi \
-        --bind='ctrl-/:toggle-preview' \
-        --prompt="Search packages: ")
+    # For DNF/YUM, use temp file and temp script to avoid argument list issues
+    if [[ "$PM" == "dnf" || "$PM" == "yum" ]]; then
+        TEMP_PKG_LIST=$(mktemp)
+        TEMP_PREVIEW_SCRIPT=$(mktemp)
+        
+        # Create a standalone preview script
+        cat > "$TEMP_PREVIEW_SCRIPT" << 'PREVIEW_EOF'
+#!/bin/sh
+PKG="$1"
+dnf info "$PKG" 2>/dev/null || rpm -qi "$PKG" 2>/dev/null || echo "Package: $PKG (not found)"
+PREVIEW_EOF
+        chmod +x "$TEMP_PREVIEW_SCRIPT"
+        
+        search_packages "$PM" > "$TEMP_PKG_LIST"
+        SELECTED=$(cat "$TEMP_PKG_LIST" | fzf \
+            --height=80% \
+            --border \
+            --preview="$TEMP_PREVIEW_SCRIPT {}" \
+            --preview-window=right:60%:wrap \
+            --header="Select package to install (Tab for multi-select, Enter to confirm)" \
+            --multi \
+            --bind='ctrl-/:toggle-preview' \
+            --prompt="Search packages: ")
+        rm -f "$TEMP_PKG_LIST" "$TEMP_PREVIEW_SCRIPT"
+    else
+        # Use fzf to select package with preview
+        SELECTED=$(search_packages "$PM" | fzf \
+            --height=80% \
+            --border \
+            --preview="$PREVIEW_CMD" \
+            --preview-window=right:60%:wrap \
+            --header="Select package to install (Tab for multi-select, Enter to confirm)" \
+            --multi \
+            --bind='ctrl-/:toggle-preview' \
+            --prompt="Search packages: ")
+    fi
     
     # Check if user selected anything
     if [ -z "$SELECTED" ]; then
