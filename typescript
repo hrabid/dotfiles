@@ -1,0 +1,47 @@
+Script started on 2026-02-20 17:50:30+06:00 [TERM="xterm-256color" TTY="/dev/pts/29" COLUMNS="88" LINES="46"]
+[1m[32m         -o          o-
+          +hydNNNNdyh+
+        +mMMMMMMMMMMMMm+
+      `dMM[37mm:[32mNMMMMMMN[37m:m[32mMMd`
+      hMMMMMMMMMMMMMMMMMMh
+  ..  yyyyyyyyyyyyyyyyyyyy  ..
+.mMMm`MMMMMMMMMMMMMMMMMMMM`mMMm.
+:MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:
+:MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:
+:MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:
+:MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:
+-MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM-
+ +yy+ MMMMMMMMMMMMMMMMMMMM +yy+
+      mMMMMMMMMMMMMMMMMMMm
+      `/++MMMMh++hMMMM++/`
+          MMMMo  oMMMM
+          MMMMo  oMMMM
+          oNMm-  -mMNs[m[1G[17A[m[?7l[36C[m[1m[32mu0_a220[m@[1m[32mlocalhost[m
+[36C-----------------
+[36C[m[1m[32mOS[m: [mAndroid REL 10 aarch64
+[36C[m[1m[32mHost[m: [mOPPO A15 (CPH2185)
+[36C[m[1m[32mKernel[m: [mLinux 4.9.190+
+[36C[m[1m[32mUptime[m: [m2 days, 21 hours, 45 mins
+[36C[m[1m[32mPackages[m: [m229 (dpkg)
+[36C[m[1m[32mShell[m: [mzsh 5.9
+[36C[m[1m[32mDE[m: [mCPH2185_11_A.71
+[36C[m[1m[32mWM[m: [mWindowManager (SurfaceFlinger)
+[36C[m[1m[32mTerminal[m: [mTermux 0.118.3
+[36C[m[1m[32mTerminal Font[m: [mIoskeleyMono Nerd Font
+[36C[m[1m[32mCPU[m: [m2 x MT6765V/CB (8) @ 2.30 GHz
+[36C[m[1m[32mGPU[m: [mPowerVR Rogue GE8320 [Integrated]
+[36C[m[1m[32mMemory[m: [m1.72 GiB / 2.74 GiB ([93m63%[m)
+[36C[m[1m[32mSwap[m: [m1.21 GiB / 1.50 GiB ([91m81%[m)
+[36C[m[1m[32mDisk (/)[m: [m5.55 GiB / 5.56 GiB ([91m100%[m) - ext4 [Read-only]
+[36C
+[36C[m[40m   [41m   [42m   [43m   [44m   [45m   [46m   [47m   [m
+[36C[100m   [101m   [102m   [103m   [104m   [105m   [106m   [107m   [m
+[?7h[1m[7m%[27m[1m[0m                                                                                        ]2;u0_a220@localhost:~/.local/share/chezmoi]1;..share/chezmoi]7;file://localhost/data/data/com.termux/files/home/.local/share/chezmoi\[0m[27m[24m[J
+[1;36mchezmoi[0m on [1;35m master[0m [1;31m[?][0m 
+[1;32m❯[0m [K[?1h=[?2004h[A[A[0m[27m[24m[J
+[1;36mchezmoi[0m on [1;35m master[0m [1;31m[?][0m 
+[1;32m❯[0m [K[A[A[0m[27m[24m[J
+[1;36mchezmoi[0m on [1;35m master[0m [1;31m[?][0m 
+[1;32m❯[0m [Ke[32me[39m[?1l>[?2004l
+]2;exit]1;e
+Script done on 2026-02-20 17:50:37+06:00 [COMMAND_EXIT_CODE="0"]
