@@ -19,7 +19,6 @@ source ${zsh_plugins}.zsh
 source ~/.variables
 source ~/.aliases 
 source ~/.functions
-source ~/.shell_prompt
 
 if command -v fzf >/dev/null 2>&1; then
 	source <(fzf --zsh)
