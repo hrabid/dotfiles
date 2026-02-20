@@ -1,3 +1,4 @@
+#!/usr/env zsh
 # Ensure Antidote is installed
 if [[ ! -d "${ZDOTDIR:-$HOME}/.antidote" ]]; then
   echo "Installing Antidote plugin manager..."
@@ -18,14 +19,16 @@ source ${zsh_plugins}.zsh
 source ~/.variables
 source ~/.aliases 
 source ~/.functions
-
-# Shell Intigrations 
-eval "$(starship init zsh)"
-source <(fzf --zsh)
-# eval "$(atuin init zsh)"
-source <(hugo completion zsh)
-
-# Added by app (https://github.com/hkdb/app) installation
-source ~/.config/app/.app_profile
-
 source ~/.shell_prompt
+
+if command -v fzf >/dev/null 2>&1; then
+	source <(fzf --zsh)
+fi
+
+if command -v starship >/dev/null 2>&1; then
+	eval "$(starship init zsh)"
+fi
+
+if command -v hugo >/dev/null 2>&1; then
+	source <(hugo completion zsh)
+fi
