@@ -41,12 +41,12 @@ alias t=touch
 alias pyserver="python -m http.server"
 alias m=tldr
 
-alias cz=chezmoi
-alias cza='chezmoi apply'
-alias czu='chezmoi update'
-alias czd='chezmoi diff'
-alias czs='chezmoi status'
-alias cze='chezmoi edit'
+alias cm=chezmoi
+alias cma='chezmoi apply'
+alias cmu='chezmoi update'
+alias cmd='chezmoi diff'
+alias cms='chezmoi status'
+alias cme='chezmoi edit'
 
 # w3m
 alias '?'=search
