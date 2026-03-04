@@ -1,13 +1,18 @@
 # System Navigation Aliases
 ## Aliases Related to listing Directories
 if command -v lsd >/dev/null 2>&1; then
-    alias ls=lsd
+  alias ls=lsd
+  alias lsa='lsd -a'
+  alias ll='lsd -lah'
+  alias lt='lsd --tree'
+  alias lta='lsd -a --tree'
+  alias llt='lsd -l --tree'
+else
+  alias lsa='ls -a'
+  alias ll='ls -lah'
+  alias lt='tree'
+  alias lta='tree -a'
 fi
-alias lt='ls --tree'
-alias lsa='ls -a'
-alias llt='ls -l --tree'
-alias lta='ls -a --tree'
-alias lse='find . -type f ! -name "*.*"'
 
 ## Inspecting file content
 alias catn="cat -n"

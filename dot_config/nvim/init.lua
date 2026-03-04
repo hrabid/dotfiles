@@ -79,4 +79,32 @@ function _G.wiki_complete(findstart, base)
   return items
 end
 
-
+-- front matter injection 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.keymap.set("n", "<leader>mf", function()
+      local date = os.date("%Y-%m-%d")
+      local time = os.date("%H:%M")
+      local frontmatter = {
+        "---",
+        "date: " .. date,
+        "time: " .. time,
+        "tags: []",
+        "title: ",
+        "---",
+        "",
+      }
+      -- Only inject if no frontmatter exists
+      local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+      if first_line == "---" then
+        vim.notify("Frontmatter already exists", vim.log.levels.WARN)
+        return
+      end
+      vim.api.nvim_buf_set_lines(0, 0, 0, false, frontmatter)
+      -- Place cursor at the end of title line
+      vim.api.nvim_win_set_cursor(0, { 5, #"title: " })
+      vim.cmd("startinsert!")
+    end, { buffer = true, desc = "Inject frontmatter" })
+  end,
+})
