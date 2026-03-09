@@ -9,7 +9,7 @@ rupa/z
 # Use Oh‑My‑Zsh subplugins
 getantidote/use-omz
 ohmyzsh/ohmyzsh path:lib
-ohmyzsh/ohmyzsh path:plugins/git
+# ohmyzsh/ohmyzsh path:plugins/git
 
 # DevOps plugins
 # ohmyzsh/ohmyzsh path:plugins/docker

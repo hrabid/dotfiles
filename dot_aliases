@@ -57,4 +57,10 @@ alias cme='chezmoi edit'
 alias '?'=search
 
 # git 
+alias g=git
+alias gs='git status'
+alias gaa='git add .'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gd='git diff'
 alias gcb='git branch | fzf | cut -c 3- | xargs git checkout'
