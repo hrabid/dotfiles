@@ -1,0 +1,11 @@
+#!/usr/share/env bash
+
+if command -v sudo &>/dev/null; then
+  echo "Installing with sudo......."
+  sudo pacman -S git zsh lsd bat tmux unzip fzf neovim vim unzip fastfetch btop htop pass gnupg w3m aerc glow jq iproute -y
+  curl -sS https://starship.rs/install.sh | sh
+else
+  echo "Installing without sudo......."
+  pacman -S git zsh lsd bat tmux unzip fzf neovim vim unzip fastfetch btop htop pass gnupg w3m aerc glow jq iproute -y
+  curl -sS https://starship.rs/install.sh | sh
+fi
