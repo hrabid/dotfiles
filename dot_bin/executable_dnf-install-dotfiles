@@ -1,4 +1,4 @@
-#!/usr/share/env bash
+#!/usr/bin/env bash
 
 if command -v sudo &>/dev/null; then
   echo "Installing with sudo......."
