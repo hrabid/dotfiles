@@ -2,10 +2,10 @@
 
 if command -v sudo &>/dev/null; then
   echo "Installing with sudo......."
-  sudo apt install git zsh lsd bat tmux unzip fzf neovim vim unzip fastfetch btop htop pass gnupg w3m aerc glow jq iproute -y
+  sudo apt install git zsh lsd bat tmux unzip fzf neovim vim unzip btop htop pass gnupg w3m aerc jq iproute2 -y
   curl -sS https://starship.rs/install.sh | sh
 else
   echo "Installing without sudo......."
-  apt install git zsh lsd bat tmux unzip fzf neovim vim unzip fastfetch btop htop pass gnupg w3m aerc glow jq iproute -y
+  apt install git zsh lsd bat tmux unzip fzf neovim vim unzip btop htop pass gnupg w3m aerc jq iproute2 -y
   curl -sS https://starship.rs/install.sh | sh
 fi
