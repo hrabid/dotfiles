@@ -49,3 +49,7 @@ Thumbs.db
 
 # Ignore Stow-related overrides if personal
 .stow-local-ignore
+# Exclude secrets
+.ssh/*
+!.ssh/config
+.env

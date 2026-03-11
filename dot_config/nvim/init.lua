@@ -6,7 +6,7 @@ vim.opt.linebreak = true
 
 -- opening/following links or creating one
 local VAULT = vim.fn.expand("~/notes")      -- 🔧 search existing notes here
-local INBOX = vim.fn.expand("~/notes/inbox") -- 🔧 new notes land here
+local INBOX = vim.fn.expand("~/notes/fleetings") -- 🔧 new notes land here
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",

@@ -2,7 +2,7 @@
 # Linux automatic sync & backup script using rclone
 # Adjust these variables as needed:
 
-LOCAL_DIR="~/Obsidian/" # local folder to sync from (update as needed)
+LOCAL_DIR="~/notes" # local folder to sync from (update as needed)
 REMOTE_COPY="mdrive:Copy"
 REMOTE_SYNC="mdrive:Sync" # primary cloud folder on Mega Drive
 REMOTE_BISYNC="mdrive:Bisync"
