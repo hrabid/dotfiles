@@ -1,4 +1,11 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+command_timeout = 1000
+
+
+# Replace the '❯' symbol in the prompt with '➜'
+# [character] # The name of the module we are configuring is 'character'
+# success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+# error_symbol = '[➜](bold red)'
 
 [aws]
 symbol = " "
@@ -94,7 +101,11 @@ symbol = " "
 symbol = " "
 
 [memory_usage]
+disabled = true
+threshold = -1
 symbol = "󰍛 "
+style = 'bold green'
+
 
 [meson]
 symbol = "󰔷 "
@@ -163,6 +174,7 @@ Windows = "󰍲 "
 Zorin = " "
 
 [package]
+disabled = false
 symbol = "󰏗 "
 
 [perl]
