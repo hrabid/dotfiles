@@ -1,136 +1,157 @@
-// fastfetch config.jsonc
-// Replicates omafetch layout — Tokyo Night palette, default distro logo
-// Place at: ~/.config/fastfetch/config.jsonc
+// Load with --config examples/2.jsonc
+// Note that you must replace the image path to an existing image to display it.
+
 {
-  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
-
-  "logo": {
-    "type": "auto",
-    "padding": {
-      "top": 1,
-      "left": 2,
-      "right": 2
-    }
-  },
-
-  "display": {
-    "separator": "   ",
-    "bar": {
-      "char": {
-        "elapsed": "█",
-        "total": "░"
-      },
-      "width": 16
-    }
-  },
-
-  "modules": [
-    "break",
-
-    {
-      "type": "os",
-      "key": "󰢯  OS",
-      "keyColor": "cyan"
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "padding": {
+            "top": 2
+        }
     },
-    {
-      "type": "kernel",
-      "key": "  Kernel",
-      "keyColor": "cyan"
+    "display": {
+        "separator": " -> ",
+        "constants": [
+            "──────────────────────────────"
+        ]
     },
-    {
-      "type": "host",
-      "key": "󰌢  Model",
-      "keyColor": "cyan",
-      "format": "{name}"
-    },
-
-    {
-      "type": "wm",
-      "key": "󰖲  WM",
-      "keyColor": "green"
-    },
-    {
-      "type": "theme",
-      "key": "󰉼  Theme",
-      "keyColor": "magenta"
-    },
-
-    {
-      "type": "shell",
-      "key": "  Shell",
-      "keyColor": "yellow"
-    },
-    {
-      "type": "terminal",
-      "key": "  Terminal",
-      "keyColor": "yellow"
-    },
-    {
-      "type": "terminalfont",
-      "key": "A  Font",
-      "keyColor": "white"
-    },
-
-    {
-      "type": "cpu",
-      "key": "󰘚  CPU",
-      "keyColor": "red",
-      "format": "{name} ({cores-logical})"
-    },
-    {
-      "type": "cpuusage",
-      "key": "󱤓  Cores",
-      "keyColor": "red"
-    },
-    {
-      "type": "gpu",
-      "key": "󰍼  GPU",
-      "keyColor": "yellow",
-      "format": "{name}"
-    },
-
-    {
-      "type": "packages",
-      "key": "󰏖  Pkgs",
-      "keyColor": "green"
-    },
-    {
-      "type": "display",
-      "key": "󰍹  Display",
-      "keyColor": "cyan",
-      "format": "{width}x{height} @ {refreshRate}Hz"
-    },
-
-    {
-      "type": "uptime",
-      "key": "󰥔  Uptime",
-      "keyColor": "yellow"
-    },
-    {
-      "type": "osinstalldate",
-      "key": "󰃭  OS Age",
-      "keyColor": "yellow",
-      "format": "{days} days"
-    },
-
-    {
-      "type": "memory",
-      "key": "󰍛  Memory",
-      "keyColor": "cyan",
-      "format": "{bar} {used}/{total} ({percentage})"
-    },
-    {
-      "type": "disk",
-      "key": "󰋊  Disk",
-      "keyColor": "green",
-      "dirs": ["/"],
-      "format": "{bar} {used}/{total} ({percentage})"
-    },
-
-    "break",
-    {
-      "type": "colors",
-      "symbol": "squares"
-    }
-  ]
+    "modules": [
+        {
+            "type": "custom",
+            "format": "┌{$1}{$1}┐",
+            "outputColor": "90"
+        },
+        {
+            "type": "title",
+            "keyWidth": 10
+        },
+        {
+            "type": "custom",
+            "format": "└{$1}{$1}┘",
+            "outputColor": "90"
+        },
+        {
+            "type": "custom",
+            "format": " {#90}  {#31}  {#32}  {#33}  {#34}  {#35}  {#36}  {#37}  {#38}  {#39}       {#38}  {#37}  {#36}  {#35}  {#34}  {#33}  {#32}  {#31}  {#90}"
+        },
+        {
+            "type": "custom",
+            "format": "┌{$1}{$1}┐",
+            "outputColor": "90"
+        },
+        {
+            "type": "os",
+            "key": "{icon} OS",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "kernel",
+            "key": "│ ├",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "packages",
+            "key": "│ ├󰏖",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "shell",
+            "key": "│ └",
+            "keyColor": "yellow"
+        },
+        {
+            "type": "wm",
+            "key": " DE/WM",
+            "keyColor": "blue"
+        },
+        {
+            "type": "lm",
+            "key": "│ ├󰧨",
+            "keyColor": "blue"
+        },
+        {
+            "type": "wmtheme",
+            "key": "│ ├󰉼",
+            "keyColor": "blue"
+        },
+        {
+            "type": "icons",
+            "key": "│ ├󰀻",
+            "keyColor": "blue"
+        },
+        {
+            "type": "terminal",
+            "key": "│ ├",
+            "keyColor": "blue"
+        },
+        {
+            "type": "wallpaper",
+            "key": "│ └󰸉",
+            "keyColor": "blue"
+        },
+        {
+            "type": "host",
+            "key": "󰌢 PC",
+            "keyColor": "green"
+        },
+        {
+            "type": "cpu",
+            "key": "│ ├󰻠",
+            "keyColor": "green"
+        },
+        {
+            "type": "gpu",
+            "key": "│ ├󰍛",
+            "keyColor": "green"
+        },
+        {
+            "type": "disk",
+            "key": "│ ├",
+            "keyColor": "green"
+        },
+        {
+            "type": "memory",
+            "key": "│ ├󰑭",
+            "keyColor": "green"
+        },
+        {
+            "type": "swap",
+            "key": "│ ├󰓡",
+            "keyColor": "green"
+        },
+        {
+            "type": "uptime",
+            "key": "│ ├󰅐",
+            "keyColor": "green"
+        },
+        {
+            "type": "display",
+            "key": "│ └󰍹",
+            "keyColor": "green"
+        },
+        {
+            "type": "sound",
+            "key": " SND",
+            "keyColor": "cyan"
+        },
+        {
+            "type": "player",
+            "key": "│ ├󰥠",
+            "keyColor": "cyan"
+        },
+        {
+            "type": "media",
+            "key": "│ └󰝚",
+            "keyColor": "cyan"
+        },
+        {
+            "type": "custom",
+            "format": "└{$1}{$1}┘",
+            "outputColor": "90"
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": " {#90}  {#31}  {#32}  {#33}  {#34}  {#35}  {#36}  {#37}  {#38}  {#39}       {#38}  {#37}  {#36}  {#35}  {#34}  {#33}  {#32}  {#31}  {#90}"
+        }
+    ]
 }
