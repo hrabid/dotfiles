@@ -9,55 +9,39 @@
         }
     },
     "display": {
-        "separator": " -> ",
-        "constants": [
-            "──────────────────────────────"
-        ]
+        "separator": " -> "
     },
     "modules": [
+        "title",
+        "separator",
         {
-            "type": "custom",
-            "format": "┌{$1}{$1}┐",
-            "outputColor": "90"
-        },
-        {
-            "type": "title",
-            "keyWidth": 10
-        },
-        {
-            "type": "custom",
-            "format": "└{$1}{$1}┘",
-            "outputColor": "90"
-        },
-        {
-            "type": "custom",
-            "format": " {#90}  {#31}  {#32}  {#33}  {#34}  {#35}  {#36}  {#37}  {#38}  {#39}       {#38}  {#37}  {#36}  {#35}  {#34}  {#33}  {#32}  {#31}  {#90}"
-        },
-        {
-            "type": "custom",
-            "format": "┌{$1}{$1}┐",
-            "outputColor": "90"
+            "type": "os",
+            "key": " OS",
+            "keyColor": "yellow",
+            "format": "{2}"
         },
         {
             "type": "os",
-            "key": "{icon} OS",
+            "key": "├{icon}", // Just get your distro's logo off nerdfonts.com
             "keyColor": "yellow"
         },
         {
             "type": "kernel",
-            "key": "│ ├",
+            "key": "├",
             "keyColor": "yellow"
         },
         {
             "type": "packages",
-            "key": "│ ├󰏖",
+            "key": "├󰏖",
             "keyColor": "yellow"
         },
         {
             "type": "shell",
-            "key": "│ └",
+            "key": "└",
             "keyColor": "yellow"
         },
+        "break",
+
         {
             "type": "wm",
             "key": " DE/WM",
@@ -65,29 +49,31 @@
         },
         {
             "type": "lm",
-            "key": "│ ├󰧨",
+            "key": "├󰧨",
             "keyColor": "blue"
         },
         {
             "type": "wmtheme",
-            "key": "│ ├󰉼",
+            "key": "├󰉼",
             "keyColor": "blue"
         },
         {
             "type": "icons",
-            "key": "│ ├󰀻",
+            "key": "├󰀻",
             "keyColor": "blue"
         },
         {
             "type": "terminal",
-            "key": "│ ├",
+            "key": "├",
             "keyColor": "blue"
         },
         {
             "type": "wallpaper",
-            "key": "│ └󰸉",
+            "key": "└󰸉",
             "keyColor": "blue"
         },
+
+        "break",
         {
             "type": "host",
             "key": "󰌢 PC",
@@ -95,63 +81,58 @@
         },
         {
             "type": "cpu",
-            "key": "│ ├󰻠",
+            "key": "├󰻠",
             "keyColor": "green"
         },
         {
             "type": "gpu",
-            "key": "│ ├󰍛",
+            "key": "├󰍛",
             "keyColor": "green"
         },
         {
             "type": "disk",
-            "key": "│ ├",
+            "key": "├",
             "keyColor": "green"
         },
         {
             "type": "memory",
-            "key": "│ ├󰑭",
+            "key": "├󰑭",
             "keyColor": "green"
         },
         {
             "type": "swap",
-            "key": "│ ├󰓡",
-            "keyColor": "green"
-        },
-        {
-            "type": "uptime",
-            "key": "│ ├󰅐",
+            "key": "├󰓡",
             "keyColor": "green"
         },
         {
             "type": "display",
-            "key": "│ └󰍹",
+            "key": "├󰍹",
             "keyColor": "green"
         },
         {
+            "type": "uptime",
+            "key": "└󰅐",
+            "keyColor": "green"
+        },
+
+        "break",
+        {
             "type": "sound",
-            "key": " SND",
+            "key": " SOUND",
             "keyColor": "cyan"
         },
         {
             "type": "player",
-            "key": "│ ├󰥠",
+            "key": "├󰥠",
             "keyColor": "cyan"
         },
         {
             "type": "media",
-            "key": "│ └󰝚",
+            "key": "└󰝚",
             "keyColor": "cyan"
         },
-        {
-            "type": "custom",
-            "format": "└{$1}{$1}┘",
-            "outputColor": "90"
-        },
+
         "break",
-        {
-            "type": "custom",
-            "format": " {#90}  {#31}  {#32}  {#33}  {#34}  {#35}  {#36}  {#37}  {#38}  {#39}       {#38}  {#37}  {#36}  {#35}  {#34}  {#33}  {#32}  {#31}  {#90}"
-        }
+        "colors"
     ]
 }
