@@ -1,3 +1,12 @@
 {{ if ne .chezmoi.os "android" }}
 .termux
 {{ end }}
+
+{{- if ne .profile "desktop" }}
+.config/hypr
+.config/waybar
+.config/rofi
+.config/swaylock
+.config/dunst
+.local/share/wallpapers
+{{ end }}
