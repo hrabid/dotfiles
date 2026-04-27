@@ -1,14 +1,22 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 command_timeout = 1000
 
+# Prompt symbols 
+[character]
+# success_symbol = "[🞈 ](color9 bold)"
+# error_symbol = "[🞈 ](@{error})"
+# vicmd_symbol = "[🞈 ](#f9e2af)"
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] 
-success_symbol = '[➜ :](bold green)' 
-error_symbol = '[➜ :](bold red)'
+success_symbol = "[🞈 ](bold blue)"
+error_symbol = "[🞈 ](bold red)"
+vicmd_symbol = "[🞈 ](#f9e2af)"
 
-# success_symbol = '[❯ :](bold green)' 
-# error_symbol = '[❯ :](bold red)'
+
+# success_symbol = '[➜ :](bold green)' 
+# error_symbol = '[➜ :](bold red)'
+
+[git_branch]
+symbol = " "
 
 [aws]
 symbol = " "
@@ -40,9 +48,6 @@ symbol = " "
 [deno]
 symbol = " "
 
-[directory]
-read_only = " 󰌾"
-
 [docker_context]
 symbol = " "
 
@@ -63,9 +68,6 @@ symbol = " "
 
 [gcloud]
 symbol = " "
-
-[git_branch]
-symbol = " "
 
 [git_commit]
 tag_symbol = '  '

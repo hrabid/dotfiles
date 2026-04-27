@@ -3,10 +3,17 @@
 {{ end }}
 
 {{- if ne .profile "desktop" }}
+.config/alacritty
+.config/app
+.config/btop
+.config/ghostty
+.config/gtk-3.0
+.config/gtk-4.0
 .config/hypr
-.config/waybar
+.config/matugen
+.config/qt5ct
+.config/qt6ct
 .config/rofi
-.config/swaylock
-.config/dunst
-.local/share/wallpapers
+.config/snappy-switcher
+.config/waybar
 {{ end }}
