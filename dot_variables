@@ -6,7 +6,7 @@ export PATH="$HOME/.bin:$PATH"
 alias sdo='cd /sdcard/Obsidian/'
 export PATH="$HOME/.local/bin/:$PATH"
 export PATH="$HOME/.cargo/bin/:$PATH"
-
+export PATH=${PATH}:`go env GOPATH`/bin
 # fzf 
 # Preview file content using bat (https://github.com/sharkdp/bat)
 export FZF_CTRL_T_OPTS="
