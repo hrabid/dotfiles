@@ -25,6 +25,7 @@
 
 #clock {
   font-weight: 500;
+  color: @primary;
 }
 
 #workspaces {
@@ -75,3 +76,9 @@
   background-color: @red;
 }
 
+#custom-notification {
+  font-family: "SF Pro Text";
+  color: @primary;
+  min-width: 2rem;
+  border-radius: 99px;
+}
