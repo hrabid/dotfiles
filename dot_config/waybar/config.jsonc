@@ -9,19 +9,27 @@
     "hyprland/workspaces"
   ],
   "modules-right": [
+    "custom/flameshot",
     "pulseaudio",
     "network",
     "custom/notification",
     "battery"
   ],
 
-
+/* 
   "clock": {
     "interval": 60,
     "format": "{:%I:%M %p}",
-    "max-length": 25
+    "max-length": 25,
+    "tooltip": true,
+    "tooltip-format": "{:%Y-%m-%d}"
   },
-
+*/
+"clock": {
+    "interval": 60,
+    "format": "  {:%I:%M %p}",
+    "format-alt": "  {:L%A, %B %d, %Y | %I:%M %p}"
+  },
 
   "hyprland/workspaces": {
   	"format": "{name}",
@@ -37,6 +45,12 @@
          "persistent-workspaces": {
                "*": 5, // 5 workspaces by default on every monitor
          }
+  },
+
+  "custom/flameshot": {
+    "format": " ",
+    "tooltip": "Take Screenshot",
+    "on-click": "flameshot gui"
   },
 
 

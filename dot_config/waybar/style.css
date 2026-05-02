@@ -76,7 +76,22 @@
   background-color: @red;
 }
 
+#network {
+  font-family: "SF Pro Text";
+  color: @primary;
+  min-width: 2rem;
+  border-radius: 99px;
+}
+
+
 #custom-notification {
+  font-family: "SF Pro Text";
+  color: @primary;
+  min-width: 2rem;
+  border-radius: 99px;
+}
+
+#custom-flameshot {
   font-family: "SF Pro Text";
   color: @primary;
   min-width: 2rem;
