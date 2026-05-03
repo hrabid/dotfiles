@@ -1,0 +1,278 @@
+/**
+ * Wallpaper Switcher — Rofi Theme
+ * Compatible with adi1090x/rofi setup
+ *
+ * Usage:
+ *   rofi -dmenu -theme ~/.config/rofi/wallpaper.rasi
+ *   rofi -dmenu -show-icons -theme ~/.config/rofi/wallpaper.rasi
+ *
+ * Customize: edit only the * { } block below.
+ **/
+
+/*****----- Global Variables -----*****/
+* {
+    /* Palette */
+    bg0:              #0d0f14;
+    bg1:              #13161e;
+    bg2:              #1a1e2a;
+    bg3:              #232840;
+
+    accent:           #7eb8f7;
+    accent-alt:       #c97bff;
+
+    fg0:              #e2e8f8;
+    fg1:              #8899bb;
+    fg2:              #4a5580;
+    fg-ph:            #3d4a6a;
+
+    border-dim:       #2a3050;
+    border-lit:       #7eb8f7;
+
+    /* Layout — change these */
+    col-count:        4;
+    icon-sz:          96px;
+    win-w:            820px;
+    win-h:            580px;
+    radius:           14px;
+
+    /* Font — change to any installed font */
+    font-sm:          "JetBrains Mono 9";
+    font-md:          "JetBrains Mono 11";
+
+    background-color: transparent;
+    text-color:       @fg0;
+}
+
+/*****----- Window -----*****/
+window {
+    enabled:          true;
+    transparency:     "real";
+    location:         center;
+    anchor:           center;
+    fullscreen:       false;
+    width:            @win-w;
+    height:           @win-h;
+    x-offset:         0px;
+    y-offset:         0px;
+    margin:           0px;
+    padding:          0px;
+    border:           1px solid;
+    border-radius:    @radius;
+    border-color:     @border-dim;
+    cursor:           "default";
+    background-color: @bg0;
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:          true;
+    spacing:          0px;
+    margin:           0px;
+    padding:          0px;
+    border:           0px solid;
+    border-radius:    0px;
+    border-color:     @border-dim;
+    background-color: transparent;
+    children:         [ "inputbar", "listview" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:          true;
+    spacing:          0px;
+    margin:           0px;
+    padding:          0px;
+    border:           0px 0px 1px 0px;
+    border-radius:    @radius @radius 0px 0px;
+    border-color:     @border-dim;
+    background-color: @bg1;
+    text-color:       @fg0;
+    children:         [ "prompt", "entry", "num-filtered-rows" ];
+}
+
+prompt {
+    enabled:          true;
+    padding:          13px 4px 13px 18px;
+    background-color: inherit;
+    text-color:       @accent;
+    font:             @font-md;
+}
+
+entry {
+    enabled:          true;
+    padding:          13px 8px 13px 6px;
+    background-color: inherit;
+    text-color:       @fg0;
+    cursor:           text;
+    placeholder:      "search wallpapers…";
+    placeholder-color:@fg-ph;
+    font:             @font-md;
+}
+
+num-filtered-rows {
+    enabled:          true;
+    expand:           false;
+    padding:          13px 16px 13px 4px;
+    background-color: inherit;
+    text-color:       @fg2;
+    font:             @font-sm;
+}
+
+/*****----- List View -----*****/
+listview {
+    enabled:          true;
+    columns:          @col-count;
+    lines:            2;
+    cycle:            true;
+    dynamic:          true;
+    scrollbar:        true;
+    layout:           vertical;
+    reverse:          false;
+    fixed-height:     false;
+    fixed-columns:    true;
+    flow:             horizontal;
+    spacing:          8px;
+    margin:           0px;
+    padding:          14px 12px 12px 12px;
+    border:           0px solid;
+    border-radius:    0px;
+    border-color:     @border-dim;
+    background-color: transparent;
+    text-color:       @fg1;
+    cursor:           "default";
+}
+
+/*****----- Scrollbar -----*****/
+scrollbar {
+    handle-width:     4px;
+    handle-color:     @border-dim;
+    border-radius:    2px;
+    background-color: @bg2;
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:          true;
+    spacing:          6px;
+    margin:           0px;
+    padding:          10px 8px;
+    border:           1px solid;
+    border-radius:    10px;
+    border-color:     @border-dim;
+    background-color: @bg2;
+    text-color:       @fg1;
+    cursor:           pointer;
+    orientation:      vertical;
+}
+
+element normal.normal {
+    background-color: @bg2;
+    text-color:       @fg1;
+    border-color:     @border-dim;
+}
+
+element normal.urgent {
+    background-color: @bg2;
+    text-color:       @accent-alt;
+    border-color:     @border-dim;
+}
+
+element normal.active {
+    background-color: @bg3;
+    text-color:       @accent;
+    border-color:     @accent;
+}
+
+element selected.normal {
+    background-color: @bg3;
+    text-color:       @fg0;
+    border-color:     @border-lit;
+}
+
+element selected.urgent {
+    background-color: @bg3;
+    text-color:       @accent-alt;
+    border-color:     @accent-alt;
+}
+
+element selected.active {
+    background-color: @bg3;
+    text-color:       @accent-alt;
+    border-color:     @accent-alt;
+}
+
+element alternate.normal {
+    background-color: @bg2;
+    text-color:       @fg1;
+    border-color:     @border-dim;
+}
+
+element alternate.urgent {
+    background-color: @bg2;
+    text-color:       @accent-alt;
+    border-color:     @border-dim;
+}
+
+element alternate.active {
+    background-color: @bg3;
+    text-color:       @accent;
+    border-color:     @accent;
+}
+
+/*****----- Element Icon -----*****/
+element-icon {
+    background-color: @bg0;
+    text-color:       inherit;
+    size:             @icon-sz;
+    border:           0px solid;
+    border-radius:    6px;
+    cursor:           inherit;
+    horizontal-align: 0.5;
+}
+
+/*****----- Element Text -----*****/
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+    highlight:        inherit;
+    cursor:           inherit;
+    font:             @font-sm;
+    vertical-align:   0.5;
+    horizontal-align: 0.5;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled:          true;
+    margin:           0px;
+    padding:          0px;
+    border:           0px solid;
+    border-radius:    0px;
+    border-color:     @border-dim;
+    background-color: transparent;
+    text-color:       @fg1;
+}
+
+textbox {
+    padding:          5px 10px;
+    border:           0px solid;
+    border-radius:    10px;
+    border-color:     @border-dim;
+    background-color: @bg2;
+    text-color:       @fg1;
+    font:             @font-sm;
+    vertical-align:   0.5;
+    horizontal-align: 0.0;
+    highlight:        none;
+    blink:            true;
+    markup:           true;
+}
+
+error-message {
+    padding:          10px;
+    border:           1px solid;
+    border-radius:    10px;
+    border-color:     @border-dim;
+    background-color: @bg0;
+    text-color:       @fg0;
+}

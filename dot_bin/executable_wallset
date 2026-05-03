@@ -63,7 +63,7 @@ SELECTED=$(
     -i \
     -p "󰋩  Wallpaper" \
     -show-icons \
-    -theme ~/.config/rofi/launchers/type-5/style-2.rasi \
+    -theme ~/.config/rofi/launchers/type-7/style-9.rasi \
     -format "p"
 )
 

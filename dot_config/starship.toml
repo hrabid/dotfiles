@@ -3,17 +3,12 @@ command_timeout = 1000
 
 # Prompt symbols 
 [character]
-# success_symbol = "[🞈 ](color9 bold)"
-# error_symbol = "[🞈 ](@{error})"
+# success_symbol = "[🞈 ](bold blue)"
+# error_symbol = "[🞈 ](bold red)"
 # vicmd_symbol = "[🞈 ](#f9e2af)"
 
-success_symbol = "[🞈 ](bold blue)"
-error_symbol = "[🞈 ](bold red)"
-vicmd_symbol = "[🞈 ](#f9e2af)"
-
-
-# success_symbol = '[➜ :](bold green)' 
-# error_symbol = '[➜ :](bold red)'
+success_symbol = '[➜ :](bold green)' 
+error_symbol = '[➜ :](bold red)'
 
 [git_branch]
 symbol = " "

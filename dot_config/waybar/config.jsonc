@@ -3,6 +3,7 @@
   "spacing": 18,
   "margin-top": 5,
   "modules-left": [
+    "custom/distro",
     "clock"
   ],
   "modules-center": [
@@ -25,6 +26,11 @@
     "tooltip-format": "{:%Y-%m-%d}"
   },
 */
+"custom/distro": {
+    "format": "", 
+    "tooltip": false
+},
+
 "clock": {
     "interval": 60,
     "format": "  {:%I:%M %p}",

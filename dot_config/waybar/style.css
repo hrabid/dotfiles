@@ -97,3 +97,11 @@
   min-width: 2rem;
   border-radius: 99px;
 }
+
+#custom-distro {
+  font-family: "SF Pro Text";
+  color: @primary;
+  min-width: 2rem;
+  border-radius: 99px;
+
+}
