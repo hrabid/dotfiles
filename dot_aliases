@@ -1,0 +1,67 @@
+# System Navigation Aliases
+## Aliases Related to listing Directories
+if command -v lsd >/dev/null 2>&1; then
+  alias ls=lsd
+  alias lsa='lsd -a'
+  alias ll='lsd -lah'
+  alias lt='lsd --tree'
+  alias lta='lsd -a --tree'
+  alias llt='lsd -l --tree'
+else
+  alias lsa='ls -a'
+  alias ll='ls -lah'
+  alias lt='tree'
+  alias lta='tree -a'
+fi
+
+## Inspecting file content
+alias catn="cat -n"
+alias catb='cat -b'
+
+## Copying
+alias cp="cp -vi"
+alias mv='mv -vi'
+
+## Making Directories
+alias mkdir="mkdir -pv"
+
+## Aliases Related to Changing Directories
+alias cdp='cd ..'
+alias dot="cd $GHDOT"
+
+## Aliases Related to fzf
+
+## Terminal
+alias c=clear
+alias e=exit
+
+## Editor Aliases
+alias v=nvim
+alias b=bat
+alias fzb="fzf --preview 'bat --style=numbers --color=always {}'"
+
+
+alias t=touch
+
+alias pyserver="python -m http.server"
+alias m=tldr
+
+alias cm=chezmoi
+alias cma='chezmoi apply'
+alias cmu='chezmoi update'
+alias cmd='chezmoi diff'
+alias cms='chezmoi status'
+alias cme='chezmoi edit'
+
+# w3m
+alias '?'=search
+
+# git 
+alias g=git
+alias gs='git status'
+alias gaa='git add .'
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gd='git diff'
+alias gp='git push'
+alias gcb='git branch | fzf | cut -c 3- | xargs git checkout'

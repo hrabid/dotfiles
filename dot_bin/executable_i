@@ -1,0 +1,418 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Check if sudo is available
+SUDO=""
+if command -v sudo &> /dev/null; then
+    SUDO="sudo"
+    echo -e "${GREEN}sudo detected${NC}"
+else
+    echo -e "${YELLOW}sudo not found - running without elevated privileges${NC}"
+fi
+
+# Detect package manager
+detect_package_manager() {
+    if command -v nala &> /dev/null; then
+        echo "nala"
+    elif command -v apt &> /dev/null; then
+        echo "apt"
+    elif command -v pkg &> /dev/null; then
+        echo "pkg"
+    elif command -v dnf &> /dev/null; then
+        echo "dnf"
+    elif command -v yum &> /dev/null; then
+        echo "yum"
+    elif command -v pacman &> /dev/null; then
+        echo "pacman"
+    elif command -v zypper &> /dev/null; then
+        echo "zypper"
+    elif command -v apk &> /dev/null; then
+        echo "apk"
+    elif command -v brew &> /dev/null; then
+        echo "brew"
+    else
+        echo -e "${RED}Error: No supported package manager found${NC}"
+        exit 1
+    fi
+}
+
+# Search packages based on package manager
+search_packages() {
+    local pm=$1
+    case $pm in
+        nala|apt)
+            apt-cache search . | awk '{print $1}' | sort -u
+            ;;
+        pkg)
+            pkg search . 2>/dev/null | awk '{print $1}' | sort -u
+            ;;
+        dnf|yum)
+            # Run in completely clean environment to avoid "argument list too long"
+            env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" bash -c '
+                if command -v dnf &> /dev/null; then
+                    dnf repoquery --available --qf "%{name}" 2>/dev/null | sort -u
+                else
+                    yum list available 2>/dev/null | awk "NR>1 && NF>0 && !/^Last/ && !/^Available/ && !/^Loaded/ {print \$1}" | sed "s/\..*$//" | sort -u
+                fi
+            '
+            ;;
+        pacman)
+            pacman -Sl | awk '{print $2}' | sort -u
+            ;;
+        zypper)
+            zypper search -t package 2>/dev/null | awk 'NR>4 && /^[^-]/ {print $3}' | sort -u
+            ;;
+        apk)
+            apk search -q
+            ;;
+        brew)
+            brew search
+            ;;
+    esac
+}
+
+# Get package info for preview
+get_package_info() {
+    local pm=$1
+    local pkg=$2
+    
+    case $pm in
+        nala|apt)
+            apt-cache show "$pkg" 2>/dev/null | head -50
+            ;;
+        pkg)
+            pkg show "$pkg" 2>/dev/null
+            ;;
+        dnf|yum)
+            $pm info "$pkg" 2>/dev/null
+            ;;
+        pacman)
+            pacman -Si "$pkg" 2>/dev/null
+            ;;
+        zypper)
+            zypper info "$pkg" 2>/dev/null
+            ;;
+        apk)
+            apk info -d "$pkg" 2>/dev/null
+            ;;
+        brew)
+            brew info "$pkg" 2>/dev/null
+            ;;
+    esac
+}
+
+# Check if package is already installed
+check_installed() {
+    local pm=$1
+    local pkg=$2
+    
+    case $pm in
+        nala|apt)
+            dpkg -l "$pkg" 2>/dev/null | grep -q "^ii"
+            ;;
+        pkg)
+            pkg list-installed 2>/dev/null | grep -q "^$pkg/"
+            ;;
+        dnf|yum)
+            # Use rpm for faster and more reliable check
+            rpm -q "$pkg" &>/dev/null
+            ;;
+        pacman)
+            pacman -Q "$pkg" &>/dev/null
+            ;;
+        zypper)
+            zypper se -i "$pkg" 2>/dev/null | grep -q "^i"
+            ;;
+        apk)
+            apk info -e "$pkg" &>/dev/null
+            ;;
+        brew)
+            brew list "$pkg" &>/dev/null
+            ;;
+    esac
+}
+
+# Install package
+install_package() {
+    local pm=$1
+    local pkg=$2
+    
+    # Check if already installed
+    if check_installed "$pm" "$pkg"; then
+        echo -e "${YELLOW}⊙ $pkg is already installed, skipping...${NC}"
+        return 0
+    fi
+    
+    echo -e "${BLUE}Installing $pkg...${NC}"
+    
+    case $pm in
+        nala)
+            $SUDO nala install "$pkg"
+            ;;
+        apt)
+            $SUDO apt update && $SUDO apt install "$pkg"
+            ;;
+        pkg)
+            pkg install "$pkg"
+            ;;
+        dnf)
+            $SUDO dnf install "$pkg"
+            ;;
+        yum)
+            $SUDO yum install "$pkg"
+            ;;
+        pacman)
+            $SUDO pacman -S "$pkg"
+            ;;
+        zypper)
+            $SUDO zypper install "$pkg"
+            ;;
+        apk)
+            $SUDO apk add "$pkg"
+            ;;
+        brew)
+            brew install "$pkg"
+            ;;
+    esac
+}
+
+# Main
+main() {
+    # Show help
+    if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+        echo "Usage: $0 [PACKAGE_NAME...]"
+        echo ""
+        echo "Interactive mode (with fzf):"
+        echo "  $0"
+        echo ""
+        echo "Direct installation mode:"
+        echo "  $0 htop neofetch curl"
+        echo ""
+        echo "Options:"
+        echo "  -h, --help    Show this help message"
+        exit 0
+    fi
+    
+    echo -e "${GREEN}Detecting package manager...${NC}"
+    PM=$(detect_package_manager)
+    echo -e "${GREEN}Found: $PM${NC}"
+    echo ""
+    
+    # Check if packages were provided as arguments
+    if [ $# -gt 0 ]; then
+        echo -e "${BLUE}Installing packages from command line arguments...${NC}"
+        echo ""
+        
+        # Build list of packages to install (skip already installed)
+        PACKAGES_TO_INSTALL=""
+        for pkg in "$@"; do
+            if check_installed "$PM" "$pkg"; then
+                echo -e "${YELLOW}⊙ $pkg is already installed, skipping...${NC}"
+            else
+                PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $pkg"
+            fi
+        done
+        
+        # Install all packages at once if there are any
+        if [ -n "$PACKAGES_TO_INSTALL" ]; then
+            echo ""
+            echo -e "${BLUE}Installing:$PACKAGES_TO_INSTALL${NC}"
+            
+            case $PM in
+                nala)
+                    $SUDO nala install $PACKAGES_TO_INSTALL
+                    ;;
+                apt)
+                    $SUDO apt update && $SUDO apt install $PACKAGES_TO_INSTALL
+                    ;;
+                pkg)
+                    pkg install $PACKAGES_TO_INSTALL
+                    ;;
+                dnf)
+                    $SUDO dnf install $PACKAGES_TO_INSTALL
+                    ;;
+                yum)
+                    $SUDO yum install $PACKAGES_TO_INSTALL
+                    ;;
+                pacman)
+                    $SUDO pacman -S $PACKAGES_TO_INSTALL
+                    ;;
+                zypper)
+                    $SUDO zypper install $PACKAGES_TO_INSTALL
+                    ;;
+                apk)
+                    $SUDO apk add $PACKAGES_TO_INSTALL
+                    ;;
+                brew)
+                    brew install $PACKAGES_TO_INSTALL
+                    ;;
+            esac
+            
+            if [ $? -eq 0 ]; then
+                echo -e "${GREEN}✓ Successfully installed packages${NC}"
+            else
+                echo -e "${RED}✗ Installation failed${NC}"
+            fi
+        else
+            echo -e "${YELLOW}All specified packages are already installed.${NC}"
+        fi
+        
+        echo -e "${GREEN}Done!${NC}"
+        return 0
+    fi
+    
+    # Check if fzf is installed (only needed for interactive mode)
+    if ! command -v fzf &> /dev/null; then
+        echo -e "${RED}Error: fzf is not installed${NC}"
+        echo "Install it with your package manager first, or use: $0 PACKAGE_NAME"
+        exit 1
+    fi
+    
+    # Interactive mode with fzf
+    echo -e "${YELLOW}Loading package list... (this may take a moment)${NC}"
+    
+    # Create preview command based on package manager
+    case $PM in
+        nala|apt)
+            PREVIEW_CMD="apt-cache show {}"
+            ;;
+        pkg)
+            PREVIEW_CMD="pkg show {}"
+            ;;
+        dnf)
+            PREVIEW_CMD="sh -c 'dnf info {} 2>/dev/null || rpm -qi {} 2>/dev/null || echo Package not found'"
+            ;;
+        yum)
+            PREVIEW_CMD="sh -c 'yum info {} 2>/dev/null || rpm -qi {} 2>/dev/null || echo Package not found'"
+            ;;
+        pacman)
+            PREVIEW_CMD="pacman -Si {}"
+            ;;
+        zypper)
+            PREVIEW_CMD="zypper info {}"
+            ;;
+        apk)
+            PREVIEW_CMD="apk info -d {}"
+            ;;
+        brew)
+            PREVIEW_CMD="brew info {}"
+            ;;
+    esac
+    
+    # For DNF/YUM, use temp file and temp script to avoid argument list issues
+    if [[ "$PM" == "dnf" || "$PM" == "yum" ]]; then
+        TEMP_PKG_LIST=$(mktemp)
+        TEMP_PREVIEW_SCRIPT=$(mktemp)
+        
+        # Create a standalone preview script that runs in clean environment
+        cat > "$TEMP_PREVIEW_SCRIPT" << 'PREVIEW_EOF'
+#!/bin/sh
+PKG="$1"
+env -i PATH="$PATH" HOME="$HOME" TERM="$TERM" sh -c "
+    dnf info \"$PKG\" 2>/dev/null || rpm -qi \"$PKG\" 2>/dev/null || echo \"Package: $PKG (not found)\"
+"
+PREVIEW_EOF
+        chmod +x "$TEMP_PREVIEW_SCRIPT"
+        
+        search_packages "$PM" > "$TEMP_PKG_LIST"
+        SELECTED=$(cat "$TEMP_PKG_LIST" | fzf \
+            --height=80% \
+            --border \
+            --preview="$TEMP_PREVIEW_SCRIPT {}" \
+            --preview-window=right:60%:wrap \
+            --header="Select package to install (Tab for multi-select, Enter to confirm)" \
+            --multi \
+            --bind='ctrl-/:toggle-preview' \
+            --prompt="Search packages: ")
+        rm -f "$TEMP_PKG_LIST" "$TEMP_PREVIEW_SCRIPT"
+    else
+        # Use fzf to select package with preview
+        SELECTED=$(search_packages "$PM" | fzf \
+            --height=80% \
+            --border \
+            --preview="$PREVIEW_CMD" \
+            --preview-window=right:60%:wrap \
+            --header="Select package to install (Tab for multi-select, Enter to confirm)" \
+            --multi \
+            --bind='ctrl-/:toggle-preview' \
+            --prompt="Search packages: ")
+    fi
+    
+    # Check if user selected anything
+    if [ -z "$SELECTED" ]; then
+        echo -e "${YELLOW}No package selected. Exiting.${NC}"
+        exit 0
+    fi
+    
+    # Install selected packages
+    echo ""
+    echo -e "${GREEN}Selected packages:${NC}"
+    echo "$SELECTED"
+    echo ""
+    
+    # Build list of packages to install (skip already installed)
+    PACKAGES_TO_INSTALL=""
+    while IFS= read -r pkg; do
+        if check_installed "$PM" "$pkg"; then
+            echo -e "${YELLOW}⊙ $pkg is already installed, skipping...${NC}"
+        else
+            PACKAGES_TO_INSTALL="$PACKAGES_TO_INSTALL $pkg"
+        fi
+    done <<< "$SELECTED"
+    
+    # Install all packages at once if there are any
+    if [ -n "$PACKAGES_TO_INSTALL" ]; then
+        echo ""
+        echo -e "${BLUE}Installing:$PACKAGES_TO_INSTALL${NC}"
+        
+        case $PM in
+            nala)
+                $SUDO nala install $PACKAGES_TO_INSTALL
+                ;;
+            apt)
+                $SUDO apt update && $SUDO apt install $PACKAGES_TO_INSTALL
+                ;;
+            pkg)
+                pkg install $PACKAGES_TO_INSTALL
+                ;;
+            dnf)
+                $SUDO dnf install $PACKAGES_TO_INSTALL
+                ;;
+            yum)
+                $SUDO yum install $PACKAGES_TO_INSTALL
+                ;;
+            pacman)
+                $SUDO pacman -S $PACKAGES_TO_INSTALL
+                ;;
+            zypper)
+                $SUDO zypper install $PACKAGES_TO_INSTALL
+                ;;
+            apk)
+                $SUDO apk add $PACKAGES_TO_INSTALL
+                ;;
+            brew)
+                brew install $PACKAGES_TO_INSTALL
+                ;;
+        esac
+        
+        if [ $? -eq 0 ]; then
+            echo -e "${GREEN}✓ Successfully installed packages${NC}"
+        else
+            echo -e "${RED}✗ Installation failed${NC}"
+        fi
+    else
+        echo -e "${YELLOW}All selected packages are already installed.${NC}"
+    fi
+    
+    echo -e "${GREEN}Done!${NC}"
+}
+
+main "$@"

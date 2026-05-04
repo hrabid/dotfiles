@@ -1,0 +1,159 @@
+/**
+ * wallpaper.rasi — Wallpaper Picker with image previews
+ *
+ * Script feeds entries as:
+ *   printf '%s\0icon\x1f%s\n' "filename" "/full/path/to/image"
+ * so each tile shows the actual wallpaper as the icon thumbnail.
+ *
+ * max-width on element prevents a single filtered result from
+ * stretching to the full window width and looking broken.
+ */
+
+@import "shared.rasi"
+
+configuration {
+    modi:           "dmenu";
+    show-icons:     true;
+    display-dmenu:  "󰺵  Wallpapers";
+    scroll-method:  0;
+}
+
+window {
+    transparency:       "real";
+    location:           center;
+    anchor:             center;
+    width:              900px;
+    border-radius:      20px;
+    border:             1px;
+    border-color:       @outline-variant;
+    background-color:   @surface-container;
+}
+
+mainbox {
+    children:           [ "inputbar", "listview" ];
+    spacing:            0px;
+    padding:            0px;
+    background-color:   #00000000;
+}
+
+inputbar {
+    children:           [ "prompt", "entry" ];
+    spacing:            8px;
+    padding:            16px 16px 10px 16px;
+    background-color:   #00000000;
+}
+
+prompt {
+    font:               "JetBrainsMono Nerd Font 14";
+    text-color:         @secondary;
+    background-color:   @surface-container-high;
+    padding:            10px 14px;
+    border-radius:      12px;
+    vertical-align:     0.5;
+    expand:             false;
+}
+
+entry {
+    background-color:   @surface-container-high;
+    border-radius:      12px;
+    padding:            10px 14px;
+    text-color:         @on-surface;
+    placeholder:        "Filter wallpapers…";
+    placeholder-color:  @on-surface-variant;
+    cursor:             text;
+    vertical-align:     0.5;
+    expand:             true;
+}
+
+listview {
+    lines:              2;
+    columns:            4;
+    scrollbar:          true;
+    padding:            10px 12px 12px 12px;
+    spacing:            8px;
+    background-color:   #00000000;
+    dynamic:            true;
+    fixed-height:       false;
+}
+
+element {
+    orientation:        vertical;
+    padding:            8px;
+    spacing:            6px;
+    border-radius:      14px;
+    cursor:             pointer;
+    expand:             false;
+    min-width:          190px;
+    max-width:          210px;
+    background-color:   @surface-container-high;
+    text-color:         @on-surface-variant;
+}
+
+element-icon {
+    size:               150px;
+    horizontal-align:   0.5;
+    vertical-align:     0.5;
+    background-color:   #00000000;
+    cursor:             inherit;
+}
+
+element-text {
+    horizontal-align:   0.5;
+    vertical-align:     0.5;
+    background-color:   #00000000;
+    cursor:             inherit;
+    font:               "JetBrainsMono Nerd Font 9";
+    highlight:          bold;
+}
+
+element normal.normal {
+    background-color:   @surface-container-high;
+    text-color:         @on-surface-variant;
+}
+
+element alternate.normal {
+    background-color:   @surface-container-high;
+    text-color:         @on-surface-variant;
+}
+
+element selected.normal {
+    background-color:   @secondary-container;
+    text-color:         @on-secondary-container;
+    border:             2px;
+    border-color:       @secondary;
+    border-radius:      14px;
+}
+
+element normal.active {
+    background-color:   @surface-container-high;
+    text-color:         @primary;
+}
+
+element alternate.active {
+    background-color:   @surface-container-high;
+    text-color:         @primary;
+}
+
+element selected.active {
+    background-color:   @primary-container;
+    text-color:         @on-primary-container;
+    border:             2px;
+    border-color:       @primary;
+    border-radius:      14px;
+}
+
+element normal.urgent {
+    background-color:   @surface-container-high;
+    text-color:         @error;
+}
+
+element alternate.urgent {
+    background-color:   @surface-container-high;
+    text-color:         @error;
+}
+
+element selected.urgent {
+    background-color:   @error-container;
+    text-color:         @on-error-container;
+    border-radius:      14px;
+}

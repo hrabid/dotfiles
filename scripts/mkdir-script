@@ -1,0 +1,2 @@
+mkdir -p ~/scripts/{site-01,site-02}/{backup,monitoring,network}
+
