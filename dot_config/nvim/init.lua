@@ -5,7 +5,7 @@ vim.opt.wrap = true
 vim.opt.linebreak = true
 
 -- opening/following links or creating one
-local VAULT = vim.fn.expand("~/notes")      -- 🔧 search existing notes here
+local VAULT = vim.fn.expand("~/notes") -- 🔧 search existing notes here
 local INBOX = vim.fn.expand("~/notes/fleetings") -- 🔧 new notes land here
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -22,7 +22,9 @@ vim.api.nvim_create_autocmd("FileType", {
           break
         end
       end
-      if not name then return end
+      if not name then
+        return
+      end
 
       local found = vim.fn.globpath(VAULT, "**/" .. name .. ".md", false, true)
       local path = (found and found[1]) or (INBOX .. "/" .. name .. ".md")
@@ -32,8 +34,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = true })
   end,
 })
-
-
 
 -- auto completion for linking
 vim.api.nvim_create_autocmd("FileType", {
@@ -79,7 +79,7 @@ function _G.wiki_complete(findstart, base)
   return items
 end
 
--- front matter injection 
+-- front matter injection
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()

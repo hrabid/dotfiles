@@ -16,6 +16,8 @@
 .config/rofi
 .config/snappy-switcher
 .config/waybar
+.config/wlogout
+.config/swaync
 {{ end }}
 
 .config/alacritty/colors.toml
@@ -29,4 +31,5 @@
 .config/waybar/colors.css
 .config/swaync/colors.css
 .config/wlogout/colors.css
+.config/rofi/colors.rasi
 ~/notes/.obsidian/snippets/matugen.css

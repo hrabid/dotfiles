@@ -28,16 +28,9 @@ output_path = '~/.config/waybar/colors.css'
 post_hook = 'pkill -SIGUSR2 waybar'
 
 
-###########################
-# [templates.rofi]
-# input_path = 'path/to/template'
-# output_path = '~/.config/rofi/colors.rasi'
-# # in ~/.config/rofi/config.rasi
-# @import "colors.rasi"
-# * {
-#      background-color: @primary-container;
-# }
-############################
+[templates.rofi]
+input_path = '~/.config/matugen/templates/rofi-colors.rasi'
+output_path = '~/.config/rofi/colors.rasi'
 
 [templates.swaync]
 input_path = "~/.config/matugen/templates/colors.css"
@@ -71,6 +64,6 @@ input_path = '~/.config/matugen/templates/obsidian.css'
 output_path = '~/notes/.obsidian/snippets/matugen.css'
 
 # [templates.nvim]
-# input_path = '~/.config/matugen/templates/nvim-colors.vim'
-# output_path = '~/.config/nvim/colors/matugen.vim'
+# input_path = '~/.config/matugen/templates/nvim.lua'
+# output_path = '~/.config/nvim/matugen.lua'
 # post_hook = 'pkill -SIGUSR1 nvim'
