@@ -52,7 +52,7 @@ done
 
 # Apply wallpaper
 awww img "$FULL_PATH" \
-  --transition-type wipe \
+  --transition-type random \
   --transition-angle 30 \
   --transition-duration 1.2 \
   --transition-fps 60

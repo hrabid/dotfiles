@@ -5,6 +5,10 @@ input_path = '~/.config/matugen/templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
 post_hook = 'hyprctl reload'
 
+[templates.hyprlock]
+input_path  = "~/.config/matugen/templates/hyprlock.conf.tera"
+output_path = "~/.config/hypr/hyprlock.conf"
+
 [templates.qt5ct]
 input_path = '~/.config/matugen/templates/qtct-colors.conf'
 output_path = '~/.config/qt5ct/colors/matugen.conf'
