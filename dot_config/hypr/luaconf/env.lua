@@ -25,9 +25,9 @@ hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 
 -- NVIDIA Specific
-hl.env("GBM_BACKEND", "nvidia-drm")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
+-- hl.env("GBM_BACKEND", "nvidia-drm")
+-- hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+-- hl.env("LIBVA_DRIVER_NAME", "nvidia")
 
 -- ENV for ibus-avro
 hl.env("GTK_IM_MODULE", "ibus")
@@ -35,3 +35,4 @@ hl.env("QT_IM_MODULE", "ibus")
 hl.env("QT_IM_MODULES", "wayland;ibus")
 hl.env("XMODIFIERS", "@im=ibus")
 hl.env("INPUT_METHOD", "ibus")
+

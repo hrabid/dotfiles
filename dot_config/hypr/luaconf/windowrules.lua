@@ -48,7 +48,6 @@ hl.window_rule({
 	float = true,
 })
 
-
 -- Ref https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 -- "Smart gaps" / "No gaps when only"
 -- uncomment all if you wish to use that.
@@ -67,3 +66,23 @@ hl.window_rule({
 --     rounding    = 0,
 -- })
 
+-- layer_rule for logout menu
+hl.layer_rule({
+	match = { namespace = "logout_dialog" },
+	blur = true,
+	ignore_alpha = 0.5,
+})
+
+-- layer_rule for swaync
+hl.layer_rule({
+	match = { namespace = "swaync-control-center" },
+	blur = true,
+	ignore_alpha = 0.5,
+	animation = "slide right",
+})
+
+hl.layer_rule({
+	match = { namespace = "swaync-notification-window" },
+	blur = true,
+	ignore_alpha = 0.5,
+})
