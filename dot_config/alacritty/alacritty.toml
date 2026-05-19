@@ -1,0 +1,18 @@
+[general]
+import = [
+  # "~/.config/alacritty/themes/themes/tokyo_night_enhanced.toml"
+  "~/.config/alacritty/colors.toml"
+]
+
+[window]
+option_as_alt = "OnlyRight"
+opacity = 0.9
+blur = true
+startup_mode = "Maximized"
+
+[font]
+normal = { family = "IoskeleyMono Nerd Font", style = "Italic"}
+bold = { family = "IoskeleyMono Nerd Font", style = "Italic"}
+italic = { family = "IoskeleyMono Nerd Font", style = "Italic"}
+bold_italic = { family = "IoskeleyMono Nerd Font", style = "Bold Italic"}
+size = 10.5

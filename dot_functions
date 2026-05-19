@@ -1,0 +1,79 @@
+# check if the shell is interactive 
+[[ $- != *i* ]] && return
+
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# Default editors
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# Get internal and external IP
+mip() {
+    echo "Internal IP:"
+    ip route get 1.1.1.1 | awk '{print $7}' 2>/dev/null || echo "Not connected"
+    echo "External IP:"
+    curl -s ifconfig.me || echo "Unable to fetch"
+}
+
+# Changing default for man page to nvim
+set -o vi
+export MANPAGER='nvim +Man!'
+
+# Extracting archive & compressed file 
+extract() {
+  for file in "$@"; do
+    if [[ -f "$file" ]]; then
+      case "$file" in
+      *.tar.bz2) tar xjf "$file" ;;
+      *.tar.gz) tar xzf "$file" ;;
+      *.tar.xz) tar xJf "$file" ;;
+      *.bz2) bunzip2 "$file" ;;
+      *.rar) unrar x "$file" ;;
+      *.gz) gunzip "$file" ;;
+      *.tar) tar xf "$file" ;;
+      *.tbz2) tar xjf "$file" ;;
+      *.tgz) tar xzf "$file" ;;
+      *.zip) unzip "$file" ;;
+      *.Z) uncompress "$file" ;;
+      *.7z) 7z x "$file" ;;
+      *) echo "Unknown archive format: $file" ;;
+      esac
+    else
+      echo "File not found: $file"
+    fi
+  done
+}
+
+# Create directory and cd into it
+mkcd() {
+  mkdir -p "$1" && cd "$1"
+}
+# Enhanced cd with auto-ls
+cd() {
+    if [[ $# -eq 0 ]]; then
+        builtin cd ~ && ls -a
+    else
+        builtin cd "$@" && ls -a
+    fi
+}
+
+
+# Human readable path breakdown 
+lspath() {
+    echo "$PATH" | tr ':' '\n'
+}
+
+# Search DuckDuckGo and open in w3m
+search() {
+    local query="$*"
+    # Replace spaces with +
+    query="${query// /+}"
+    w3m "https://duckduckgo.com/html/?q=$query"
+}
+# Fetching system info
+command -v fastfetch >/dev/null 2>&1 && fastfetch
+

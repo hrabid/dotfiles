@@ -1,0 +1,143 @@
+/**
+ * ssh.rasi — SSH Host Picker
+ * rofi -show ssh -theme ~/.config/rofi/ssh.rasi
+ */
+
+@import "shared.rasi"
+
+configuration {
+    modi:           "ssh";
+    show-icons:     false;
+    display-ssh:    "󰣀  SSH";
+    scroll-method:  0;
+}
+
+window {
+    transparency:       "real";
+    location:           center;
+    anchor:             center;
+    width:              580px;
+    border-radius:      20px;
+    border:             1px;
+    border-color:       @outline-variant;
+    background-color:   @surface-container;
+}
+
+mainbox {
+    children:           [ "inputbar", "listview" ];
+    spacing:            0px;
+    padding:            0px;
+    background-color:   #00000000;
+}
+
+inputbar {
+    children:           [ "prompt", "entry" ];
+    spacing:            8px;
+    padding:            16px 16px 10px 16px;
+    background-color:   #00000000;
+}
+
+prompt {
+    font:               "SF Pro Text 14";
+    text-color:         @tertiary;
+    background-color:   @surface-container-high;
+    padding:            10px 14px;
+    border-radius:      12px;
+    vertical-align:     0.5;
+    expand:             false;
+}
+
+entry {
+    background-color:   @surface-container-high;
+    border-radius:      12px;
+    padding:            10px 14px;
+    text-color:         @on-surface;
+    placeholder:        "Connect to host…";
+    placeholder-color:  @on-surface-variant;
+    cursor:             text;
+    vertical-align:     0.5;
+    font:               "SF Pro Text 11";
+    expand:             true;
+}
+
+listview {
+    lines:              9;
+    columns:            1;
+    scrollbar:          false;
+    padding:            6px 10px 10px 10px;
+    spacing:            2px;
+    background-color:   #00000000;
+    dynamic:            true;
+    fixed-height:       false;
+}
+
+element {
+    padding:            8px 12px;
+    border-radius:      10px;
+    cursor:             pointer;
+    background-color:   #00000000;
+    text-color:         @on-surface-variant;
+}
+
+element-icon {
+    size:               0px;
+    background-color:   #00000000;
+}
+
+element-text {
+    vertical-align:     0.5;
+    background-color:   #00000000;
+    cursor:             inherit;
+    font:               "SF Pro Text 11";
+    highlight:          bold;
+}
+
+element normal.normal {
+    background-color:   #00000000;
+    text-color:         @on-surface-variant;
+}
+
+element alternate.normal {
+    background-color:   @surface-container-high;
+    text-color:         @on-surface-variant;
+}
+
+element selected.normal {
+    background-color:   @tertiary-container;
+    text-color:         @on-tertiary-container;
+    border:             0px 0px 0px 3px;
+    border-color:       @tertiary;
+    border-radius:      10px;
+}
+
+element normal.active {
+    background-color:   #00000000;
+    text-color:         @primary;
+}
+
+element alternate.active {
+    background-color:   @surface-container-high;
+    text-color:         @primary;
+}
+
+element selected.active {
+    background-color:   @primary-container;
+    text-color:         @on-primary-container;
+    border-radius:      10px;
+}
+
+element normal.urgent {
+    background-color:   #00000000;
+    text-color:         @error;
+}
+
+element alternate.urgent {
+    background-color:   @surface-container-high;
+    text-color:         @error;
+}
+
+element selected.urgent {
+    background-color:   @error-container;
+    text-color:         @on-error-container;
+    border-radius:      10px;
+}

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "Kernel            : $(uname -s)"
+echo "Kernel Release    : $(uname -r)"
+echo "Kernel Version    : $(uname -v)"
+echo "Hostname          : $(uname -n)"
+echo "Machine           : $(uname -m)"
+echo "Processor Type    : $(uname -p)"
+echo "Hardware Platform : $(uname -i)"
+echo "Operating System  : $(uname -o)"

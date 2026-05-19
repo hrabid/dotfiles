@@ -1,0 +1,46 @@
+/**
+ * shared.rasi — Global reset. Imported by every theme.
+ */
+
+@import "colors.rasi"
+
+* {
+    font:               "SF Pro Text 11";
+    background-color:   #00000000;
+    text-color:         @on-surface;
+    border:             0px;
+    margin:             0px;
+    padding:            0px;
+    spacing:            0px;
+}
+
+scrollbar {
+    width:              3px;
+    border:             0px;
+    border-radius:      3px;
+    handle-width:       3px;
+    handle-color:       @outline;
+    background-color:   @surface-container-highest;
+    padding:            0px;
+    margin:             0px 2px 0px 4px;
+}
+
+error-message {
+    padding:            24px;
+    background-color:   @surface-container;
+    border-radius:      16px;
+    text-color:         @on-surface-variant;
+}
+
+message {
+    padding:            0px 14px 14px 14px;
+    background-color:   #00000000;
+}
+
+message textbox {
+    padding:            8px 14px;
+    border-radius:      10px;
+    background-color:   @surface-container-high;
+    text-color:         @on-surface-variant;
+    font:               "SF Pro Text 9";
+}

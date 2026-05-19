@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Deleting Bash configuration files..."
+
+rm -f ~/.bashrc ~/.bash_profile ~/.bash_login ~/.profile ~/.bash_logout ~/.bash_history
+
+echo "Bash reset complete."

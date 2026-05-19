@@ -1,0 +1,4 @@
+
+if [ -d "/home/habid/.local/bin" ]; then
+	PATH="/home/habid/.local/bin:$PATH"
+fi

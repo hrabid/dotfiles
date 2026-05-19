@@ -1,0 +1,118 @@
+/**
+ * screenshot.rasi — Screenshot Mode Picker
+ * See scripts/screenshot.sh
+ */
+
+@import "shared.rasi"
+
+configuration {
+    modi:       "dmenu";
+    show-icons: false;
+    font:       "SF Pro Text 11";
+}
+
+window {
+    transparency:       "real";
+    location:           center;
+    anchor:             center;
+    width:              560px;
+    border-radius:      22px;
+    border:             1px;
+    border-color:       @outline-variant;
+    background-color:   @surface-container;
+}
+
+mainbox {
+    children:           [ "listview" ];
+    padding:            22px 18px 22px 18px;
+    spacing:            0px;
+    background-color:   #00000000;
+}
+
+listview {
+    columns:            5;
+    lines:              1;
+    spacing:            8px;
+    scrollbar:          false;
+    background-color:   #00000000;
+    dynamic:            false;
+    fixed-height:       false;
+}
+
+element {
+    orientation:        vertical;
+    padding:            16px 6px 12px 6px;
+    spacing:            6px;
+    border-radius:      14px;
+    cursor:             pointer;
+    background-color:   @surface-container-high;
+    text-color:         @on-surface;
+}
+
+element-icon {
+    size:               0px;
+    background-color:   #00000000;
+}
+
+element-text {
+    horizontal-align:   0.5;
+    vertical-align:     0.5;
+    background-color:   #00000000;
+    font:               "SF Pro Text 11";
+    cursor:             inherit;
+    highlight:          bold;
+}
+
+element normal.normal {
+    background-color:   @surface-container-high;
+    text-color:         @on-surface;
+}
+
+element alternate.normal {
+    background-color:   @surface-container-high;
+    text-color:         @on-surface;
+}
+
+element selected.normal {
+    background-color:   @secondary-container;
+    text-color:         @on-secondary-container;
+    border:             1px;
+    border-color:       @secondary;
+    border-radius:      14px;
+}
+
+element normal.active {
+    background-color:   @surface-container-high;
+    text-color:         @tertiary;
+}
+
+element alternate.active {
+    background-color:   @surface-container-high;
+    text-color:         @tertiary;
+}
+
+element selected.active {
+    background-color:   @tertiary-container;
+    text-color:         @on-tertiary-container;
+    border:             1px;
+    border-color:       @tertiary;
+    border-radius:      14px;
+}
+
+element normal.urgent {
+    background-color:   @surface-container-high;
+    text-color:         @error;
+}
+
+element alternate.urgent {
+    background-color:   @surface-container-high;
+    text-color:         @error;
+}
+
+element selected.urgent {
+    background-color:   @error-container;
+    text-color:         @on-error-container;
+    border:             1px;
+    border-color:       @error;
+    border-radius:      14px;
+}

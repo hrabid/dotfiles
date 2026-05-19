@@ -1,0 +1,5 @@
+{{- $profile := promptStringOnce . "profile" "Profile? (desktop/server/termux)" -}}
+
+[data]
+  profile = {{ $profile | quote }}
+

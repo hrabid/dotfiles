@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "Real UID: $UID"
+echo "Effective UID: $(id -u)"
+echo "Real GID: $(id -g)"
+echo "Groups: $(id -G)"

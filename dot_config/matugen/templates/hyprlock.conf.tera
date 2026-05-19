@@ -1,0 +1,195 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║  hyprlock.conf — Rose Glass                                 ║
+# ║  Recreates the warm frosted-card layout from the reference  ║
+# ║  Wallpaper: sharp · Card: frosted glass only               ║
+# ║  Template:  ~/.config/matugen/templates/hyprlock.conf.tera  ║
+# ║  Output:    ~/.config/hypr/hyprlock.conf                    ║
+# ╚══════════════════════════════════════════════════════════════╝
+#
+# matugen config.toml:
+#
+#   [templates.hyprlock]
+#   input_path  = "~/.config/matugen/templates/hyprlock.conf.tera"
+#   output_path = "~/.config/hypr/hyprlock.conf"
+#
+# ── Wallpaper path ─────────────────────────────────────────────
+# Set this to your actual wallpaper file so the background stays sharp.
+# Common options:
+#   path = $HOME/Pictures/wallpaper.jpg         (direct file)
+#   path = /tmp/current_wallpaper               (awww symlink trick — see note)
+#
+# awww symlink note: run this once after each wallpaper change:
+#   awww img ~/Pictures/wall.jpg && ln -sf ~/Pictures/wall.jpg /tmp/current_wallpaper
+# Or add it to your wallpaper script.
+#
+# !! ONE input-field only. Username is displayed as a shape + label, NOT an input.
+
+general {
+    disable_loading_bar = true
+    hide_cursor          = true
+    grace                = 0
+    no_fade_in           = false
+    no_fade_out          = false
+    ignore_empty_input   = true
+}
+
+# ── Background — NO blur so wallpaper stays crisp ──────────────
+background {
+    monitor     =
+    path        = $HOME/Pictures/wallpapers/hilal-moon_tokyo-night-Night.png   # ← set your wallpaper path here
+    blur_passes = 0                              # no full-screen blur
+    noise       = 0.0
+    contrast    = 1.0
+    brightness  = 1.0
+    vibrancy    = 0.0
+}
+
+# ══════════════════════════════════════════════════════════════
+#  LAYOUT — all elements halign=center, valign=center
+#  Y: positive = up, negative = down from screen center
+#
+#  +222  avatar image       (floats above card top edge)
+#  +158  username label
+#  + 72  clock label        (ont 70, takes ~90px)
+#  +  4  date label
+#  - 72  username bar (shape + label)
+#  -132  password input-field
+# ══════════════════════════════════════════════════════════════
+
+# ── Glass card ─────────────────────────────────────────────────
+# Hyprlock has no per-widget blur; the frosted effect is achieved
+# via a warm semi-transparent color over the sharp wallpaper.
+# Increase the alpha (last two hex digits) for more opacity.
+shape {
+    monitor      =
+    size         = 380, 430
+    color        = rgba({{ colors.secondary_container.default.hex_stripped }}55)
+    rounding     = 18
+    border_size  = 1
+    border_color = rgba({{ colors.outline.default.hex_stripped }}33)
+    position     = 0, 0
+    halign       = center
+    valign       = center
+    zindex       = 1
+}
+
+# ── Avatar — overlaps the top edge of the card ─────────────────
+image {
+    monitor      =
+    path         = $HOME/.face
+    size         = 80
+    rounding     = -1
+    border_size  = 2
+    border_color = rgba({{ colors.on_secondary_container.default.hex_stripped }}cc)
+    position     = 0, 222
+    halign       = center
+    valign       = center
+    zindex       = 3
+}
+
+# ── Username label ─────────────────────────────────────────────
+label {
+    monitor     =
+    text        = $USER
+    color       = rgba({{ colors.on_surface.default.hex_stripped }}ee)
+    font_size   = 15
+    font_family = IoskeleyMono Nerd Font
+    position    = 0, 158
+    halign      = center
+    valign      = center
+    zindex      = 2
+}
+
+# ── Clock ──────────────────────────────────────────────────────
+label {
+    monitor     =
+    text        = cmd[update:1000] echo "<b>$(date +"%H:%M")</b>"
+    color       = rgba({{ colors.on_surface.default.hex_stripped }}f5)
+    font_size   = 70
+    font_family = SF Pro Text 
+    position    = 0, 72
+    halign      = center
+    valign      = center
+    zindex      = 2
+}
+
+# ── Date ───────────────────────────────────────────────────────
+label {
+    monitor     =
+    text        = cmd[update:60000] echo "<b>$(date +"%A, %B %d")</b>"
+    color       = rgba({{ colors.on_surface.default.hex_stripped }}cc)
+    font_size   = 15
+    font_family = SF Pro Text 
+    position    = 0, 4
+    halign      = center
+    valign      = center
+    zindex      = 2
+}
+
+# ── Username display bar (shape background) ────────────────────
+shape {
+    monitor      =
+    size         = 310, 44
+    color        = rgba({{ colors.surface_variant.default.hex_stripped }}44)
+    rounding     = 22
+    border_size  = 1
+    border_color = rgba({{ colors.outline.default.hex_stripped }}22)
+    position     = 0, -72
+    halign       = center
+    valign       = center
+    zindex       = 2
+}
+
+# ── Username display label (inside the bar above) ──────────────
+label {
+    monitor     =
+    text        =  $USER
+    color       = rgba({{ colors.on_surface.default.hex_stripped }}cc)
+    font_size   = 14
+    font_family = IoskeleyMono Nerd Font 
+    position    = 0, -72
+    halign      = center
+    valign      = center
+    zindex      = 3
+}
+
+# ══════════════════════════════════════════════════════════════
+#  PASSWORD INPUT — only input-field in this entire config
+# ══════════════════════════════════════════════════════════════
+input-field {
+    monitor           =
+    size              = 310, 44
+
+    inner_color       = rgba({{ colors.surface_variant.default.hex_stripped }}44)
+    outer_color       = rgba({{ colors.outline.default.hex_stripped }}22)
+    outline_thickness = 1
+
+    font_color        = rgba({{ colors.on_surface.default.hex_stripped }}ee)
+    font_family       = JetBrainsMono Nerd Font
+    font_size         = 14
+
+    dots_size         = 0.26
+    dots_spacing      = 0.22
+    dots_center       = true
+    dots_rounding     = -1
+
+    placeholder_text  = <span foreground="##{{ colors.on_surface.default.hex_stripped }}88"> 󰌾  Enter Pass</span>
+
+    fade_on_empty     = true
+    fade_timeout      = 1000
+    hide_input        = false
+    rounding          = 22
+
+    check_color       = rgba({{ colors.primary.default.hex_stripped }}ff)
+    fail_color        = rgba({{ colors.error.default.hex_stripped }}ff)
+    fail_text         = <span size="small"><i>wrong password ($ATTEMPTS)</i></span>
+    fail_timeout      = 2000
+    fail_transition   = 300
+
+    capslock_color    = rgba({{ colors.tertiary.default.hex_stripped }}ff)
+
+    position          = 0, -132
+    halign            = center
+    valign            = center
+    zindex            = 3
+}

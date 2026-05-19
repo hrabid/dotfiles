@@ -1,0 +1,143 @@
+/**
+ * emoji.rasi — Emoji Picker
+ * rofimoji --action copy --rofi-args "-theme ~/.config/rofi/emoji.rasi"
+ */
+
+@import "shared.rasi"
+
+configuration {
+    modi:       "dmenu";
+    show-icons: false;
+    matching:   "fuzzy";
+}
+
+window {
+    transparency:       "real";
+    location:           center;
+    anchor:             center;
+    width:              700px;
+    border-radius:      20px;
+    border:             1px;
+    border-color:       @outline-variant;
+    background-color:   @surface-container;
+}
+
+mainbox {
+    children:           [ "inputbar", "listview" ];
+    spacing:            0px;
+    padding:            0px;
+    background-color:   #00000000;
+}
+
+inputbar {
+    children:           [ "prompt", "entry" ];
+    spacing:            8px;
+    padding:            16px 16px 10px 16px;
+    background-color:   #00000000;
+}
+
+prompt {
+    font:               "JetBrainsMono Nerd Font 14";
+    text-color:         @primary;
+    background-color:   @surface-container-high;
+    padding:            10px 14px;
+    border-radius:      12px;
+    vertical-align:     0.5;
+    expand:             false;
+}
+
+entry {
+    background-color:   @surface-container-high;
+    border-radius:      12px;
+    padding:            10px 14px;
+    text-color:         @on-surface;
+    placeholder:        "Search emoji…";
+    placeholder-color:  @on-surface-variant;
+    cursor:             text;
+    vertical-align:     0.5;
+    expand:             true;
+}
+
+listview {
+    lines:              5;
+    columns:            8;
+    scrollbar:          true;
+    padding:            6px 10px 10px 10px;
+    spacing:            4px;
+    background-color:   #00000000;
+    dynamic:            true;
+    fixed-height:       false;
+}
+
+element {
+    padding:            10px 4px;
+    border-radius:      12px;
+    cursor:             pointer;
+    orientation:        vertical;
+    background-color:   #00000000;
+    text-color:         @on-surface;
+}
+
+element-icon {
+    size:               0px;
+    background-color:   #00000000;
+}
+
+element-text {
+    horizontal-align:   0.5;
+    vertical-align:     0.5;
+    background-color:   #00000000;
+    cursor:             inherit;
+    font:               "Noto Color Emoji 20";
+    highlight:          bold;
+}
+
+element normal.normal {
+    background-color:   #00000000;
+    text-color:         @on-surface;
+}
+
+element alternate.normal {
+    background-color:   #00000000;
+    text-color:         @on-surface;
+}
+
+element selected.normal {
+    background-color:   @primary-container;
+    text-color:         @on-primary-container;
+    border:             1px;
+    border-color:       @primary;
+    border-radius:      12px;
+}
+
+element normal.active {
+    background-color:   #00000000;
+    text-color:         @secondary;
+}
+
+element alternate.active {
+    background-color:   #00000000;
+    text-color:         @secondary;
+}
+
+element selected.active {
+    background-color:   @secondary-container;
+    text-color:         @on-secondary-container;
+    border-radius:      12px;
+}
+
+element normal.urgent {
+    background-color:   #00000000;
+    text-color:         @error;
+}
+
+element alternate.urgent {
+    background-color:   #00000000;
+    text-color:         @error;
+}
+
+element selected.urgent {
+    background-color:   @error-container;
+    text-color:         @on-error-container;
+    border-radius:      12px;
+}
