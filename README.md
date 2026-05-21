@@ -1,7 +1,7 @@
 ## Installation
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/hrabid/hyprlua.git
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply https://github.com/hrabid/dotfiles.git
 ```
 
 Source your `~/bashrc`
