@@ -9,15 +9,13 @@
 -- Create your files separately and then require them like this:
 -- require("myColors")
 
-
-require("luaconf.monitors")
-require("luaconf.binds")
-require("luaconf.autostart")
-require("luaconf.env")
-require("luaconf.decorations")
-require("luaconf.layout")
-require("luaconf.misc")
-require("luaconf.input")
-require("luaconf.windowrules")
+require("modules.monitors")
+require("modules.binds")
+require("modules.autostart")
+require("modules.env")
+require("modules.decorations")
+require("modules.layout")
+require("modules.misc")
+require("modules.input")
+require("modules.windowrules")
 require("colors")
-
