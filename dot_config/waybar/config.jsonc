@@ -1,7 +1,7 @@
 {
   "layer": "bottom",
-  "spacing": 18,
-  "margin-top": 5,
+  "spacing": 0,
+  "margin-top": 2,
   "modules-left": ["custom/distro", "clock"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": [
@@ -10,17 +10,10 @@
     "network",
     "custom/notification",
     "battery",
+    "group/hardware",
+    "group/power",
   ],
 
-  /* 
-  "clock": {
-    "interval": 60,
-    "format": "{:%I:%M %p}",
-    "max-length": 25,
-    "tooltip": true,
-    "tooltip-format": "{:%Y-%m-%d}"
-  },
-*/
   "custom/distro": {
     "format": "",
     "tooltip": false,
@@ -28,45 +21,38 @@
 
   "clock": {
     "interval": 60,
-    "format": "  {:%I:%M %p}",
-    "format-alt": "  {:L%A, %B %d, %Y | %I:%M %p}",
+    "format": "  {:%I:%M %p}",
+    "format-alt": "  {:L%A, %B %d, %Y | %I:%M %p}",
+    "tooltip": true,
+    "tooltip-format": "{:%Y-%m-%d}",
   },
 
   "hyprland/workspaces": {
     "format": "{name}",
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "active": "",
-      "default": "",
-    },
     "persistent-workspaces": {
-      "*": 5, // 5 workspaces by default on every monitor
+      "*": 5,
     },
   },
 
   "custom/flameshot": {
-    "format": " ",
+    "format": "󰹑",
     "tooltip": "Take Screenshot",
     "on-click": "flameshot gui",
   },
 
   "pulseaudio": {
-    "format": "{volume}% {icon}",
-    "format-bluetooth": "{volume}% ",
-    "format-muted": "",
+    "format": "{icon} {volume}%",
+    "format-bluetooth": " {volume}%",
+    "format-muted": "󰝟",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "phone-muted": "",
-      "portable": "",
-      "car": "",
-      "default": ["", ""],
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "phone-muted": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""],
     },
     "scroll-step": 1,
     "on-click": "pavucontrol",
@@ -76,27 +62,29 @@
   "network": {
     "interface": "enp1s0",
     "format": "{ifname}",
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": " 󰊗  ",
-    "format-disconnected": "", //An empty format will hide the module.
+    "format-wifi": "{essid} ({signalStrength}%) ",
+    "format-ethernet": "󰊗",
+    "format-disconnected": "󰌙",
     "tooltip-format": "{ifname} via {gwaddr} 󰊗",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} ",
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 50,
   },
 
   "battery": {
-    "format": "{capacity}% {icon}",
-    "format-icons": ["", "", "", "", ""],
+    "interval": 30,
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""],
     "states": {
       "warning": 30,
       "critical": 15,
     },
   },
+
   "custom/notification": {
     "tooltip": true,
-    "format": "<span size='16pt'>{icon}</span>",
+    "format": "{icon}",
     "format-icons": {
       "notification": "󱅫",
       "none": "󰂜",
@@ -113,5 +101,88 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true,
+  },
+
+  // ── Hardware drawer ────────────────────────────────────────────────────────
+  "group/hardware": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false,
+    },
+    "modules": ["custom/hardware-icon", "cpu", "memory", "disk", "temperature"],
+  },
+
+  "custom/hardware-icon": {
+    "format": "󱁻",
+    "tooltip": false,
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "󰻠 {usage}%",
+    "tooltip": true,
+    "tooltip-format": "CPU: {usage}%  |  Load: {load}",
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰍛 {percentage}%",
+    "tooltip": true,
+    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G",
+  },
+
+  "disk": {
+    "interval": 30,
+    "format": "󰋊 {percentage_used}%",
+    "path": "/",
+    "tooltip": true,
+    "tooltip-format": "Disk: {used} / {total}",
+  },
+
+  "temperature": {
+    "interval": 5,
+    "critical-threshold": 80,
+    "format": "󰔏 {temperatureC}°C",
+    "tooltip": false,
+  },
+
+  // ── Power drawer ───────────────────────────────────────────────────────────
+  "group/power": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": false,
+    },
+    "modules": [
+      "custom/shutdown",
+      "custom/lock",
+      "custom/reboot",
+      "custom/logout",
+    ],
+  },
+
+  "custom/lock": {
+    "format": "󰍁",
+    "tooltip": false,
+    "on-click": "hyprlock",
+  },
+
+  "custom/reboot": {
+    "format": "󰜉",
+    "tooltip": false,
+    "on-click": "systemctl reboot",
+  },
+
+  "custom/shutdown": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "systemctl poweroff",
+  },
+
+  "custom/logout": {
+    "format": "󰍃",
+    "tooltip": false,
+    "on-click": "hyprctl dispatch exit",
   },
 }

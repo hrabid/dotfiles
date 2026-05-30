@@ -75,5 +75,5 @@ search() {
     w3m "https://duckduckgo.com/html/?q=$query"
 }
 # Fetching system info
-command -v fastfetch >/dev/null 2>&1 && fastfetch
+# command -v fastfetch >/dev/null 2>&1 && fastfetch
 

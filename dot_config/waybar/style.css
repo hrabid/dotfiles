@@ -5,38 +5,45 @@
   font-family: "SF Pro Text", "JetBrainsMono Nerd Font Propo", "Noto Sans CJK";
 }
 
-.modules-left {
+/* ── Module base — every module is an individual pill ──────────────────────── */
+
+.modules-left > widget > *,
+.modules-center > widget > *,
+.modules-right > widget > * {
   background-color: @background;
+  color: @on_background;
   padding: 2px 12px;
   border-radius: 99px;
+  margin: 4px 4px;
 }
 
-.modules-center {
-  background-color: @background;
-  padding: 2px 12px;
-  border-radius: 99px;
-}
-
-.modules-right {
-  background-color: @background;
-  padding: 2px 12px;
-  border-radius: 99px;
-}
+/* ── Clock ─────────────────────────────────────────────────────────────────── */
 
 #clock {
-  font-weight: 500;
   color: @primary;
+  font-weight: 500;
 }
+
+/* ── Distro icon ───────────────────────────────────────────────────────────── */
+
+#custom-distro {
+  color: @primary;
+  font-size: 1.1rem;
+  min-width: 2rem;
+}
+
+/* ── Workspaces ────────────────────────────────────────────────────────────── */
 
 #workspaces {
   background-color: @background;
   padding: 2px 4px;
-  margin: 2px 0;
   border-radius: 99px;
+  /* margin inherited from base rule */
 }
 
 #workspaces button {
   background-color: @secondary_container;
+  color: @on_secondary_container;
   padding: 2px 4px;
   margin: 0 2px;
   border-radius: 99px;
@@ -47,59 +54,172 @@
 }
 
 #workspaces button.empty {
+  background-color: @surface_container;
   color: @surface_container_high;
 }
 
 #workspaces button.active {
   background-color: @primary;
+  color: @on_primary;
   min-width: 2rem;
-  min-height: 0.8rem;
   font-weight: 600;
   transition: none;
 }
 
+#workspaces button:hover {
+  background-color: @primary_container;
+  color: @on_primary_container;
+}
+
+/* ── Pulseaudio ────────────────────────────────────────────────────────────── */
+
+#pulseaudio {
+  color: @primary;
+  font-weight: 500;
+}
+
+#pulseaudio.muted {
+  color: @outline;
+}
+
+/* ── Network ───────────────────────────────────────────────────────────────── */
+
+#network {
+  color: @primary;
+  min-width: 2rem;
+}
+
+#network.disconnected {
+  color: @error;
+}
+
+/* ── Notification ──────────────────────────────────────────────────────────── */
+
+#custom-notification {
+  color: @primary;
+  font-size: 1.1rem;
+  min-width: 2rem;
+}
+
+/* ── Flameshot ─────────────────────────────────────────────────────────────── */
+
+#custom-flameshot {
+  color: @primary;
+  font-size: 1.1rem;
+  min-width: 2rem;
+}
+
+/* ── Battery ───────────────────────────────────────────────────────────────── */
+
 #battery {
   color: @primary;
-  background-color: @background;
-  margin: 5px 0;
-  padding: 0 8px;
-  border-radius: 90px;
   font-weight: 600;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
 }
 
 #battery.warning {
-  background-color: @yellow;
+  color: @on_tertiary_container;
+  background-color: @tertiary_container;
 }
 
 #battery.critical {
-  background-color: @red;
+  color: @on_error_container;
+  background-color: @error_container;
 }
 
-#network {
-  font-family: "SF Pro Text";
-  color: @primary;
-  min-width: 2rem;
+/* ── Drawer groups — shared container style ────────────────────────────────── */
+/*
+ * @surface_container_high (#272a2f) is used so the group container is visibly
+ * distinct from the module pill background (@background = #101418).
+ * @surface == @background in this scheme, so using @surface was invisible.
+ */
+
+#group-hardware,
+#group-power {
+  background: @surface_container_high;
   border-radius: 99px;
+  padding: 0 4px;
+  /* margin inherited from base rule */
 }
 
-#custom-notification {
-  font-family: "SF Pro Text";
-  color: @primary;
+/* Drawer trigger buttons — both drawers get the same "handle" treatment */
+
+#custom-hardware-icon,
+#custom-shutdown {
+  background: @primary_container;
+  color: @on_primary_container;
+  padding: 2px 6px;
+  margin: 0 2px;
   min-width: 2rem;
+  min-height: 0.8rem;
   border-radius: 99px;
+  font-size: 1.05rem;
+  transition: all 0.2s ease;
 }
 
-#custom-flameshot {
-  font-family: "SF Pro Text";
-  color: @primary;
-  min-width: 2rem;
-  border-radius: 99px;
+#custom-hardware-icon:hover,
+#custom-shutdown:hover {
+  background: @primary;
+  color: @on_primary;
 }
 
-#custom-distro {
-  font-family: "SF Pro Text";
-  color: @primary;
+/* ── Hardware drawer — stat items ──────────────────────────────────────────── */
+
+#cpu,
+#memory,
+#disk,
+#temperature {
+  background: @secondary_container;
+  color: @on_secondary_container;
+  padding: 2px 6px;
+  margin: 0 2px;
   min-width: 2rem;
+  min-height: 0.8rem;
   border-radius: 99px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+#temperature.critical {
+  background-color: @error_container;
+  color: @on_error_container;
+}
+
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#temperature:hover {
+  background: @primary_container;
+  color: @on_primary_container;
+}
+
+/* ── Power drawer — action items ───────────────────────────────────────────── */
+
+#custom-lock,
+#custom-reboot,
+#custom-logout {
+  background: @secondary_container;
+  color: @on_secondary_container;
+  padding: 2px 6px;
+  margin: 0 2px;
+  min-width: 2rem;
+  min-height: 0.8rem;
+  border-radius: 99px;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+#custom-lock:hover {
+  background: @primary;
+  color: @on_primary;
+}
+
+#custom-reboot:hover {
+  background: @tertiary;
+  color: @on_tertiary;
+}
+
+#custom-logout:hover {
+  background: @secondary;
+  color: @on_secondary;
 }

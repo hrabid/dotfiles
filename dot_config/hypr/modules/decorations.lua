@@ -5,10 +5,10 @@
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
 	general = {
-		gaps_in = 4,
-		gaps_out = 5,
+		gaps_in = 3,
+		gaps_out = 4,
 
-		border_size = 1,
+		border_size = 2,
 
 		col = {
 			active_border = { colors = { "rgba(33ccffee)", "rgba(00ff99ee)" }, angle = 45 },
@@ -32,8 +32,8 @@ hl.config({
 
 		shadow = {
 			enabled = true,
-			range = 15,
-			render_power = 3,
+			range = 20,
+			render_power = 5,
 			color = 0x0a0a0add,
 		},
 
