@@ -86,3 +86,10 @@ hl.layer_rule({
 	blur = true,
 	ignore_alpha = 0.5,
 })
+
+-- Use initial_class for workspace assignment (it's a static effect)
+hl.window_rule({ match = { initial_class = "alacritty" }, workspace = "1" })
+hl.window_rule({ match = { initial_class = "brave" }, workspace = "2" })
+-- hl.window_rule({ match = { initial_class = "obsidian" },         workspace = "3" })
+-- hl.window_rule({ match = { initial_class = "discord" },          workspace = "4 silent" })
+-- hl.window_rule({ match = { initial_class = "Spotify" },          workspace = "5 silent" })
