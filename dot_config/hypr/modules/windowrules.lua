@@ -93,3 +93,10 @@ hl.window_rule({ match = { initial_class = "brave" }, workspace = "2" })
 -- hl.window_rule({ match = { initial_class = "obsidian" },         workspace = "3" })
 -- hl.window_rule({ match = { initial_class = "discord" },          workspace = "4 silent" })
 -- hl.window_rule({ match = { initial_class = "Spotify" },          workspace = "5 silent" })
+
+-- fcitx5 window_rule
+hl.window_rule({
+	match = { class = "fcitx" },
+	float = true,
+	no_anim = true,
+})

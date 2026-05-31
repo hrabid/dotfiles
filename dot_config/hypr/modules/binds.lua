@@ -99,4 +99,5 @@ hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("~/.config/rofi/scripts/emoji
 hl.bind("CTRL + SHIFT + S", hl.dsp.exec_cmd("flameshot gui --clipboard"))
 
 -- input method switching
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("~/.config/hypr/scripts/avro.sh"))
+-- hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("~/.config/hypr/scripts/avro.sh"))
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("fcitx5-remote -t"))
