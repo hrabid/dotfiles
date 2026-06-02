@@ -18,6 +18,8 @@
 .config/waybar
 .config/wlogout
 .config/swaync
+.config/chromium-flags.conf
+.config/code-flags.conf
 {{ end }}
 
 .config/alacritty/colors.toml

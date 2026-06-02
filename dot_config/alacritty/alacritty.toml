@@ -16,3 +16,8 @@ bold = { family = "IoskeleyMono Nerd Font", style = "Italic"}
 italic = { family = "IoskeleyMono Nerd Font", style = "Italic"}
 bold_italic = { family = "IoskeleyMono Nerd Font", style = "Bold Italic"}
 size = 10.5
+
+[[keyboard.bindings]]
+key = "Space" 
+mods = "Control|Shift"
+action = "ToggleViMode"
