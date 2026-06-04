@@ -67,7 +67,7 @@ post_hook = 'pkill -SIGUSR2 ghostty'
 input_path = '~/.config/matugen/templates/obsidian.css'
 output_path = '~/notes/.obsidian/snippets/matugen.css'
 
-# [templates.nvim]
-# input_path = '~/.config/matugen/templates/nvim.lua'
-# output_path = '~/.config/nvim/matugen.lua'
-# post_hook = 'pkill -SIGUSR1 nvim'
+[templates.nvim]
+input_path = '~/.config/matugen/templates/nvim.lua'
+output_path = '~/.config/nvim/matugen.lua'
+post_hook = 'pkill -SIGUSR1 nvim'

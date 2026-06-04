@@ -16,7 +16,7 @@ require("base16-colorscheme").setup({
 	base0B = "{{colors.primary.default.hex}}",
 	base0C = "{{colors.tertiary_container.default.hex}}",
 	base0D = "{{colors.primary_container.default.hex}}",
-	base0E = "{{colors.secondary_container.default.hex}}",
+	base0E = "{{colors.inverse_primary.default.hex}}",
 	base0F = "{{colors.secondary.default.hex | lighten: -10}}",
 })
 
