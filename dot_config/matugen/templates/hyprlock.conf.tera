@@ -36,7 +36,7 @@ general {
 # ── Background — NO blur so wallpaper stays crisp ──────────────
 background {
     monitor     =
-    path        = $HOME/Pictures/wallpapers/hilal-moon_tokyo-night-Night.png   # ← set your wallpaper path here
+    path        = $HOME/Pictures/wallpapers/discord-black.png # ← set your wallpaper path here
     blur_passes = 0                              # no full-screen blur
     noise       = 0.0
     contrast    = 1.0
@@ -103,10 +103,10 @@ label {
 # ── Clock ──────────────────────────────────────────────────────
 label {
     monitor     =
-    text        = cmd[update:1000] echo "<b>$(date +"%H:%M")</b>"
+    text        = cmd[update:1000] echo "<b>$(date +"%I:%M %p")</b>"
     color       = rgba({{ colors.on_surface.default.hex_stripped }}f5)
-    font_size   = 70
-    font_family = SF Pro Text 
+    font_size   = 50
+    font_family = Merriweather 
     position    = 0, 72
     halign      = center
     valign      = center
@@ -119,7 +119,7 @@ label {
     text        = cmd[update:60000] echo "<b>$(date +"%A, %B %d")</b>"
     color       = rgba({{ colors.on_surface.default.hex_stripped }}cc)
     font_size   = 15
-    font_family = SF Pro Text 
+    font_family = Merriweather
     position    = 0, 4
     halign      = center
     valign      = center

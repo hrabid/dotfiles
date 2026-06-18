@@ -4,7 +4,7 @@
 
 -- Set programs that you use
 local terminal = "alacritty"
-local fileManager = "dolphin"
+local fileManager = "sigma-file-manager"
 local menu = "rofi -show drun"
 
 ---------------------

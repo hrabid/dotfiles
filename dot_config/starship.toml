@@ -1,5 +1,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 command_timeout = 1000
+scan_timeout = 300
 
 # Prompt symbols 
 [character]
