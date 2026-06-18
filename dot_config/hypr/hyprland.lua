@@ -20,3 +20,6 @@ require("modules.input")
 require("modules.windowrules")
 require("modules.hyprsunset")
 require("colors")
+
+-- HyprMod managed settings
+require("hyprland-gui")

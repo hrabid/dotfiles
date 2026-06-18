@@ -1,4 +1,5 @@
 [config]
+prefer = 'dark'
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.lua'

@@ -1,0 +1,15 @@
+sudo pacman -S --needed \
+  hyprland hypridle hyprlock hyprsunset waybar rofi-wayland wlogout swaync \
+  brightnessctl xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent \
+  alacritty tmux neovim vim bat \
+  zsh fzf lsd tree \
+  chromium w3m aerc \
+  btop htop fastfetch iproute2 jq \
+  pass gnupg openssh \
+  wl-clipboard unzip unrar p7zip glow \
+  git github-cli chezmoi \
+  tldr man-db \
+  hugo python go \
+  qt5ct qt6ct kvantum \
+  noto-fonts noto-fonts-cjk noto-fonts-emoji \
+  ttf-jetbrains-mono-nerd
