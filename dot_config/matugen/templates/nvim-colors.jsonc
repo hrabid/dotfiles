@@ -1,0 +1,49 @@
+{
+    "workbench.colorCustomizations": {
+        // ── Editor ─────────────────────────────────────────────────────────
+        "editor.background": "{{colors.surface.default.hex}}",
+        "editor.foreground": "{{colors.on_surface.default.hex}}",
+
+        // ── Gutter & line numbers ───────────────────────────────────────────
+        "editorLineNumber.foreground": "{{colors.outline.default.hex}}",
+        "editorLineNumber.activeForeground": "{{colors.primary.default.hex}}",
+        "editorGutter.addedBackground": "{{colors.primary.default.hex}}",
+        "editorGutter.modifiedBackground": "{{colors.secondary.default.hex}}",
+        "editorGutter.deletedBackground": "{{colors.error.default.hex}}",
+
+        // ── Widgets ─────────────────────────────────────────────────────────
+        "editorWidget.border": "{{colors.outline_variant.default.hex}}",
+
+        // ── Suggest widget ──────────────────────────────────────────────────
+        "editorSuggestWidget.selectedBackground": "{{colors.primary_container.default.hex}}",
+        "editorSuggestWidget.selectedForeground": "{{colors.on_primary_container.default.hex}}",
+
+        // ── Diagnostics ─────────────────────────────────────────────────────
+        "editorError.foreground": "{{colors.error.default.hex}}",
+        "editorWarning.foreground": "{{colors.secondary.default.hex}}",
+        "editorInfo.foreground": "{{colors.tertiary.default.hex}}",
+
+        // ── Side bar ────────────────────────────────────────────────────────
+        "sideBar.background": "{{colors.surface_container_low.default.hex}}",
+        "sideBarSectionHeader.background": "{{colors.surface_container_high.default.hex}}",
+
+        // ── Status bar ──────────────────────────────────────────────────────
+        "statusBar.background": "{{colors.surface_container.default.hex}}",
+        "statusBar.foreground": "{{colors.on_surface_variant.default.hex}}",
+        "statusBarItem.remoteBackground": "{{colors.secondary_container.default.hex}}",
+        "statusBarItem.remoteForeground": "{{colors.on_secondary_container.default.hex}}",
+
+        // ── Terminal ────────────────────────────────────────────────────────
+        "terminal.inactiveSelectionBackground": "{{colors.surface_container_highest.default.hex}}",
+        "terminal.ansiBrightRed": "{{colors.error_container.default.hex}}",
+        "terminal.ansiBrightGreen": "{{colors.tertiary_container.default.hex}}",
+
+        // ── Buttons ─────────────────────────────────────────────────────────
+        "button.foreground": "{{colors.on_primary.default.hex}}",
+
+        // ── Selection / highlights ──────────────────────────────────────────
+        "editor.selectionBackground": "{{colors.primary.default.hex}}33",
+        "editor.wordHighlightBackground": "{{colors.secondary.default.hex}}33",
+        "editor.wordHighlightStrongBackground": "{{colors.tertiary.default.hex}}33"
+    }
+}
