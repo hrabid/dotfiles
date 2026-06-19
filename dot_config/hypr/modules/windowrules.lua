@@ -100,3 +100,10 @@ hl.window_rule({
 	float = true,
 	no_anim = true,
 })
+
+-- Liquid Glass blur rules for snappy-switcher
+hl.layer_rule({
+	match = { namespace = "snappy-switcher" },
+	blur = true,
+	ignore_alpha = 0.01,
+})

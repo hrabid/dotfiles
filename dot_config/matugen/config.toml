@@ -1,5 +1,4 @@
 [config]
-prefer = 'dark'
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland-colors.lua'
@@ -18,6 +17,10 @@ output_path = '~/.config/qt5ct/colors/matugen.conf'
 input_path = '~/.config/matugen/templates/qtct-colors.conf'
 output_path = '~/.config/qt6ct/colors/matugen.conf'
 
+[templates.color-scheme]
+input_path = '~/.config/matugen/templates/Matugen.colors'
+output_path = '~/.local/share/color-schemes/Matugen.colors'
+
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
 output_path = '~/.config/gtk-3.0/colors.css'
@@ -26,6 +29,7 @@ post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings s
 [templates.gtk4]
 input_path = '~/.config/matugen/templates/gtk-colors.css'
 output_path = '~/.config/gtk-4.0/colors.css'
+post_hook = '~/.config/matugen/scripts/gtk-themes-reload.sh'
 
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
@@ -72,3 +76,8 @@ output_path = '~/notes/.obsidian/snippets/matugen.css'
 input_path = '~/.config/matugen/templates/nvim.lua'
 output_path = '~/.config/nvim/matugen.lua'
 post_hook = 'pkill -SIGUSR1 nvim'
+
+
+[templates.vesktop]
+input_path = '~/.config/matugen/templates/midnight-discord.css'
+output_path = '~/.config/vesktop/themes/midnight-discord.css'

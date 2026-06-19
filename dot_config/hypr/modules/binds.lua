@@ -82,13 +82,16 @@ hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tru
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
 -- snappy-switcher
-hl.bind("ALT + TAB", hl.dsp.exec_cmd("snappy-switcher next"))
-hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("snappy-switcher prev"))
+-- Alt+Tab (standard MRU)
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("snappy-switcher next --mod alt"))
+hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("snappy-switcher prev --mod alt"))
+-- Super+Tab (workspace-filtered)
+hl.bind("SUPER + TAB", hl.dsp.exec_cmd("snappy-switcher next --workspace --mod super"))
 
 -- rofi keybinds
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("rofi -show drun -theme ~/.config/rofi/launcher.rasi"))
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.exec_cmd("rofi -show run -theme ~/.config/rofi/runner.rasi"))
-hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("rofi -show window -theme ~/.config/rofi/window.rasi"))
+-- hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("rofi -show window -theme ~/.config/rofi/window.rasi"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/rofi/scripts/clipboard.sh"))
 -- hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("rofi -show ssh -theme ~/.config/rofi/ssh.rasi"))
 hl.bind("CTRL + SHIFT + W", hl.dsp.exec_cmd("~/.config/rofi/scripts/wallpaper.sh"))
