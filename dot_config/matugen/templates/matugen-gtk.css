@@ -1,0 +1,133 @@
+/* -- Material You colors -- */
+* {
+  * font-weight: 500;
+  * font-family: "SF Pro Text", sans-serif;
+}
+
+@define-color accent_color {{colors.primary.default.hex}};
+@define-color accent_bg_color {{colors.primary_container.default.hex}};
+@define-color accent_fg_color {{colors.on_primary_container.default.hex}};
+@define-color destructive_color {{colors.error.default.hex}};
+@define-color destructive_bg_color {{colors.error_container.default.hex}};
+@define-color destructive_fg_color {{colors.on_error_container.default.hex}};
+@define-color success_color {{colors.secondary.default.hex}};
+@define-color success_bg_color {{colors.secondary_container.default.hex}};
+@define-color success_fg_color {{colors.on_secondary_container.default.hex}};
+@define-color warning_color {{colors.tertiary.default.hex}};
+@define-color warning_bg_color {{colors.tertiary_container.default.hex}};
+@define-color warning_fg_color {{colors.on_tertiary_container.default.hex}};
+@define-color error_color {{colors.error.default.hex}};
+@define-color error_bg_color {{colors.error_container.default.hex}};
+@define-color error_fg_color {{colors.on_error_container.default.hex}};
+@define-color window_bg_color {{colors.surface.default.hex}};
+@define-color window_fg_color {{colors.on_surface.default.hex}};
+@define-color view_bg_color {{colors.surface.default.hex}};
+@define-color view_fg_color {{colors.on_surface.default.hex}};
+@define-color headerbar_bg_color @window_bg_color;
+@define-color headerbar_fg_color @window_fg_color;
+@define-color headerbar_border_color @window_bg_color;
+@define-color headerbar_backdrop_color @window_bg_color;
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.36);
+@define-color card_bg_color {{colors.surface_container_high.default.hex}};
+@define-color card_fg_color {{colors.on_surface.default.hex}};
+@define-color card_shade_color rgba(0, 0, 0, 0.87);
+@define-color dialog_bg_color @card_bg_color;
+@define-color dialog_fg_color @card_fg_color;
+@define-color popover_bg_color @card_bg_color;
+@define-color popover_fg_color @card_fg_color;
+@define-color shade_color rgba(0, 0, 0, 0.36);
+@define-color scrollbar_outline_color rgba(139, 145, 152, 0.5);
+
+@define-color sidebar_bg_color {{colors.surface_container_low.default.hex}};
+@define-color sidebar_fg_color @window_fg_color;
+@define-color sidebar_backdrop_color @sidebar_bg_color;
+@define-color secondary_sidebar_backdrop_color @sidebar_bg_color;
+
+.navigation-sidebar {
+    background-color: @sidebar_bg_color;
+    color: @window_fg_color;
+}
+
+window {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+/* ─── Filled buttons (primary action) ─── */
+button {
+    background-color: @accent_bg_color;      /* primary_container */
+    color: @accent_fg_color;                 /* on_primary_container */
+    border: none;
+    border-radius: 12px;
+    padding: 6px 16px;
+    transition: background-color 0.15s ease;
+}
+
+button:hover {
+    background-color: mix(@accent_bg_color, @window_fg_color, 0.08);
+    /* or use: @accent_color for a brighter hover */
+}
+
+button:active {
+    background-color: mix(@accent_bg_color, @window_fg_color, 0.12);
+}
+
+button:checked {
+    background-color: @accent_color;
+    color: @accent_fg_color;
+}
+
+/* ─── Flat / text buttons (low emphasis) ─── */
+button.flat,
+button.text-button {
+    background-color: transparent;
+    color: @accent_color;                    /* primary */
+    box-shadow: none;
+}
+
+button.flat:hover,
+button.text-button:hover {
+    background-color: alpha(@accent_color, 0.08);
+}
+
+button.flat:active,
+button.text-button:active {
+    background-color: alpha(@accent_color, 0.12);
+}
+
+/* ─── Tonal buttons (secondary emphasis) ─── */
+button.tonal {
+    background-color: {{colors.secondary_container.default.hex}};
+    color: {{colors.on_secondary_container.default.hex}};
+}
+
+button.tonal:hover {
+    background-color: mix({{colors.secondary_container.default.hex}}, @window_fg_color, 0.08);
+}
+
+/* ─── Destructive buttons ─── */
+button.destructive-action {
+    background-color: @destructive_bg_color;   /* error_container */
+    color: @destructive_fg_color;              /* on_error_container */
+}
+
+button.destructive-action:hover {
+    background-color: mix(@destructive_bg_color, @window_fg_color, 0.08);
+}
+
+/* ─── Disabled state ─── */
+button:disabled {
+    background-color: alpha(@window_fg_color, 0.12);
+    color: alpha(@window_fg_color, 0.38);
+}
+
+button.outlined {
+    background-color: transparent;
+    color: @accent_color;
+    border: 1px solid {{colors.outline.default.hex}};
+    border-radius: 12px;
+}
+
+button.outlined:hover {
+    background-color: alpha(@accent_color, 0.08);
+}

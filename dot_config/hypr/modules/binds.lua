@@ -99,7 +99,7 @@ hl.bind("Print", hl.dsp.exec_cmd("~/.config/rofi/scripts/screenshot.sh"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("~/.config/rofi/scripts/emoji.sh"))
 
 -- flameshot
-hl.bind("CTRL + SHIFT + S", hl.dsp.exec_cmd("flameshot gui --clipboard"))
+hl.bind("CTRL + SHIFT + S", hl.dsp.exec_cmd("flameshot gui"))
 
 -- input method switching
 -- hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("~/.config/hypr/scripts/avro.sh"))
