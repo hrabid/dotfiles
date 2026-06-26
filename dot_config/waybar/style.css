@@ -31,7 +31,7 @@
 #custom-distro {
   color: @primary;
   font-size: 1.1rem;
-  min-width: 2rem;
+  min-width: 1.2rem;
 }
 
 /* ── Workspaces ────────────────────────────────────────────────────────────── */
@@ -88,24 +88,29 @@
 
 #network {
   color: @primary;
-  min-width: 2rem;
 }
 
 #network.disconnected {
   color: @error;
 }
 
+/* ── Tray ──────────────────────────────────────────────────────────────────── */
+
+#tray {
+  padding: 2px 10px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
 /* ── Notification ──────────────────────────────────────────────────────────── */
 
 #custom-notification {
-  color: @primary;
-  font-size: 1.1rem;
-  min-width: 2rem;
-}
-
-/* ── Flameshot ─────────────────────────────────────────────────────────────── */
-
-#custom-flameshot {
   color: @primary;
   font-size: 1.1rem;
   min-width: 2rem;
@@ -129,14 +134,13 @@
   background-color: @error_container;
 }
 
-/* ── Drawer groups — shared container style ────────────────────────────────── */
+/* ── Drawer group — power container ────────────────────────────────────────── */
 /*
  * @surface_container_high (#272a2f) is used so the group container is visibly
  * distinct from the module pill background (@background = #101418).
  * @surface == @background in this scheme, so using @surface was invisible.
  */
 
-#group-hardware,
 #group-power {
   background: @surface_container_high;
   border-radius: 99px;
@@ -144,9 +148,8 @@
   /* margin inherited from base rule */
 }
 
-/* Drawer trigger buttons — both drawers get the same "handle" treatment */
+/* Drawer trigger button */
 
-#custom-hardware-icon,
 #custom-shutdown {
   background: @primary_container;
   color: @on_primary_container;
@@ -159,40 +162,9 @@
   transition: all 0.2s ease;
 }
 
-#custom-hardware-icon:hover,
 #custom-shutdown:hover {
   background: @primary;
   color: @on_primary;
-}
-
-/* ── Hardware drawer — stat items ──────────────────────────────────────────── */
-
-#cpu,
-#memory,
-#disk,
-#temperature {
-  background: @secondary_container;
-  color: @on_secondary_container;
-  padding: 2px 6px;
-  margin: 0 2px;
-  min-width: 2rem;
-  min-height: 0.8rem;
-  border-radius: 99px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-#temperature.critical {
-  background-color: @error_container;
-  color: @on_error_container;
-}
-
-#cpu:hover,
-#memory:hover,
-#disk:hover,
-#temperature:hover {
-  background: @primary_container;
-  color: @on_primary_container;
 }
 
 /* ── Power drawer — action items ───────────────────────────────────────────── */
