@@ -92,6 +92,11 @@ input_path = "~/.config/matugen/templates/nvim-colors.jsonc"
 output_path = "~/.config/nvim/nvim-colors.jsonc"
 post_hook = "pkill -SIGUSR1 nvim"
 
+# [templates.code]
+# input_path = "~/.config/matugen/templates/code-colors.jsonc"
+# output_path = "~/.config/nvim/code-colors.jsonc"
+# post_hook = "python ~/.config/scripts/merge-vscode.py & pkill -SIGUSR1 nvim"
+
 [templates.vesktop]
 input_path = '~/.config/matugen/templates/midnight-discord.css'
 output_path = '~/.config/vesktop/themes/midnight-discord.css'
