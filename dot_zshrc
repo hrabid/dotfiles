@@ -31,3 +31,10 @@ fi
 if command -v hugo >/dev/null 2>&1; then
 	source <(hugo completion zsh)
 fi
+
+# preserving shell history
+HISTSIZE=100000
+SAVEHIST=100000          # zsh equivalent of HISTFILESIZE
+setopt SHARE_HISTORY     # sync across sessions
+setopt HIST_IGNORE_DUPS
+setopt APPEND_HISTORY

@@ -2,7 +2,7 @@
   "layer": "bottom",
   "spacing": 0,
   "margin-top": 2,
-  "modules-left": ["custom/distro", "clock"],
+  "modules-left": ["custom/distro", "clock", "mpris"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": [
     "pulseaudio",
@@ -16,7 +16,7 @@
   "custom/distro": {
     "format": "",
     "tooltip": false,
-    "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi"
+    "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
   },
 
   "clock": {
@@ -25,6 +25,32 @@
     "format-alt": "\udb81\udd20 {:L%A, %B %d, %Y |  %I:%M %p}",
     "tooltip": true,
     "tooltip-format": "{:%Y-%m-%d}",
+  },
+
+  "mpris": {
+    "format": "{status_icon} {dynamic}",
+    "interval": 1,
+    "dynamic-len": 40,
+    "format-paused": "{status_icon} {dynamic}",
+    "format-stopped": "{status_icon}",
+    "player-icons": {
+      "default": "\udb85\udc7d",
+      "spotify": "\uf1bc",
+      "firefox": "\ue745",
+      "chromium": "\udb80\udeaf",
+    },
+    "status-icons": {
+      "playing": "\udb85\udc7d",
+      "paused": "\udb80\udfe7",
+      "stopped": "\uf28e",
+    },
+    "max-length": 35,
+    "dynamic-order": ["title", "artist"],
+    "ignored-players": [],
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl next",
+    "on-scroll-down": "playerctl previous",
+    "tooltip-format": "{player} : {dynamic}",
   },
 
   "hyprland/workspaces": {
@@ -36,7 +62,8 @@
 
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-bluetooth": " {volume}%",
+    "format-bluetooth": "\udb80\udcb1  {volume}%",
+    "format-bluetooth-muted": "󰝟 {desc}",
     "format-muted": "󰝟",
     "format-icons": {
       "headphone": "\uee58",

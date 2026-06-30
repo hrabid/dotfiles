@@ -34,6 +34,17 @@
   min-width: 1.2rem;
 }
 
+/* ── Mpris (media player) ──────────────────────────────────────────────────── */
+
+#mpris {
+  color: @primary;
+  font-weight: 500;
+}
+
+#mpris.paused {
+  color: @outline;
+}
+
 /* ── Workspaces ────────────────────────────────────────────────────────────── */
 
 #workspaces {

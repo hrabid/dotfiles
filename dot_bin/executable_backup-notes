@@ -1,0 +1,7 @@
+LOG="~/backup.log"
+if [[ -n $(git status --porcelain) ]]; then
+  git add -A
+  git commit -m "backup $(date '+%Y-%m-%d %H:%M:%S')" 
+  eval $(ssh-agent -s) && ssh-add ~/.ssh/ghhrabid
+  git push >>"$LOG" 2>&1
+fi
