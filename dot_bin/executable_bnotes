@@ -1,0 +1,16 @@
+#!/bin/bash
+
+REPO_DIR="/home/abid/notes/"
+BRANCH="master"
+
+cd "$REPO_DIR" || exit 1
+
+# Only commit if there are changes
+if [[ -n $(git status --porcelain) ]]; then
+  eval $(ssh-agent -s) && ssh-add ~/.ssh/ghhrabid
+  git add -A
+  git commit -m "backup : $(date +'%Y-%m-%d %I:%M:%S %p')"
+  git push origin "$BRANCH"
+else
+  echo "No changes to commit at $(date)"
+fi
