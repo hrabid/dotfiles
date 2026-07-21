@@ -3,8 +3,8 @@
 * {
   all: unset;
   font-family:
-    "Spectral Regular", "Merriweather", "SF Pro Text",
-    "JetBrainsMono Nerd Font Propo", "Noto Sans CJK";
+    "Merriweather", "Inter", "SF Pro Text", "JetBrainsMono Nerd Font Propo",
+    "Noto Sans CJK";
 }
 
 /* ── Module base — every module is an individual pill ──────────────────────── */

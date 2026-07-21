@@ -88,8 +88,8 @@ output_path = '~/notes/.obsidian/snippets/matugen.css'
 # post_hook = 'pkill -SIGUSR1 nvim'
 
 [templates.neovim]
-input_path = "~/.config/matugen/templates/nvim-colors.jsonc"
-output_path = "~/.config/nvim/nvim-colors.jsonc"
+input_path = "~/.config/matugen/templates/nvim-colors.json"
+output_path = "~/.config/nvim/nvim-colors.json"
 post_hook = "pkill -SIGUSR1 nvim"
 
 # [templates.code]
