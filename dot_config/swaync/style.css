@@ -65,7 +65,9 @@
   border-radius: 100px;
   border: none;
   padding: 0;
-  transition: background 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition:
+    background 0.15s ease-in-out,
+    color 0.15s ease-in-out;
 }
 .close-button:hover {
   background: @tertiary_container;
@@ -639,7 +641,7 @@
   background: linear-gradient(
     45deg,
     @primary 0%,
-    @secondary 50%,
+    @secondary 20%,
     @tertiary 100%
   );
   color: @on_primary;
@@ -659,57 +661,250 @@
   transition: opacity 0.15s ease-in-out;
 }
 
-/************** Menubar Widget **************/
-.widget-menubar {
-  /* The revealer buttons */
-  /* .AnyName { Name defined in config after #
-    background-color: rgba(var(--noti-bg), 1.0);
-    padding: 8px;
-    margin: 8px;
-    border-radius: 12px;
-  }
-
-  .AnyName>button {
-    background: transparent;
-    border: none;
-  }
-
-  .AnyName>button:hover {
-    background-color: var(--noti-bg-hover);
-  } */
+/* --- Reverse styling for the volume/mute toggle (1st button in grid) ---
+   Unmuted (checked = true) should look unlit; Muted (unchecked) should look lit */
+.widget-buttons-grid flowboxchild:nth-child(1) > button.toggle:checked {
+  background: initial;
+  color: var(--text-color);
 }
 
-.widget-menubar > .menu-button-bar {
-  /* The left button container */
-  /* The right button container */
-  /* The left and right button container */
+.widget-buttons-grid flowboxchild:nth-child(1) > button.toggle:hover:checked {
+  background: @primary_container;
+  color: @on_primary_container;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.widget-buttons-grid flowboxchild:nth-child(1) > button.toggle:not(:checked) {
+  background: linear-gradient(
+    45deg,
+    @primary 0%,
+    @secondary 20%,
+    @tertiary 100%
+  );
+  color: @on_primary;
+}
+
+.widget-buttons-grid
+  flowboxchild:nth-child(1)
+  > button.toggle:hover:not(:checked) {
+  background: @tertiary;
+  color: @on_tertiary;
+  transition: opacity 0.15s ease-in-out;
+}
+
+/************** Menubar Widget (WiFi / Bluetooth split pills) **************/
+.widget-menubar {
+  margin: 8px 8px 0 8px;
 }
 
 .widget-menubar > .menu-button-bar > .start {
-  margin-left: 8px;
+  margin: 0;
 }
 
-.widget-menubar > .menu-button-bar > .end {
-  margin-right: 8px;
+/* Base look shared by all 4 buttons (wifi-toggle, wifi-arrow, bt-toggle, bt-arrow) */
+.widget-menubar > .menu-button-bar > .start button {
+  min-height: 42px;
+  font-size: 13px;
+  padding: 0 12px;
+  background: alpha(@surface_container_high, 0.9);
+  color: var(--text-color);
+  border: none;
+  box-shadow: none;
+  transition: var(--hover-transition);
 }
 
-.widget-menubar > .menu-button-bar > .widget-menubar-container button {
+.widget-menubar > .menu-button-bar > .start button:hover {
+  background: @primary_container;
+  color: @on_primary_container;
+}
+
+/* --- WiFi pill --- */
+/* toggle half (left, wide) */
+.widget-menubar > .menu-button-bar > .start button:nth-child(1) {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: left;
+  margin-right: 0;
+}
+/* arrow half (right, narrow) */
+.widget-menubar > .menu-button-bar > .start button:nth-child(2) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-left: 1px solid alpha(@outline_variant, 0.5);
+  min-width: 28px;
+  padding: 0 10px;
+  margin-left: 0;
+  margin-right: 8px; /* gap before the bluetooth pill */
+  opacity: 0.7;
+}
+
+/* --- Bluetooth pill --- */
+.widget-menubar > .menu-button-bar > .start button:nth-child(3) {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  text-align: left;
+  margin-right: 0;
+}
+.widget-menubar > .menu-button-bar > .start button:nth-child(4) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-left: 1px solid alpha(@outline_variant, 0.5);
+  min-width: 28px;
+  padding: 0 10px;
+  margin-left: 0;
+  opacity: 0.7;
+}
+
+/* Only the toggle halves (1 and 3) light up when active */
+.widget-menubar > .menu-button-bar > .start button:nth-child(1).toggle:checked,
+.widget-menubar > .menu-button-bar > .start button:nth-child(3).toggle:checked {
+  background: linear-gradient(
+    45deg,
+    @primary 0%,
+    @secondary 20%,
+    @tertiary 100%
+  );
+  color: @on_primary;
+}
+
+/************** Power Row (menubar#power) **************/
+/* This row is a separate menubar instance so it sits on its own line
+   below the WiFi/Bluetooth row. It's built from two adjacent blocks -
+   "power-toggle" (the Balanced box) and "power-arrow" (the dropdown
+   trigger) - styled to look like one joined pill, same visual language
+   as the WiFi/Bluetooth pills above. */
+
+.power-toggle,
+.power-arrow {
+  /* strip any default wrapper chrome swaync applies to named blocks */
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* --- Toggle half (left, wide) --- */
+.power-toggle > button {
+  min-height: 42px;
+  font-size: 13px;
+  padding: 0 12px;
+  background: alpha(@surface_container_high, 0.9);
+  color: var(--text-color);
+  border: none;
+  box-shadow: none;
+  text-align: left;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: 0;
+  transition: var(--hover-transition);
+}
+
+.power-toggle > button:hover {
+  background: @primary_container;
+  color: @on_primary_container;
+}
+
+.power-toggle > button.toggle:checked {
+  background: linear-gradient(
+    45deg,
+    @primary 0%,
+    @secondary 20%,
+    @tertiary 100%
+  );
+  color: @on_primary;
+}
+
+/* --- Arrow half (right, narrow) - opens the dropdown --- */
+.power-arrow > button {
+  min-height: 42px;
+  font-size: 13px;
+  min-width: 28px;
+  padding: 0 10px;
+  background: alpha(@surface_container_high, 0.9);
+  color: var(--text-color);
+  border: none;
+  border-left: 1px solid alpha(@outline_variant, 0.5);
+  box-shadow: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  margin-left: 0;
+  opacity: 0.7;
+  transition: var(--hover-transition);
+}
+
+.power-arrow > button:hover {
+  background: @primary_container;
+  color: @on_primary_container;
+  opacity: 1;
+}
+
+/* Revealed dropdown list (Performance / Balanced / Power Saver) */
+.power-arrow {
+  background: alpha(@surface_container, 0.95);
+  border: var(--border);
   border-radius: var(--border-radius);
-  margin: 0 4px;
+  padding: 4px;
+  box-shadow: var(--notification-shadow);
 }
 
-.widget-menubar > revealer * {
-  margin-top: 8px;
+.power-arrow button {
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--border-radius) - 6px);
+  color: var(--text-color);
+  padding: 8px 12px;
+  margin: 2px 0;
 }
 
-.widget-menubar > revealer * button {
+.power-arrow button:hover {
+  background: var(--noti-button-bg-hover);
+  color: var(--text-noti-button-bg-hover);
+  transition: var(--hover-transition);
+}
+
+.power-arrow button.toggle:checked {
+  background: linear-gradient(
+    45deg,
+    @primary 0%,
+    @secondary 20%,
+    @tertiary 100%
+  );
+  color: @on_primary;
+}
+
+/************** Weather Button (buttons#weather) **************/
+.weather {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.weather > button {
+  min-height: 42px;
+  font-size: 13px;
+  padding: 0 12px;
+  background: alpha(@surface_container_high, 0.9);
+  color: var(--text-color);
+  border: none;
   border-radius: var(--border-radius);
-  margin: 8px;
-  margin-top: 0;
+  box-shadow: none;
+  transition: var(--hover-transition);
 }
 
-.widget-menubar > revealer * button:last-child {
-  margin-bottom: 0;
+.weather > button:hover {
+  background: @primary_container;
+  color: @on_primary_container;
 }
 
 /************** Volume Widget **************/

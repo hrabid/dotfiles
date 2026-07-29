@@ -1,7 +1,7 @@
 -- ~/.config/hypr/modules/hyprsunset.lua
-hl.on("hyprland.start", function()
-	hl.exec_cmd("hyprsunset")
-end)
+--hl.on("hyprland.start", function()
+--	hl.exec_cmd("hyprsunset")
+--end)
 
 -- binds for hyprsunset
 hl.bind("ALT + H", hl.dsp.exec_cmd("hyprctl hyprsunset temperature +500"))

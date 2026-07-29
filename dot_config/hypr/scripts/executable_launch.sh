@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+pkill waybar
+waybar &
+
+pkill swaync
+swaync-client --reload-config

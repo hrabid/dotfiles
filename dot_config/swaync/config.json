@@ -44,6 +44,8 @@
     }
   },
   "widgets": [
+    "menubar#power",
+    "menubar",
     "buttons-grid",
     "volume",
     "backlight",
@@ -54,6 +56,90 @@
     "dnd"
   ],
   "widget-config": {
+    "menubar": {
+      "buttons#wifi-bt": {
+        "position": "left",
+        "actions": [
+          {
+            "label": " WiFi",
+            "type": "toggle",
+            "active": true,
+            "command": "sh -c '~/.config/swaync/scripts/toggle_wifi.sh'",
+            "update-command": "sh -c 'set +e;[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+          },
+          {
+            "label": "\udb82\udd6d",
+            "type": "normal",
+            "active": false,
+            "command": "nm-connection-editor"
+          },
+          {
+            "label": "󰂯 Bluetooth",
+            "type": "toggle",
+            "active": true,
+            "command": "sh -c '~/.config/swaync/scripts/toggle_bluetooth.sh'",
+            "update-command": "sh -c 'set +e;bluetoothctl show | grep -qF Powered:\\ yes && echo true || echo false'"
+          },
+          {
+            "label": "\udb82\udd6d",
+            "type": "normal",
+            "active": false,
+            "command": "blueman-manager"
+          }
+        ]
+      }
+    },
+    "menubar#power": {
+      "buttons#power-toggle": {
+        "position": "left",
+        "actions": [
+          {
+            "label": "⚡Profiles",
+            "type": "toggle",
+            "active": true,
+            "command": "powerprofilesctl set balanced",
+            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"balanced\" ]] && echo true || echo false'"
+          }
+        ]
+      },
+      "menu#power-arrow": {
+        "label": "\udb82\udd6d",
+        "position": "left",
+        "animation-type": "slide_down",
+        "animation-duration": 250,
+        "actions": [
+          {
+            "label": " Performance",
+            "type": "toggle",
+            "command": "powerprofilesctl set performance",
+            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"performance\" ]] && echo true || echo false'"
+          },
+          {
+            "label": " Balanced",
+            "type": "toggle",
+            "command": "powerprofilesctl set balanced",
+            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"balanced\" ]] && echo true || echo false'"
+          },
+          {
+            "label": " Power Saver",
+            "type": "toggle",
+            "command": "powerprofilesctl set power-saver",
+            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"power-saver\" ]] && echo true || echo false'"
+          }
+        ]
+      },
+      "buttons#weather": {
+        "position": "right",
+        "actions": [
+          {
+            "label": " \udb81\udd93 ",
+            "type": "normal",
+            "active": false,
+            "command": "sh -c '~/.config/swaync/scripts/show_weather.sh'"
+          }
+        ]
+      }
+    },
     "inhibitors": {
       "text": "Inhibitors",
       "button-text": "",
@@ -81,18 +167,18 @@
       "buttons-per-row": 3,
       "actions": [
         {
-          "label": "",
+          "label": "󰖁",
           "type": "toggle",
           "active": true,
-          "command": "sh -c '~/.config/swaync/scripts/toggle_wifi.sh'",
-          "update-command": "sh -c 'set +e;[[ $(nmcli radio wifi) == \"enabled\" ]] && echo true || echo false'"
+          "command": "swayosd-client --output-volume mute-toggle",
+          "update-command": "sh -c 'set +e;pactl get-sink-mute @DEFAULT_SINK@ | grep -q \"no\" && echo true || echo false'"
         },
         {
-          "label": "󰂯",
+          "label": "",
           "type": "toggle",
-          "active": true,
-          "command": "sh -c '~/.config/swaync/scripts/toggle_bluetooth.sh'",
-          "update-command": "sh -c 'set +e;bluetoothctl show | grep -qF Powered:\\ yes && echo true || echo false'"
+          "active": false,
+          "command": "swayosd-client --input-volume mute-toggle",
+          "update-command": "sh -c 'set +e;pactl get-source-mute @DEFAULT_SOURCE@ | grep -q \"yes\" && echo true || echo false'"
         },
         {
           "label": "󰀝",
@@ -101,42 +187,12 @@
           "command": "sh -c '~/.config/swaync/scripts/toggle_airplanemode.sh'",
           "update-command": "sh -c 'set +e;[[ $(nmcli radio wifi) == \"enabled\" ]] || bluetoothctl show | grep -qF Powered:\\ yes && echo false || echo true'"
         },
-
-        {
-          "label": "",
-          "type": "toggle",
-          "active": true,
-          "command": "swayosd-client --output-volume mute-toggle",
-          "update-command": "sh -c 'set +e;pactl get-sink-mute @DEFAULT_SINK@ | grep -q \"no\" && echo true || echo false'"
-        },
-        {
-          "label": "",
-          "type": "toggle",
-          "active": true,
-          "command": "swayosd-client --input-volume mute-toggle;pactl set-source-volume @DEFAULT_SOURCE@ 25%",
-          "update-command": "sh -c 'set +e;pactl get-source-mute @DEFAULT_SOURCE@ | grep -q \"no\" && echo true || echo false'"
-        },
-
-        {
-          "label": "",
-          "type": "toggle",
-          "active": true,
-          "command": "sh -c 'swaync-client -d -sw'",
-          "update-command": "sh -c 'set +e;swaync-client -D'"
-        },
-        {
-          "label": "",
-          "type": "toggle",
-          "active": true,
-          "command": "sh -c '~/.config/swaync/scripts/toggle_darkmode.sh'",
-          "update-command": "sh -c 'set +e;grep -q '^post_command.*dark' ~/.config/waypaper/config.ini && echo true || echo false'"
-        },
         {
           "label": "",
           "type": "toggle",
           "active": true,
           "command": "sh -c '~/.config/swaync/scripts/toggle_hyprsunset.sh'",
-          "update-command": "sh -c 'set +e;pgrep -x hyprsunset >/dev/null && echo true || echo false'"
+          "update-command": "sh -c 'systemctl --user is-active --quiet hyprsunset.service && echo true || echo false'"
         },
         {
           "label": "",
@@ -144,6 +200,12 @@
           "active": true,
           "command": "sh -c '~/.config/swaync/scripts/toggle_hypridle.sh'",
           "update-command": "sh -c '~/.config/swaync/scripts/update_hypridle.sh'"
+        },
+        {
+          "label": "",
+          "type": "normal",
+          "active": false,
+          "command": "hyprpicker -a"
         }
       ]
     },
@@ -160,7 +222,6 @@
     }
   },
   "script-fail-notify": false,
-
   "scripts": {
     "play-sound": {
       "exec": "~/.config/swaync/scripts/notify_sound.sh",

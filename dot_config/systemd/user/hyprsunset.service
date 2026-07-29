@@ -1,0 +1,11 @@
+[Unit]
+Description=hyprsunset blue light filter
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/hyprsunset --temperature 4000
+# Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
