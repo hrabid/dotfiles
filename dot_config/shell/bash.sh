@@ -1,0 +1,29 @@
+# Enable Bash bash_completion
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  source /usr/share/bash-completion/bash_completion
+elif [[ -f /etc/bash_completion ]]; then
+  source /etc/bash_completion
+fi
+bind "set completion-ignore-case on" 2>/dev/null
+bind "set show-all-if-ambiguous on" 2>/dev/null
+
+# Preserve command history
+export HISTSIZE=100000
+export HISTFILESIZE=200000
+export HISTCONTROL=ignoredups:erasedups # no duplicate clutter
+shopt -s autocd
+shopt -s histappend # append, don't overwrite on exit
+
+# command completion for bash
+
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --bash)
+fi
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+fi
+
+if command -v hugo >/dev/null 2>&1; then
+  source <(hugo completion bash)
+fi

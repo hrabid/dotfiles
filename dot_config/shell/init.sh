@@ -1,0 +1,5 @@
+. "$HOME/.config/shell/variables.sh"
+. "$HOME/.config/shell/exports.sh"
+. "$HOME/.config/shell/path.sh"
+. "$HOME/.config/shell/aliases.sh"
+. "$HOME/.config/shell/functions.sh"

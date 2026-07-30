@@ -61,7 +61,7 @@
         "position": "left",
         "actions": [
           {
-            "label": " WiFi",
+            "label": " \uf1eb   Wi-Fi",
             "type": "toggle",
             "active": true,
             "command": "sh -c '~/.config/swaync/scripts/toggle_wifi.sh'",
@@ -74,7 +74,7 @@
             "command": "nm-connection-editor"
           },
           {
-            "label": "󰂯 Bluetooth",
+            "label": " \udb80\udcb0   Bluetooth",
             "type": "toggle",
             "active": true,
             "command": "sh -c '~/.config/swaync/scripts/toggle_bluetooth.sh'",
@@ -94,11 +94,11 @@
         "position": "left",
         "actions": [
           {
-            "label": "⚡Profiles",
+            "label": "⚡Power Profiles",
             "type": "toggle",
-            "active": true,
+            "active": false,
             "command": "powerprofilesctl set balanced",
-            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"balanced\" ]] && echo true || echo false'"
+            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) != \"balanced\" ]] && echo true || echo false'"
           }
         ]
       },
@@ -117,8 +117,9 @@
           {
             "label": " Balanced",
             "type": "toggle",
+            "active": false,
             "command": "powerprofilesctl set balanced",
-            "update-command": "sh -c 'set +e;[[ $(powerprofilesctl get) == \"balanced\" ]] && echo true || echo false'"
+            "update-command": "sh -c 'echo false'"
           },
           {
             "label": " Power Saver",

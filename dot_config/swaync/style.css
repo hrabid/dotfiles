@@ -645,6 +645,7 @@
     @tertiary 100%
   );
   color: @on_primary;
+  text-shadow: 0 1px 3px alpha(black, 0.5);
 }
 
 .widget-buttons-grid flowboxchild > button.toggle:hover {
@@ -682,11 +683,10 @@
     @tertiary 100%
   );
   color: @on_primary;
+  text-shadow: 0 1px 3px alpha(black, 0.5);
 }
 
-.widget-buttons-grid
-  flowboxchild:nth-child(1)
-  > button.toggle:hover:not(:checked) {
+.widget-buttons-grid flowboxchild:nth-child(1) > button.toggle:hover:not(:checked) {
   background: @tertiary;
   color: @on_tertiary;
   transition: opacity 0.15s ease-in-out;
@@ -766,13 +766,9 @@
 /* Only the toggle halves (1 and 3) light up when active */
 .widget-menubar > .menu-button-bar > .start button:nth-child(1).toggle:checked,
 .widget-menubar > .menu-button-bar > .start button:nth-child(3).toggle:checked {
-  background: linear-gradient(
-    45deg,
-    @primary 0%,
-    @secondary 20%,
-    @tertiary 100%
-  );
+  background: linear-gradient(45deg, @primary 0%, @secondary 20%, @tertiary 100%);
   color: @on_primary;
+  text-shadow: 0 1px 3px alpha(black, 0.5);
 }
 
 /************** Power Row (menubar#power) **************/
@@ -814,13 +810,9 @@
 }
 
 .power-toggle > button.toggle:checked {
-  background: linear-gradient(
-    45deg,
-    @primary 0%,
-    @secondary 20%,
-    @tertiary 100%
-  );
+  background: linear-gradient(45deg, @primary 0%, @secondary 20%, @tertiary 100%);
   color: @on_primary;
+  text-shadow: 0 1px 3px alpha(black, 0.5);
 }
 
 /* --- Arrow half (right, narrow) - opens the dropdown --- */
@@ -874,13 +866,9 @@
 }
 
 .power-arrow button.toggle:checked {
-  background: linear-gradient(
-    45deg,
-    @primary 0%,
-    @secondary 20%,
-    @tertiary 100%
-  );
+  background: linear-gradient(45deg, @primary 0%, @secondary 20%, @tertiary 100%);
   color: @on_primary;
+  text-shadow: 0 1px 3px alpha(black, 0.5);
 }
 
 /************** Weather Button (buttons#weather) **************/

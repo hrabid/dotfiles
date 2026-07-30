@@ -27,7 +27,6 @@ alias mkdir="mkdir -pv"
 
 ## Aliases Related to Changing Directories
 alias cdp='cd ..'
-alias dot="cd $GHDOT"
 
 ## Aliases Related to fzf
 
@@ -39,7 +38,6 @@ alias e=exit
 alias v=nvim
 alias b=bat
 alias fzb="fzf --preview 'bat --style=numbers --color=always {}'"
-
 
 alias t=touch
 
@@ -56,7 +54,7 @@ alias cme='chezmoi edit'
 # w3m
 alias '?'=search
 
-# git 
+# git
 alias g=git
 alias gs='git status'
 alias gaa='git add .'
