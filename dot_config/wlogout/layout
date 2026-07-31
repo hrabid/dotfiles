@@ -18,7 +18,7 @@
 }
 {
     "label" : "hibernate",
-    "action" : "swaylock -f && systemctl hibernate",
+    "action" : "loginctl lock-session && systemctl hibernate",
     "text" : "Hibernate",
     "keybind" : "h"
 }

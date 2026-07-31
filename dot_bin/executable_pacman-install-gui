@@ -1,15 +1,12 @@
 sudo pacman -S --needed \
-  hyprland hypridle hyprlock hyprsunset waybar rofi-wayland wlogout swaync \
-  brightnessctl xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent \
-  alacritty tmux neovim vim bat \
-  zsh fzf lsd tree \
-  chromium w3m aerc \
-  btop htop fastfetch iproute2 jq \
-  pass gnupg openssh \
-  wl-clipboard unzip unrar p7zip glow \
-  git github-cli chezmoi \
-  tldr man-db \
-  hugo python go \
+  hyprland hypridle hyprlock hyprsunset waybar rofi-wayland wlogout swaync hyprpicker swayosd \
+  xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent brightnessctl \
+  pipewire pipewire-pulse bluez blueman nm-connection-editor power-profiles-daemon playerctl pavucontrol \
   qt5ct qt6ct kvantum \
-  noto-fonts noto-fonts-cjk noto-fonts-emoji \
-  ttf-jetbrains-mono-nerd
+  noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-jetbrains-mono-nerd \
+  alacritty tree dolphin \
+  openssh wl-clipboard unrar p7zip \
+  github-cli chezmoi hugo python go \
+  tldr man-db \
+  fcitx5 fcitx5-qt fcitx5-gtk fcitx5-configtool \
+  obsidian celluloid elisa flameshot wireshark-qt telegram-desktop 
