@@ -6,17 +6,17 @@
   "layer": "overlay",
   "layer-shell": true,
   "cssPriority": "application",
-  "control-center-margin-top": 5,
-  "control-center-margin-bottom": 5,
-  "control-center-margin-right": 5,
-  "control-center-margin-left": 5,
+  "control-center-margin-top": 4,
+  "control-center-margin-bottom": 4,
+  "control-center-margin-right": 4,
+  "control-center-margin-left": 4,
   "control-center-layer": "overlay",
   "control-center-exclusive-zone": true,
   "notification-2fa-action": true,
   "timeout": 5,
   "timeout-low": 3,
   "timeout-critical": 10,
-  "notification-window-width": 400,
+  "notification-window-width": 350,
   "notification-window-height": 500,
   "notification-window-preferred-output": "",
   "keyboard-shortcuts": true,
@@ -24,15 +24,15 @@
   "image-visibility": "when-available",
   "transition-time": 200,
   "hide-on-clear": false,
-  "hide-on-action": true,
-  "text-empty": "No Notifications",
+  "hide-on-action": false,
+  "text-empty": "All caught up",
   "fit-to-screen": true,
   "relative-timestamps": true,
-  "control-center-height": 500,
+  "control-center-height": 580,
   "control-center-width": 350,
   "control-center-preferred-output": "",
   "layer-shell-cover-screen": true,
-  "notification-inline-replies": false,
+  "notification-inline-replies": true,
   "notification-body-image-height": 100,
   "notification-body-image-width": 200,
   "notification-visibility": {
@@ -44,6 +44,7 @@
     }
   },
   "widgets": [
+    "dnd",
     "menubar#power",
     "menubar",
     "buttons-grid",
@@ -52,8 +53,7 @@
     "mpris",
     "inhibitors",
     "title",
-    "notifications",
-    "dnd"
+    "notifications"
   ],
   "widget-config": {
     "menubar": {
@@ -61,7 +61,7 @@
         "position": "left",
         "actions": [
           {
-            "label": " \uf1eb   Wi-Fi",
+            "label": "   \uf1eb   ",
             "type": "toggle",
             "active": true,
             "command": "sh -c '~/.config/swaync/scripts/toggle_wifi.sh'",
@@ -74,7 +74,7 @@
             "command": "nm-connection-editor"
           },
           {
-            "label": " \udb80\udcb0   Bluetooth",
+            "label": "   \udb80\udcb0   ",
             "type": "toggle",
             "active": true,
             "command": "sh -c '~/.config/swaync/scripts/toggle_bluetooth.sh'",
@@ -94,7 +94,7 @@
         "position": "left",
         "actions": [
           {
-            "label": "⚡Power Profiles",
+            "label": "⚡ Power Profiles",
             "type": "toggle",
             "active": false,
             "command": "powerprofilesctl set balanced",
@@ -133,7 +133,7 @@
         "position": "right",
         "actions": [
           {
-            "label": " \udb81\udd93 ",
+            "label": " \udb81\udd93",
             "type": "normal",
             "active": false,
             "command": "sh -c '~/.config/swaync/scripts/show_weather.sh'"
@@ -222,7 +222,7 @@
       "min": 5
     }
   },
-  "script-fail-notify": false,
+  "script-fail-notify": true,
   "scripts": {
     "play-sound": {
       "exec": "~/.config/swaync/scripts/notify_sound.sh",

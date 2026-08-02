@@ -33,7 +33,7 @@ pacman-install-dotfiles
 
 ```bash
 sudo pacman -S --needed \
-  hyprland hypridle hyprlock hyprsunset waybar rofi-wayland wlogout swaync hyprpicker swayosd \
+  hyprland hypridle hyprlock hyprsunset waybar rofi-wayland swaync hyprpicker swayosd \
   xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent brightnessctl \
   pipewire pipewire-pulse bluez blueman nm-connection-editor power-profiles-daemon playerctl pavucontrol \
   qt5ct qt6ct kvantum matugen awww \

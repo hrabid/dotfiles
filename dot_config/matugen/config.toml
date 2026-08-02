@@ -73,6 +73,11 @@ post_hook = 'pkill -USR2 btop || true'
 input_path = '~/.config/matugen/templates/alacritty.toml'
 output_path = '~/.config/alacritty/colors.toml'
 
+[templates.tmux]
+input_path = '~/.config/matugen/templates/tmux-colors.conf'
+output_path = '~/.config/tmux/matugen.conf'
+post_hook = 'tmux source-file ~/.tmux.conf > /dev/null 2>&1 || true'
+
 # [templates.starship]
 # input_path = '~/.config/matugen/templates/starship-colors.toml'
 # output_path = '~/.config/starship.toml'

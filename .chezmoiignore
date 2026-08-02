@@ -35,4 +35,5 @@
 .config/wlogout/colors.css
 .config/rofi/colors.rasi
 ~/notes/.obsidian/snippets/matugen.css
+.config/tmux/matugen.conf
 static 
