@@ -1,2 +1,2 @@
-. "$HOME/.config/shell/init.sh"
 . "$HOME/.config/shell/zsh.sh"
+. "$HOME/.config/shell/init.sh"
