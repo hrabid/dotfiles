@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+#
+# imgfind.sh — fuzzy-find image files with fzf, preview them inline in the
+# terminal, and open the selection full-size after you hit Enter.
+#
+# Usage:
+#   ./imgfind.sh [start_dir]
+#
+# If start_dir is omitted, searches the current directory.
+#
+# Preview quality depends on your terminal:
+#   - Kitty / Ghostty / WezTerm  -> real inline images via `kitty +kitten icat`
+#   - iTerm2                     -> real inline images via `imgcat` (if installed)
+#   - Anything else              -> ASCII/ANSI-block preview via `chafa` or `viu`
+#
+# Required: fzf, find
+# Recommended (install at least one): chafa, viu, kitty terminal, imgcat
+#   macOS:   brew install fzf chafa viu
+#   Debian:  sudo apt install fzf chafa
+#   Arch:    sudo pacman -S fzf chafa
+
+set -euo pipefail
+
+START_DIR="${1:-.}"
+
+# --- configure which extensions count as "images" ------------------------
+# Edit this array to add/remove formats. Note that exotic formats (avif,
+# heic, jxl) will fall back to the plain file-info preview unless your
+# preview tool of choice supports them — chafa can handle avif/jxl if it was
+# built with the right image libraries; heic/heif usually needs ImageMagick
+# with libheif, which is a separate install.
+IMG_EXTENSIONS=(
+  png jpg jpeg gif bmp webp tif tiff svg
+  ico avif heic heif jxl jp2 pnm ppm pgm pbm xpm psd
+)
+
+if ! command -v fzf &>/dev/null; then
+  echo "Error: fzf is not installed. See the header of this script for install instructions." >&2
+  exit 1
+fi
+
+# --- pick a preview command based on what's available -----------------
+# The preview command receives the file path as {} inside fzf.
+#
+# Note on terminal support:
+#   - Kitty and Ghostty both speak the Kitty graphics protocol, so both can
+#     use `kitty +kitten icat` (the kitten just needs kitty installed
+#     somewhere on PATH; it doesn't need to be your running terminal).
+#     Ghostty sets TERM=xterm-ghostty rather than KITTY_WINDOW_ID, so we
+#     check for both.
+#   - Alacritty supports NO terminal image protocol (no Kitty graphics, no
+#     Sixel) by design, so it always falls through to chafa/viu ASCII/ANSI
+#     rendering below. For real images in Alacritty you'd need a
+#     window-system overlay tool like uberzug++, which is out of scope here.
+if { [[ -n "${KITTY_WINDOW_ID:-}" ]] || [[ "${TERM:-}" == "xterm-ghostty" ]] || [[ "${TERM_PROGRAM:-}" == "ghostty" ]]; } && command -v kitty &>/dev/null; then
+  PREVIEW_CMD='kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" {} 2>/dev/null'
+elif [[ "${TERM_PROGRAM:-}" == "iTerm.app" ]] && command -v imgcat &>/dev/null; then
+  PREVIEW_CMD='imgcat -W "${FZF_PREVIEW_COLUMNS}" {}'
+elif command -v chafa &>/dev/null; then
+  PREVIEW_CMD='chafa -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" {}'
+elif command -v viu &>/dev/null; then
+  PREVIEW_CMD='viu -w "${FZF_PREVIEW_COLUMNS}" {}'
+else
+  echo "Warning: no image preview tool found (chafa/viu/kitty/imgcat)." >&2
+  echo "Falling back to a plain file-info preview. Install chafa for the best experience." >&2
+  PREVIEW_CMD='file {}; echo; identify {} 2>/dev/null || true'
+fi
+
+# --- pick a "full view" command for when a file is opened -------------
+open_full() {
+  local file="$1"
+  if { [[ -n "${KITTY_WINDOW_ID:-}" ]] || [[ "${TERM:-}" == "xterm-ghostty" ]] || [[ "${TERM_PROGRAM:-}" == "ghostty" ]]; } && command -v kitty &>/dev/null; then
+    kitty +kitten icat "$file"
+  elif [[ "${TERM_PROGRAM:-}" == "iTerm.app" ]] && command -v imgcat &>/dev/null; then
+    imgcat "$file"
+  elif command -v chafa &>/dev/null; then
+    chafa "$file"
+  elif command -v viu &>/dev/null; then
+    viu "$file"
+  elif command -v xdg-open &>/dev/null; then
+    xdg-open "$file" &>/dev/null &
+  elif command -v open &>/dev/null; then
+    open "$file"
+  else
+    echo "No viewer available for: $file"
+  fi
+}
+
+# --- build the find(1) expression from IMG_EXTENSIONS --------------------
+FIND_EXPR=()
+for ext in "${IMG_EXTENSIONS[@]}"; do
+  if [[ ${#FIND_EXPR[@]} -gt 0 ]]; then
+    FIND_EXPR+=(-o)
+  fi
+  FIND_EXPR+=(-iname "*.${ext}")
+done
+
+# --- find image files and pipe into fzf --------------------------------
+SELECTED=$(find "$START_DIR" -type f \( "${FIND_EXPR[@]}" \) 2>/dev/null | fzf \
+  --preview "$PREVIEW_CMD" \
+  --preview-window=right:60%:wrap \
+  --header 'Enter: view full size | Esc: quit' \
+  --ansi)
+
+if [[ -z "${SELECTED:-}" ]]; then
+  echo "No selection made."
+  exit 0
+fi
+
+echo "Opening: $SELECTED"
+open_full "$SELECTED"

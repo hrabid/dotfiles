@@ -27,7 +27,7 @@ hl.window_rule({
 		fullscreen = false,
 		pin = false,
 	},
-
+	persistent_size = true,
 	no_focus = true,
 })
 

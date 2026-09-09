@@ -36,7 +36,7 @@ general {
 # ── Background — NO blur so wallpaper stays crisp ──────────────
 background {
     monitor     =
-    path        = $HOME/Pictures/wallpapers/discord-black.png # ← set your wallpaper path here
+    path        = $HOME/.wallpapers/firewatch.jpg # ← set your wallpaper path here
     blur_passes = 0                              # no full-screen blur
     noise       = 0.0
     contrast    = 1.0

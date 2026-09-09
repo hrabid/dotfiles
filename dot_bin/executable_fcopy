@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+#
+# fcopy.sh — fuzzy-find files with fzf (any type, not just images), preview
+# them (images render inline, everything else previews via `bat`), select
+# one or more with Tab, then pick a destination directory in a second fzf
+# pass and copy the selection there.
+#
+# Usage:
+#   ./fcopy.sh [search_dir]
+#
+# If search_dir is omitted, searches the current directory.
+#
+# Keybinds (also shown as a label on the preview pane border while running):
+#   Tab / Shift-Tab   toggle select / select+move up on current item
+#   Enter             confirm selection and continue to destination picker
+#   Ctrl-A            select all visible items
+#   Ctrl-D            deselect all
+#   /                 (type to fuzzy-search, this is just normal fzf input)
+#   Esc / Ctrl-C      quit
+#
+# Required: fzf, find, cp
+# Recommended:
+#   bat                        -> syntax-highlighted preview for text/code files
+#   chafa / viu / kitty/imgcat -> inline image preview (same logic as imgfind.sh)
+#   eza (or tree)              -> nicer directory preview in the destination picker
+#
+#   macOS:   brew install fzf bat chafa eza
+#   Debian:  sudo apt install fzf bat chafa
+#   Arch:    sudo pacman -S fzf bat chafa eza
+
+set -euo pipefail
+
+SEARCH_DIR="${1:-.}"
+
+# --- configure which extensions get image-style preview -------------------
+IMG_EXTENSIONS=(
+  png jpg jpeg gif bmp webp tif tiff svg
+  ico avif heic heif jxl jp2 pnm ppm pgm pbm xpm psd
+)
+
+if ! command -v fzf &>/dev/null; then
+  echo "Error: fzf is not installed. See the header of this script for install instructions." >&2
+  exit 1
+fi
+
+IMG_EXT_REGEX="\.($(
+  IFS='|'
+  echo "${IMG_EXTENSIONS[*]}"
+))$"
+
+# --- preview function, exported so fzf's subshell can call it -------------
+# Handles three cases: directories, images, and everything else (via bat,
+# falling back to `file`+`head` if bat isn't installed).
+_fcopy_preview() {
+  local f="$1"
+
+  if [[ -d "$f" ]]; then
+    if command -v eza &>/dev/null; then
+      eza -la --color=always "$f"
+    elif command -v tree &>/dev/null; then
+      tree -C -L 2 "$f"
+    else
+      ls -la --color=always "$f"
+    fi
+    return
+  fi
+
+  if [[ "${f,,}" =~ $IMG_EXT_REGEX ]]; then
+    if [[ -n "${TMUX:-}" ]] && command -v chafa &>/dev/null; then
+      chafa --passthrough tmux -f kitty -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" "$f" 2>/dev/null
+    elif { [[ -n "${KITTY_WINDOW_ID:-}" ]] || [[ "${TERM:-}" == "xterm-ghostty" ]] || [[ "${TERM_PROGRAM:-}" == "ghostty" ]]; } && command -v kitty &>/dev/null; then
+      kitty +kitten icat --clear --transfer-mode=memory --stdin=no \
+        --place="${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0" "$f" 2>/dev/null
+    elif [[ "${TERM_PROGRAM:-}" == "iTerm.app" ]] && command -v imgcat &>/dev/null; then
+      imgcat -W "${FZF_PREVIEW_COLUMNS}" "$f"
+    elif command -v chafa &>/dev/null; then
+      chafa -s "${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}" "$f"
+    elif command -v viu &>/dev/null; then
+      viu -w "${FZF_PREVIEW_COLUMNS}" "$f"
+    else
+      file "$f"
+    fi
+    return
+  fi
+
+  if command -v bat &>/dev/null; then
+    bat --color=always --style=numbers --line-range=:200 "$f" 2>/dev/null || file "$f"
+  else
+    file "$f"
+    echo
+    head -c 2000 "$f" 2>/dev/null || true
+  fi
+}
+export -f _fcopy_preview
+export IMG_EXT_REGEX
+
+# --- pass 1: pick source file(s) ------------------------------------------
+mapfile -t SELECTED_FILES < <(
+  find "$SEARCH_DIR" \( -type f -o -type d \) 2>/dev/null |
+    fzf \
+      --multi \
+      --preview '_fcopy_preview {}' \
+      --preview-window=right:60%:wrap,border-rounded \
+      --preview-label ' tab:select  ctrl-a/d:all/none  enter:confirm  esc:quit ' \
+      --preview-label-pos=top \
+      --bind 'ctrl-a:select-all,ctrl-d:deselect-all' \
+      --ansi
+)
+
+if [[ ${#SELECTED_FILES[@]} -eq 0 ]]; then
+  echo "No selection made."
+  exit 0
+fi
+
+echo "Selected ${#SELECTED_FILES[@]} item(s):"
+printf '  %s\n' "${SELECTED_FILES[@]}"
+
+# --- directories to skip when searching $HOME for a destination ----------
+# Only these specific known-noisy directories are pruned — dotfiles/dot-dirs
+# in general are still searched, just these particular ones are excluded.
+NOISE_DIRS=(
+  .cache .git .npm .yarn .cargo .rustup .venv venv .tox
+  node_modules __pycache__ .mozilla .config/google-chrome
+  .local/share/Trash .Trash Downloads/tmp .gradle .m2
+)
+
+NOISE_PRUNE_EXPR=()
+for d in "${NOISE_DIRS[@]}"; do
+  if [[ ${#NOISE_PRUNE_EXPR[@]} -gt 0 ]]; then
+    NOISE_PRUNE_EXPR+=(-o)
+  fi
+  NOISE_PRUNE_EXPR+=(-path "$HOME/$d")
+done
+
+# --- pass 2: pick destination directory ------------------------------------
+DEST_DIR=$(
+  find "$HOME" \( "${NOISE_PRUNE_EXPR[@]}" \) -prune -o -type d -print 2>/dev/null |
+    fzf \
+      --preview '_fcopy_preview {}' \
+      --preview-window=right:50%:wrap,border-rounded \
+      --preview-label ' Pick a destination directory   Enter:confirm  Esc:cancel ' \
+      --preview-label-pos=top \
+      --ansi
+)
+
+if [[ -z "${DEST_DIR:-}" ]]; then
+  echo "No destination chosen, nothing copied."
+  exit 0
+fi
+
+# --- copy --------------------------------------------------------------
+echo "Copying to: $DEST_DIR"
+cp -riv -- "${SELECTED_FILES[@]}" "$DEST_DIR/"
+echo "Done."
