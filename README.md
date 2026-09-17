@@ -37,6 +37,7 @@ sudo pacman -S --needed \
   xdg-desktop-portal-hyprland xdg-desktop-portal-gtk polkit-kde-agent brightnessctl \
   pipewire pipewire-pulse bluez blueman nm-connection-editor power-profiles-daemon playerctl pavucontrol \
   qt5ct qt6ct kvantum matugen awww \
+  adw-gtk-theme dconf gsettings-desktop-schemas nwg-look \
   noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-jetbrains-mono-nerd \
   alacritty tree dolphin \
   openssh unrar p7zip \

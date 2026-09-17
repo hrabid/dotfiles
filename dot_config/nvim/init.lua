@@ -84,12 +84,10 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
     vim.keymap.set("n", "<leader>mf", function()
-      local date = os.date("%Y-%m-%d")
-      local time = os.date("%H:%M")
+      local date = os.date("%Y-%m-%dT%I:%M:%S%p%z")
       local frontmatter = {
         "---",
         "date: " .. date,
-        "time: " .. time,
         "tags: []",
         "title: ",
         "---",
