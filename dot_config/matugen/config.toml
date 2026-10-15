@@ -109,3 +109,7 @@ post_hook = "pkill -SIGUSR1 nvim"
 [templates.vesktop]
 input_path = '~/.config/matugen/templates/midnight-discord.css'
 output_path = '~/.config/vesktop/themes/midnight-discord.css'
+
+[templates.ytosc]
+input_path = '~/.config/matugen/templates/ytosc-colors.conf'
+output_path = '~/.config/mpv/script-opts/ytosc-colors.conf'
