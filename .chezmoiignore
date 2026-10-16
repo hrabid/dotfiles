@@ -20,6 +20,7 @@
 .config/swaync
 .config/chromium-flags.conf
 .config/code-flags.conf
+.config/mpv
 {{ end }}
 
 .config/alacritty/colors.toml
@@ -36,4 +37,5 @@
 .config/rofi/colors.rasi
 ~/notes/.obsidian/snippets/matugen.css
 .config/tmux/matugen.conf
+.config/mpv/ytosc-colors.conf
 static 

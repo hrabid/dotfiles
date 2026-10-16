@@ -4,7 +4,7 @@
 
 -- Set programs that you use
 local terminal = "ghostty"
-local fileManager = "sigma-file-manager"
+local fileManager = "dolphin"
 local menu = "rofi -show drun"
 
 ---------------------

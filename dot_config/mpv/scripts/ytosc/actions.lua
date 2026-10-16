@@ -131,6 +131,7 @@ Act.table = {
     theater_toggle = { fn = function() require('view').toggle("theater") end },
     mini_toggle = { fn = function() require('view').toggle("mini") end },
     command_line = { fn = function() require('cmdline').open() end },
+    open_file = { fn = function() require('openers').pick_files(false) end },
     open_menu = { fn = function() require('menus').open("open") end },
     open_dir = { fn = function() require('openers').pick_dir(false) end },
     paste_play = { fn = function() require('openers').paste(false) end },

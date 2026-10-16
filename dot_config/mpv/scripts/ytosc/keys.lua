@@ -24,7 +24,7 @@ local DEFAULT = {
     f = "fullscreen", t = "toggle_remaining", i = "stats",
     q = "quit", ["Z Z"] = "quit_watch_later", ["Z Q"] = "quit_nosave",
     ESC = "escape", s = "settings_toggle", TAB = "panel_toggle", v = "strip_toggle",
-    T = "theater_toggle", I = "mini_toggle", [":"] = "command_line", o = "open_menu", O = "open_dir", p = "paste_play", P = "paste_append",
+    T = "theater_toggle", I = "mini_toggle", [":"] = "command_line", o = "open_file", ["Ctrl+o"] = "open_menu", O = "open_dir", p = "paste_play", P = "paste_append",
 }
 
 local map, prefixes, tokens = {}, {}, {}

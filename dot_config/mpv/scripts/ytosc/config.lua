@@ -30,6 +30,7 @@ local C = {
     media_extensions = "mkv,mp4,avi,mov,webm,m4v,flv,wmv,ts,m2ts,mpg,mpeg,ogv,3gp,mp3,flac,ogg,opus,m4a,wav,aac,wma,mka",
     recursive_dir = false,
     autoload_dir = true,          -- opening one file loads its folder as the playlist
+    picker = "auto",              -- auto | portal | zenity | kdialog | yad | prompt
     picker_file = "",             -- custom picker command (prints one path per line); empty = auto-detect
     picker_dir = "",
 
