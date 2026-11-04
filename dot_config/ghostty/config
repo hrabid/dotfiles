@@ -15,7 +15,7 @@ font-size = 10.5
 
 # theming 
 theme = Matugen
-alpha-blending = native
+# alpha-blending = native
 
 # keybind
 keybind = ctrl+shift+space=toggle_quick_terminal

@@ -1,35 +1,54 @@
 {
-  "layer": "bottom",
+  "layer": "top",
+  "position": "top",
   "spacing": 0,
   "margin-top": 2,
-  "modules-left": ["custom/distro", "clock", "mpris"],
+  "modules-left": ["custom/distro", "clock", "pulseaudio", "mpris"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": [
-    "pulseaudio",
+    // "pulseaudio",
     "network",
     "tray",
-    "custom/notification",
     "battery",
-    "group/power",
+    "custom/notification"
+    // "group/power",
   ],
 
   "custom/distro": {
-    "format": "",
+    "format": "\uf303",
     "tooltip": false,
     "on-click": "rofi -show drun -theme ~/.config/rofi/launcher.rasi",
   },
 
   "clock": {
     "interval": 60,
-    "format": "  {:%I:%M %p}",
-    "format-alt": "\udb81\udd20 {:L%A, %B %d, %Y |  %I:%M %p}",
+    "format": "\uf017  {:%I:%M %p}",
+    "format-alt": "\udb81\udd20 {:L%A, %B %d, %Y | \uf017 %I:%M %p}",
     "tooltip": true,
-    "tooltip-format": "{:%Y-%m-%d}",
+    "tooltip-format": "<big><b>{:%A, %d %B %Y}</b></big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<b>{}</b>",
+        "days": "{}",
+        "weeks": "<small>W{}</small>",
+        "weekdays": "<b>{}</b>",
+        "today": "<b><u>{}</u></b>",
+      },
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down",
+    },
   },
 
   "mpris": {
     "format": "{status_icon} {dynamic}",
-    "interval": 1,
+    "interval": 5,
     "dynamic-len": 40,
     "format-paused": "{status_icon} {dynamic}",
     "format-stopped": "{status_icon}",
@@ -50,7 +69,7 @@
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl next",
     "on-scroll-down": "playerctl previous",
-    "tooltip-format": "{player} : {dynamic}",
+    "tooltip-format": "{title}\n{artist} · {album}\n{position} / {length}\n{player}",
   },
 
   "hyprland/workspaces": {
@@ -61,36 +80,42 @@
   },
 
   "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-bluetooth": "\udb80\udcb1  {volume}%",
-    "format-bluetooth-muted": "󰝟 {desc}",
-    "format-muted": "󰝟",
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "\uf293 {icon} {volume}%",
+    "format-bluetooth-muted": "\udb81\udf5f {desc}",
+    "format-muted": "\udb81\udf5f",
     "format-icons": {
-      "headphone": "\uee58",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "phone-muted": "",
-      "portable": "",
-      "car": "",
-      "default": ["", ""],
+      "headphone": "\uf025",
+      "hands-free": "\uf590",
+      "headset": "\uf025",
+      "phone": "\uf095",
+      "phone-muted": "\udb81\udf5f",
+      "portable": "\uf10b",
+      "car": "\uf1b9",
+      "default": ["\uf027", "\uf028"],
     },
+    "states": {
+      "high": 90,
+    },
+    "tooltip-format": "{desc}\nVolume: {volume}%",
     "scroll-step": 1,
     "on-click": "pavucontrol",
     "ignored-sinks": ["Easy Effects Sink"],
   },
 
   "network": {
-    "interface": "enp1s0",
     "interval": 2,
     "format": "{ifname}",
-    "format-wifi": " {essid} ({signalStrength}%)  \uf019{bandwidthDownBits} \uf093{bandwidthUpBits}",
-    "format-ethernet": "\uef44  | \uf019{bandwidthDownBits} | \uf093{bandwidthUpBits}",
-    "format-disconnected": "󰌙",
-    "tooltip-format": "{ifname} via {gwaddr} \uef44",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)  | IP: {ipaddr}",
-    "tooltip-format-ethernet": "{ifname} | IP: {ipaddr}",
+    "format-wifi": "\uf1eb  {essid}  \uf019 {bandwidthDownBits} \uf093 {bandwidthUpBits}",
+    "format-ethernet": "\udb80\ude00 | \uf019 {bandwidthDownBits} | \uf093 {bandwidthUpBits}",
+    "format-linked": "\udb80\ude00 {ifname} (no IP)",
+    "format-disconnected": "\udb81\uddaa",
+    "tooltip-format": "{ifname}\nGateway: {gwaddr}",
+    "tooltip-format-wifi": "{essid}  ({signalStrength}%)\nIP: {ipaddr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
+    "tooltip-format-ethernet": "{ifname}\nIP: {ipaddr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
     "tooltip-format-disconnected": "Disconnected",
+    "on-click": "kitty -e nmtui",
+    "on-click-right": "nm-connection-editor",
     "max-length": 50,
   },
 
@@ -100,9 +125,17 @@
   },
 
   "battery": {
-    "interval": 30,
-    "format": "{icon} {capacity}%",
-    "format-icons": ["", "", "", "", ""],
+    "interval": 10,
+    "format": "{icon}  {capacity}%",
+    "format-charging": "{icon}  {capacity}%",
+    "format-plugged": "{icon}  {capacity}%",
+    "format-full": "{icon}  {capacity}%",
+    "format-icons": {
+      "default": ["\udb80\udc8e", "\udb80\udc7a", "\udb80\udc7b", "\udb80\udc7c", "\udb80\udc7d", "\udb80\udc7e", "\udb80\udc7f", "\udb80\udc80", "\udb80\udc81", "\udb80\udc82", "\udb80\udc79"],
+      "charging": ["\udb82\udc9c", "\udb82\udc9c", "\udb80\udc86", "\udb80\udc87", "\udb80\udc88", "\udb82\udc9d", "\udb80\udc89", "\udb82\udc9e", "\udb80\udc8a", "\udb80\udc8b", "\udb80\udc85"],
+      "plugged": "\udb81\udea5",
+    },
+    "tooltip-format": "{capacity}% · {timeTo}\nPower: {power} W\nHealth: {health}% · {cycles} cycles",
     "states": {
       "warning": 30,
       "critical": 15,
@@ -113,14 +146,14 @@
     "tooltip": true,
     "format": "{icon}",
     "format-icons": {
-      "notification": "󱅫",
-      "none": "󰂜",
-      "dnd-notification": "󰂠",
-      "dnd-none": "󰪓",
-      "inhibited-notification": "󰂛",
-      "inhibited-none": "󰪑",
-      "dnd-inhibited-notification": "󰂛",
-      "dnd-inhibited-none": "󰪑",
+      "notification": "\udb84\udd6b",
+      "none": "\udb80\udc9c",
+      "dnd-notification": "\udb80\udca0",
+      "dnd-none": "\udb82\ude93",
+      "inhibited-notification": "\udb80\udc9b",
+      "inhibited-none": "\udb82\ude91",
+      "dnd-inhibited-notification": "\udb80\udc9b",
+      "dnd-inhibited-none": "\udb82\ude91",
     },
     "return-type": "json",
     "exec-if": "which swaync-client",
@@ -130,42 +163,42 @@
     "escape": true,
   },
 
-  // ── Power drawer ───────────────────────────────────────────────────────────
-  "group/power": {
-    "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": false,
-    },
-    "modules": [
-      "custom/shutdown",
-      "custom/lock",
-      "custom/reboot",
-      "custom/logout",
-    ],
-  },
-
-  "custom/lock": {
-    "format": "󰍁",
-    "tooltip": false,
-    "on-click": "hyprlock",
-  },
-
-  "custom/reboot": {
-    "format": "󰜉",
-    "tooltip": false,
-    "on-click": "systemctl reboot",
-  },
-
-  "custom/shutdown": {
-    "format": "⏻",
-    "tooltip": false,
-    "on-click": "systemctl poweroff",
-  },
-
-  "custom/logout": {
-    "format": "󰍃",
-    "tooltip": false,
-    "on-click": "hyprctl dispatch exit",
-  },
+  // ── Power drawer (disabled) ────────────────────────────────────────────────
+  // "group/power": {
+  //   "orientation": "horizontal",
+  //   "drawer": {
+  //     "transition-duration": 500,
+  //     "transition-left-to-right": false,
+  //   },
+  //   "modules": [
+  //     "custom/shutdown",
+  //     "custom/lock",
+  //     "custom/reboot",
+  //     "custom/logout",
+  //   ],
+  // },
+  //
+  // "custom/lock": {
+  //   "format": "\udb80\udf41",
+  //   "tooltip": false,
+  //   "on-click": "hyprlock",
+  // },
+  //
+  // "custom/reboot": {
+  //   "format": "\udb81\udf09",
+  //   "tooltip": false,
+  //   "on-click": "systemctl reboot",
+  // },
+  //
+  // "custom/shutdown": {
+  //   "format": "\u23fb",
+  //   "tooltip": false,
+  //   "on-click": "systemctl poweroff",
+  // },
+  //
+  // "custom/logout": {
+  //   "format": "\udb80\udf43",
+  //   "tooltip": false,
+  //   "on-click": "hyprctl dispatch exit",
+  // },
 }

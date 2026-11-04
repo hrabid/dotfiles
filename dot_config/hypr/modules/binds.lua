@@ -89,7 +89,7 @@ hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("snappy-switcher prev --mod alt"))
 hl.bind("SUPER + TAB", hl.dsp.exec_cmd("snappy-switcher next --workspace --mod super"))
 
 -- rofi keybinds
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("rofi -show drun -theme ~/.config/rofi/launcher.rasi"))
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("rofi -show drun -theme ~/.config/rofi/launcher.rasi"))
 hl.bind(mainMod .. " + SHIFT + Space", hl.dsp.exec_cmd("rofi -show run -theme ~/.config/rofi/runner.rasi"))
 -- hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("rofi -show window -theme ~/.config/rofi/window.rasi"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("~/.config/rofi/scripts/clipboard.sh"))

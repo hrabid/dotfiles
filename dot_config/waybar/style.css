@@ -3,8 +3,25 @@
 * {
   all: unset;
   font-family:
-    "Source Serif 4", "Electrolize", "Merriweather", "Inter", "SF Pro Text",
+    "SF Pro Text", "Source Serif 4", "Electrolize", "Merriweather", "Inter", "SF Pro Text",
     "JetBrainsMono Nerd Font Propo", "Noto Sans CJK";
+}
+
+/* Icon-bearing modules: Nerd Font first so glyphs always resolve */
+#battery,
+#network,
+#pulseaudio,
+#clock,
+#custom-notification,
+#custom-distro,
+#mpris {
+  font-family:
+    "SF Pro Text", "JetBrainsMono Nerd Font", "JetBrainsMono Nerd Font Propo",
+    "Source Serif 4", "Noto Sans CJK";
+}
+
+window#waybar {
+  background: transparent;
 }
 
 /* ── Module base — every module is an individual pill ──────────────────────── */
@@ -15,8 +32,67 @@
   background-color: @background;
   color: @on_background;
   padding: 2px 12px;
-  border-radius: 99px;
+  border-radius: 8px;
   margin: 4px 4px;
+  /* inset ring: soft edge without changing the pill size */
+  box-shadow: inset 0 0 0 1px alpha(@outline_variant, 0.35);
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+/* ID rules below (#workspaces, #battery.warning, ...) outrank this, so state colors win */
+.modules-left > widget > *:hover,
+.modules-center > widget > *:hover,
+.modules-right > widget > *:hover {
+  background-color: @surface_container;
+  box-shadow: inset 0 0 0 1px alpha(@primary, 0.5);
+}
+
+/* ── Tooltip ───────────────────────────────────────────────────────────────── */
+
+tooltip {
+  background-color: @surface_container;
+  border: 1px solid @outline_variant;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: @on_surface;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+}
+
+/* ── Tray right-click menus ────────────────────────────────────────────────── */
+
+menu {
+  background-color: @surface_container;
+  color: @on_surface;
+  border: 1px solid @outline_variant;
+  border-radius: 8px;
+  padding: 6px;
+}
+
+menuitem {
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background-color 200ms ease;
+}
+
+menuitem:hover {
+  background-color: @primary_container;
+  color: @on_primary_container;
+}
+
+menuitem:disabled {
+  color: @outline;
+}
+
+separator {
+  background-color: @outline_variant;
+  min-height: 1px;
+  margin: 4px 8px;
 }
 
 /* ── Clock ─────────────────────────────────────────────────────────────────── */
@@ -49,17 +125,16 @@
 
 #workspaces {
   background-color: @background;
-  padding: 2px 4px;
-  border-radius: 99px;
-  /* margin inherited from base rule */
+  padding: 4px 6px;
+  border-radius: 8px;
 }
 
 #workspaces button {
   background-color: @secondary_container;
   color: @on_secondary_container;
-  padding: 2px 4px;
+  padding: 0 4px;
   margin: 0 2px;
-  border-radius: 99px;
+  border-radius: 5px;
   transition: all 300ms ease-in-out;
   min-width: 20px;
   min-height: 0.8rem;
@@ -68,7 +143,7 @@
 
 #workspaces button.empty {
   background-color: @surface_container;
-  color: @surface_container_high;
+  color: @on_surface_variant;
 }
 
 #workspaces button.active {
@@ -91,6 +166,11 @@
   font-weight: 500;
 }
 
+#pulseaudio.high {
+  color: @on_tertiary_container;
+  background-color: @tertiary_container;
+}
+
 #pulseaudio.muted {
   color: @outline;
 }
@@ -99,6 +179,10 @@
 
 #network {
   color: @primary;
+}
+
+#network.linked {
+  color: @tertiary;
 }
 
 #network.disconnected {
@@ -135,6 +219,10 @@
   letter-spacing: -0.5px;
 }
 
+#battery.full {
+  color: @primary;
+}
+
 #battery.warning {
   color: @on_tertiary_container;
   background-color: @tertiary_container;
@@ -145,21 +233,23 @@
   background-color: @error_container;
 }
 
-/* ── Drawer group — power container ────────────────────────────────────────── */
-/*
- * @surface_container_high (#272a2f) is used so the group container is visibly
- * distinct from the module pill background (@background = #101418).
- * @surface == @background in this scheme, so using @surface was invisible.
- */
-
-#group-power {
-  background: @surface_container_high;
-  border-radius: 99px;
-  padding: 0 4px;
-  /* margin inherited from base rule */
+/* Must stay after warning/critical so charging wins */
+#battery.charging,
+#battery.plugged,
+#battery.charging.warning,
+#battery.charging.critical {
+  color: @on_primary_container;
+  background-color: @primary_container;
 }
 
-/* Drawer trigger button */
+/* ── Power drawer (disabled) ───────────────────────────────────────────────── */
+
+/*
+#group-power {
+  background: @surface_container_high;
+  border-radius: 8px;
+  padding: 0 4px;
+}
 
 #custom-shutdown {
   background: @primary_container;
@@ -168,7 +258,7 @@
   margin: 0 2px;
   min-width: 2rem;
   min-height: 0.8rem;
-  border-radius: 99px;
+  border-radius: 8px;
   font-size: 1.05rem;
   transition: all 0.2s ease;
 }
@@ -177,8 +267,6 @@
   background: @primary;
   color: @on_primary;
 }
-
-/* ── Power drawer — action items ───────────────────────────────────────────── */
 
 #custom-lock,
 #custom-reboot,
@@ -189,7 +277,7 @@
   margin: 0 2px;
   min-width: 2rem;
   min-height: 0.8rem;
-  border-radius: 99px;
+  border-radius: 8px;
   font-weight: 800;
   transition: all 0.2s ease;
 }
@@ -208,3 +296,4 @@
   background: @secondary;
   color: @on_secondary;
 }
+*/
