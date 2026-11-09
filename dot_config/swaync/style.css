@@ -2,7 +2,8 @@
 @import "colors.css";
 
 * {
-  font-family: "Caskaydia Cove Nerd Font Propo";
+  all: unset;
+  font-family: "Oxanium" !important; 
   font-size: 13px;
   font-weight: 500;
 }

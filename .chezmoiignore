@@ -37,5 +37,5 @@
 .config/rofi/colors.rasi
 ~/notes/.obsidian/snippets/matugen.css
 .config/tmux/matugen.conf
-.config/mpv/ytosc-colors.conf
+.config/mpv/script-opts/ytosc-colors.conf
 static 

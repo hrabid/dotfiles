@@ -3,7 +3,7 @@
 * {
   all: unset;
   font-family:
-    "SF Pro Text", "Source Serif 4", "Electrolize", "Merriweather", "Inter", "SF Pro Text",
+    "Oxanium", "SF Pro Text", "Source Serif 4", "Electrolize", "Merriweather", "Inter", "SF Pro Text",
     "JetBrainsMono Nerd Font Propo", "Noto Sans CJK";
 }
 
@@ -11,12 +11,14 @@
 #battery,
 #network,
 #pulseaudio,
+#bluetooth,
 #clock,
 #custom-notification,
 #custom-distro,
+#custom-sysmon,
 #mpris {
   font-family:
-    "SF Pro Text", "JetBrainsMono Nerd Font", "JetBrainsMono Nerd Font Propo",
+    "Oxanium", "SF Pro Text", "JetBrainsMono Nerd Font", "JetBrainsMono Nerd Font Propo",
     "Source Serif 4", "Noto Sans CJK";
 }
 
@@ -32,6 +34,7 @@ window#waybar {
   background-color: @background;
   color: @on_background;
   padding: 2px 12px;
+  min-height: 26px; /* every pill = 26 + 2*2 padding = 30px tall */
   border-radius: 8px;
   margin: 4px 4px;
   /* inset ring: soft edge without changing the pill size */
@@ -62,37 +65,6 @@ tooltip label {
   color: @on_surface;
   padding: 6px 10px;
   font-size: 0.95rem;
-}
-
-/* ── Tray right-click menus ────────────────────────────────────────────────── */
-
-menu {
-  background-color: @surface_container;
-  color: @on_surface;
-  border: 1px solid @outline_variant;
-  border-radius: 8px;
-  padding: 6px;
-}
-
-menuitem {
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: background-color 200ms ease;
-}
-
-menuitem:hover {
-  background-color: @primary_container;
-  color: @on_primary_container;
-}
-
-menuitem:disabled {
-  color: @outline;
-}
-
-separator {
-  background-color: @outline_variant;
-  min-height: 1px;
-  margin: 4px 8px;
 }
 
 /* ── Clock ─────────────────────────────────────────────────────────────────── */
@@ -126,6 +98,7 @@ separator {
 #workspaces {
   background-color: @background;
   padding: 4px 6px;
+  min-height: 22px; /* 22 + 2*4 padding = 30px, matches other pills */
   border-radius: 8px;
 }
 
@@ -137,7 +110,7 @@ separator {
   border-radius: 5px;
   transition: all 300ms ease-in-out;
   min-width: 20px;
-  min-height: 0.8rem;
+  min-height: 22px;
   font-weight: 700;
 }
 
@@ -166,13 +139,22 @@ separator {
   font-weight: 500;
 }
 
+/* inside the audio group the pill is the group itself, so only the text colour changes */
 #pulseaudio.high {
-  color: @on_tertiary_container;
-  background-color: @tertiary_container;
+  color: @tertiary;
 }
 
 #pulseaudio.muted {
   color: @outline;
+}
+
+/* ── Audio group: pulseaudio + bluetooth battery share one pill ───────────────── */
+/* the group (#group-audio) gets the base pill look; children stay transparent */
+
+#bluetooth {
+  color: @primary;
+  font-weight: 500;
+  padding-left: 4px;
 }
 
 /* ── Network ───────────────────────────────────────────────────────────────── */
@@ -189,10 +171,35 @@ separator {
   color: @error;
 }
 
+/* ── System monitor ────────────────────────────────────────────────────────── */
+
+#custom-sysmon {
+  color: @primary;
+  font-weight: 500;
+}
+
+#custom-sysmon.warning {
+  color: @on_tertiary_container;
+  background-color: @tertiary_container;
+}
+
+#custom-sysmon.critical {
+  color: @on_error_container;
+  background-color: @error_container;
+}
+
 /* ── Tray ──────────────────────────────────────────────────────────────────── */
 
 #tray {
   padding: 2px 10px;
+  min-height: 0;
+  box-shadow: none;
+  transition: none;
+}
+
+#tray:hover {
+  background-color: @background;
+  box-shadow: none;
 }
 
 #tray > .passive {

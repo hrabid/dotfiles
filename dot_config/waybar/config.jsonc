@@ -1,14 +1,16 @@
 {
   "layer": "top",
   "position": "top",
+  "height": 38,
   "spacing": 0,
-  "margin-top": 2,
-  "modules-left": ["custom/distro", "clock", "pulseaudio", "mpris"],
+  "margin-top": 1,
+  "modules-left": ["custom/distro", "clock", "group/audio", "mpris"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": [
     // "pulseaudio",
     "network",
     "tray",
+    "custom/sysmon",
     "battery",
     "custom/notification"
     // "group/power",
@@ -23,7 +25,7 @@
   "clock": {
     "interval": 60,
     "format": "\uf017  {:%I:%M %p}",
-    "format-alt": "\udb81\udd20 {:L%A, %B %d, %Y | \uf017 %I:%M %p}",
+    "format-alt": "\udb81\udd20  {:L%A, %B %d, %Y | \uf017  %I:%M %p}",
     "tooltip": true,
     "tooltip-format": "<big><b>{:%A, %d %B %Y}</b></big>\n<tt><small>{calendar}</small></tt>",
     "calendar": {
@@ -47,10 +49,10 @@
   },
 
   "mpris": {
-    "format": "{status_icon} {dynamic}",
+    "format": "{status_icon}  {dynamic}",
     "interval": 5,
     "dynamic-len": 40,
-    "format-paused": "{status_icon} {dynamic}",
+    "format-paused": "{status_icon}  {dynamic}",
     "format-stopped": "{status_icon}",
     "player-icons": {
       "default": "\udb85\udc7d",
@@ -75,17 +77,17 @@
   "hyprland/workspaces": {
     "format": "{name}",
     "persistent-workspaces": {
-      "*": 5,
+      "*": 3,
     },
   },
 
   "pulseaudio": {
-    "format": "{icon}  {volume}%",
-    "format-bluetooth": "\uf293 {icon} {volume}%",
-    "format-bluetooth-muted": "\udb81\udf5f {desc}",
-    "format-muted": "\udb81\udf5f",
+    "format": "{icon}   {volume}% | {desc}",
+    "format-bluetooth": "\udb80\udcb1  {volume}% |",
+    "format-bluetooth-muted": "\udb81\udf5f |",
+    "format-muted": "\udb81\udf5f  {desc}",
     "format-icons": {
-      "headphone": "\uf025",
+      "headphone": "\uee58",
       "hands-free": "\uf590",
       "headset": "\uf025",
       "phone": "\uf095",
@@ -97,22 +99,49 @@
     "states": {
       "high": 90,
     },
-    "tooltip-format": "{desc}\nVolume: {volume}%",
+    "tooltip-format": "{desc}\nVolume: {volume}%\nMic: {source_desc} · {source_volume}%",
+    "max-length": 40,
     "scroll-step": 1,
     "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-middle": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
     "ignored-sinks": ["Easy Effects Sink"],
+  },
+
+  // ── Audio pill: volume | device name + bluetooth battery, merged into one pill ──
+  "group/audio": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "bluetooth"],
+  },
+
+  // "battery-icon name" after the volume; hover it for the battery % (icon only appears if the device reports battery)
+  "bluetooth": {
+    "format": "",
+    "format-off": "",
+    "format-disabled": "",
+    "format-on": "",
+    "format-connected": "{device_alias}",
+    "format-connected-battery": "\udb80\udc79 {device_alias}",
+    "max-length": 24,
+    "tooltip-format-connected-battery": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias} · {device_battery_percentage}%",
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-middle": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +1%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -1%",
   },
 
   "network": {
     "interval": 2,
     "format": "{ifname}",
-    "format-wifi": "\uf1eb  {essid}  \uf019 {bandwidthDownBits} \uf093 {bandwidthUpBits}",
-    "format-ethernet": "\udb80\ude00 | \uf019 {bandwidthDownBits} | \uf093 {bandwidthUpBits}",
-    "format-linked": "\udb80\ude00 {ifname} (no IP)",
+    "format-wifi": "\uf1eb   {essid} | \uf019  {bandwidthDownBits} | \uf093  {bandwidthUpBits}",
+    "format-ethernet": "\uef44 | \uf019 {bandwidthDownBits} | \uf093 {bandwidthUpBits}",
+    "format-linked": "\uef44 {ifname} (no IP)",
     "format-disconnected": "\udb81\uddaa",
     "tooltip-format": "{ifname}\nGateway: {gwaddr}",
-    "tooltip-format-wifi": "{essid}  ({signalStrength}%)\nIP: {ipaddr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
-    "tooltip-format-ethernet": "{ifname}\nIP: {ipaddr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
+    "tooltip-format-wifi": "{essid}  ({signalStrength}%)\n{ifname} · {frequency} GHz\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
+    "tooltip-format-ethernet": "{ifname}\nIP: {ipaddr}/{cidr}\nGateway: {gwaddr}\n\uf019 {bandwidthDownBits}   \uf093 {bandwidthUpBits}",
     "tooltip-format-disconnected": "Disconnected",
     "on-click": "kitty -e nmtui",
     "on-click-right": "nm-connection-editor",
@@ -161,6 +190,15 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true,
+  },
+
+  // ── System monitor: icon + CPU% | MEM% on the pill, full stats in the hover tooltip ──
+  "custom/sysmon": {
+    "exec": "python3 ~/.config/waybar/scripts/sysmon.py",
+    "return-type": "json",
+    "format": "{}",
+    "tooltip": true,
+    "on-click": "kitty -e btop",
   },
 
   // ── Power drawer (disabled) ────────────────────────────────────────────────

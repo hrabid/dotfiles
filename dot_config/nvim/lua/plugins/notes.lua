@@ -7,5 +7,7 @@ return {
     -- vault_path = "~/vaults/main", -- omit to auto-detect via .obsidian/
     -- default_template = "fleeting",
     new_note_dir = "fleetings",
+    wikilinks = true,
+    link_path = "relative", -- "shortest"
   },
 }

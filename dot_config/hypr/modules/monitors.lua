@@ -9,4 +9,3 @@ hl.monitor({
 	position = "auto",
 	scale = "auto",
 })
-

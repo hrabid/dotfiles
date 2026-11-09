@@ -48,12 +48,15 @@ output_path = '~/.local/state/quickshell/generated/colors.json'
 [templates.waybar]
 input_path = '~/.config/matugen/templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
-post_hook = 'pkill -SIGUSR2 waybar'
-
+post_hook = '~/.config/hypr/scripts/launch.sh'
 
 [templates.rofi]
 input_path = '~/.config/matugen/templates/rofi-colors.rasi'
 output_path = '~/.config/rofi/colors.rasi'
+
+# [templates.wmenu]
+# input_path  = '~/.config/matugen/templates/wmenu-colors.rasi'
+# output_path = '~/.config/wmenu/colors.rasi'
 
 [templates.swaync]
 input_path = "~/.config/matugen/templates/colors.css"
